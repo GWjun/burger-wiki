@@ -10,22 +10,32 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@prisma/client": "5.19.0",
+    "@radix-ui/react-slot": "^1.1.0",
     "@tanstack/react-query": "^5.52.2",
     "@trpc/client": "11.0.0-rc.485",
     "@trpc/next": "11.0.0-rc.485",
     "@trpc/react-query": "11.0.0-rc.485",
     "@trpc/server": "11.0.0-rc.485",
+    "@vanilla-extract/css": "^1.15.5",
+    "@vanilla-extract/recipes": "^0.5.5",
+    "@vanilla-extract/sprinkles": "^1.6.3",
+    "lucide-react": "^0.436.0",
     "next": "14.2.6",
+    "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
+    "recoil": "^0.7.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vanilla-extract/next-plugin": "^2.4.5",
     "eslint": "^8",
     "eslint-config-next": "14.2.6",
+    "prettier": "3.3.3",
     "prisma": "^5.18.0",
     "typescript": "^5"
   }

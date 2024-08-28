@@ -1,12 +1,14 @@
 <div align="center">
-  <h2>Next-tRPC boilerplate</h2></hr>
+  <h2>Burger Crew</h2>
   <p align="center">
     <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js badge">
     <img src="https://img.shields.io/badge/-tRPC-2596BE?style=flat&logo=trpc&logoColor=white" alt="tRPC badge">
     <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white" alt="Prisma badge">
-    <img src="https://img.shields.io/badge/TanStack_Query-FF4154?style=flat-square&logo=reactquery&logoColor=white" alt="TanStack Query badge">
+    <img src="https://img.shields.io/badge/Recoil-3563F2?style=flat-square&logo=recoil&logoColor=white" alt="Recoil badge">
+    <img src="https://img.shields.io/badge/Vanilla%20Extract-1EC5C4?style=flat-square&logo=vanilla&logoColor=white" alt="Vanilla Extract badge">
+    <img src="https://img.shields.io/badge/FSD%20Architecture-007ACC?style=flat-square&logo=architecture&logoColor=white" alt="FSD Architecture badge">
   </p>
-  <p>tRPC를 이용한 Next.js(App router) 보일러플레이트</p>
+  <h3><b><i>"지식은 햄버거를 대신할 수 없어"</i></b></h3>
 </div>
 
 ## 사용 방법
@@ -18,21 +20,4 @@
 ```bash
 DATABASE_URL="postgresql://johndoe:randompassword@localhost:6543/mydb?schema=public?pgbouncer=true"
 DIRECT_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
-```
-
-### 클라이언트 컴포넌트
-
-`react-query`를 이용하여 사용
-
-```tsx
-const usesQuery = trpc.test.getUsers.useQuery();
-```
-
-### 서버 컴포넌트
-
-`caller`를 이용하여 사용
-
-```tsx
-const trpc = await createAsyncCaller();
-const users = await trpc.test.getUsers();
 ```
