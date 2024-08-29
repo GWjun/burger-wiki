@@ -8,7 +8,7 @@ export default function Test() {
   return (
     <div>
       {session.data?.user?.name}
-      test
+      {session.data?.user?.email}
     </div>
   );
 }

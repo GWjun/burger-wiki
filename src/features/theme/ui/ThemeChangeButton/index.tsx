@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { Moon, Sun } from 'lucide-react';
-import * as styles from '#shared/ui/components/ThemeButton/styles.css';
+import * as styles from './styles.css';
 
-export default function ThemeButton() {
+export function ThemeChangeButton() {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
 

@@ -63,7 +63,7 @@ export const global = createGlobalTheme(':root', {
 
   borderRadius: {
     none: '0',
-    sm: '0.125rem',
+    sm: '0.25rem',
     md: '0.375rem',
     lg: '0.5rem',
     xl: '0.75rem',
@@ -94,6 +94,10 @@ export const global = createGlobalTheme(':root', {
 });
 
 let themeColor = createThemeContract({
+  main: null,
+  mainText: null,
+  border: null,
+
   primary: null,
   primaryText: null,
   primaryActive: null,
@@ -108,11 +112,13 @@ let themeColor = createThemeContract({
 
   background: null,
   backgroundActive: null,
-
-  border: null,
 });
 
 export const lightTheme = createTheme(themeColor, {
+  main: '#fff',
+  mainText: '#000',
+  border: '#ddd',
+
   primary: '#0095f6',
   primaryText: '#fff',
   primaryActive: '#007bdf',
@@ -127,11 +133,13 @@ export const lightTheme = createTheme(themeColor, {
 
   background: '#fff',
   backgroundActive: '#f3f4f6',
-
-  border: '#ddd',
 });
 
 export const darkTheme = createTheme(themeColor, {
+  main: '#000',
+  mainText: '#fff',
+  border: '#494949',
+
   primary: '#2d9834',
   primaryText: '#fff',
   primaryActive: '#188627',
@@ -146,8 +154,6 @@ export const darkTheme = createTheme(themeColor, {
 
   background: '#131313',
   backgroundActive: '#2a2a2a',
-
-  border: '#494949',
 });
 
 const colors = {
