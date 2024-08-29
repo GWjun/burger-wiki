@@ -1,10 +1,10 @@
 import { createCallerFactory, router } from '#server/trpc';
 import { createContext } from '#server/context';
 
-import { usersRouter } from 'server/routers/users';
+import { userRouter } from 'server/routers/user';
 
 export const appRouter = router({
-  users: usersRouter,
+  user: userRouter,
 });
 
 export const createCaller = createCallerFactory(appRouter);
