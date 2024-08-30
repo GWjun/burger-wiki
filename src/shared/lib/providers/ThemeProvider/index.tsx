@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 import { ThemeProvider } from 'next-themes';
+import { OverlayProvider } from '@toss/use-overlay';
 import { darkTheme, lightTheme } from '#shared/lib/styles/theme.css';
 
 export default function ThemeModeProvider({
@@ -18,7 +19,7 @@ export default function ThemeModeProvider({
         dark: darkTheme,
       }}
     >
-      {children}
+      <OverlayProvider>{children}</OverlayProvider>
     </ThemeProvider>
   );
 }

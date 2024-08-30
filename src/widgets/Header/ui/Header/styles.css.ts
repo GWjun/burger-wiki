@@ -52,15 +52,10 @@ export const navList = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  margin: 0,
-  padding: 0,
-  listStyle: 'none',
 });
 
 export const navLink = style({
   padding: '0.5rem 1rem',
-  color: theme.colors.mainText,
-  textDecoration: 'none',
 });
 
 export const rightContainer = style({

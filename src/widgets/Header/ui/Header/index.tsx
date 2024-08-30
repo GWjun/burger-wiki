@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-
 import { ThemeChangeButton } from '#features/theme';
+import { UserMenu } from '#features/menu';
 import { auth } from '#shared/lib/utils/auth';
 import * as styles from './styles.css';
 
@@ -33,7 +33,7 @@ export async function Header() {
 
       <div className={styles.rightContainer}>
         {session?.user ? (
-          <p>{session.user.name}</p>
+          <UserMenu />
         ) : (
           <Link href="/login" className={styles.login}>
             로그인

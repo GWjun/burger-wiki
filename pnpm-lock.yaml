@@ -20,6 +20,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.52.2
         version: 5.52.2(react@18.3.1)
+      '@toss/use-overlay':
+        specifier: ^1.4.0
+        version: 1.4.0(react@18.3.1)
       '@trpc/client':
         specifier: 11.0.0-rc.485
         version: 11.0.0-rc.485(@trpc/server@11.0.0-rc.485)
@@ -41,6 +44,9 @@ importers:
       '@vanilla-extract/sprinkles':
         specifier: ^1.6.3
         version: 1.6.3(@vanilla-extract/css@1.15.5)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       lucide-react:
         specifier: ^0.436.0
         version: 0.436.0(react@18.3.1)
@@ -767,6 +773,11 @@ packages:
     peerDependencies:
       react: ^18 || ^19
 
+  '@toss/use-overlay@1.4.0':
+    resolution: {integrity: sha512-1fkKRwUWaPn1fPTHeYiOdnQu4j6sHLDfJZS1smsarPxWxUlr1+FikNIjzYQGAVXgNjxw0cqNfKR4HvVSsM5w3A==}
+    peerDependencies:
+      react: ^16.8 || ^17 || ^18
+
   '@trpc/client@11.0.0-rc.485':
     resolution: {integrity: sha512-Ld1gQjdYyrku0rjP/4QMg/SdsKgujr0P5XNoWkCyPRjdw3PuJbZFebauQPRC17cbbqGcpJrR+T3vnkhjMb1sgw==}
     peerDependencies:
@@ -1097,6 +1108,10 @@ packages:
 
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+
+  clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
+    engines: {node: '>=6'}
 
   color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -2988,6 +3003,10 @@ snapshots:
       '@tanstack/query-core': 5.52.2
       react: 18.3.1
 
+  '@toss/use-overlay@1.4.0(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
+
   '@trpc/client@11.0.0-rc.485(@trpc/server@11.0.0-rc.485)':
     dependencies:
       '@trpc/server': 11.0.0-rc.485
@@ -3431,6 +3450,8 @@ snapshots:
   chrome-trace-event@1.0.4: {}
 
   client-only@0.0.1: {}
+
+  clsx@2.1.1: {}
 
   color-convert@1.9.3:
     dependencies:
