@@ -16,7 +16,7 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
   const addToast = ({
     message,
     variant = 'primary',
-    duration = 3000,
+    duration = 4000,
   }: ToastOptions) => {
     const id = latestIdRef.current++;
     setToasts([...toasts, { id, message, variant }]);

@@ -1,23 +1,44 @@
 import { style } from '@vanilla-extract/css';
 import { theme } from '#shared/lib/styles/theme.css';
+import { fadeIn, moveUp } from '#shared/lib/styles/animation.css';
+import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
 
-export const toast = style({
-  display: 'flex',
-  justifyContent: 'space-between',
-  flexDirection: 'column',
+export const toast = style([
+  {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'column',
 
-  minWidth: '300px',
-  padding: `0.5rem 0.8rem`,
-  borderRadius: theme.borderRadius.md,
+    minWidth: '300px',
+    maxWidth: '300px',
+    padding: `0.5rem 0.8rem`,
+    borderRadius: theme.borderRadius.md,
 
-  boxShadow: theme.shadows.sm,
+    boxShadow: theme.shadows.sm,
 
-  color: theme.colors.mainText,
-  backgroundColor: 'white',
+    color: theme.colors.mainText,
+    backgroundColor: theme.colors.main,
 
-  // animation: isVisible
-  //   ? `${fadeIn} 0.2s ease-in, ${moveUp} 0.2s ease-in`
-  //   : `${fadeOut} 0.2s ease-in forwards`,
+    animation: `${fadeIn} 0.2s ease-in, ${moveUp} 0.2s ease-in`,
+
+    '@media': {
+      'screen and (max-width: 640px)': {
+        minWidth: '90vw',
+        padding: `0.4rem 0.6rem`,
+      },
+    },
+  },
+]);
+
+export const line = style({
+  position: 'absolute',
+  left: 0,
+  top: 0,
+  bottom: 0,
+  width: '4px',
+  borderTopLeftRadius: theme.borderRadius.xl,
+  borderBottomLeftRadius: theme.borderRadius.xl,
 });
 
 export const title = style({
@@ -27,7 +48,7 @@ export const title = style({
 
 export const content = style({
   display: 'flex',
-  gap: '0.5rem', // soon
+  gap: '0.5rem',
   alignItems: 'center',
   margin: 0,
 
@@ -35,3 +56,30 @@ export const content = style({
   fontSize: theme.typography.fontSize.sm,
   lineHeight: theme.typography.lineHeight.sm,
 });
+
+export const toastLineVariants = recipe({
+  base: [line],
+
+  variants: {
+    variant: {
+      primary: {
+        backgroundColor: theme.colors.primary,
+      },
+      success: {
+        backgroundColor: theme.colors.green_400,
+      },
+      error: {
+        backgroundColor: theme.colors.destructive,
+      },
+      alert: {
+        backgroundColor: theme.colors.secondary,
+      },
+    },
+  },
+
+  defaultVariants: {
+    variant: 'primary',
+  },
+});
+
+export type ToastLineVariants = RecipeVariants<typeof toastLineVariants>;

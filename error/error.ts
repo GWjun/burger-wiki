@@ -1,4 +1,4 @@
-const ERROR_MESSAGES = {
+export const ERROR_MESSAGES = {
   NOT_FOUND: '찾을 수 없습니다.',
   UNAUTHORIZED: '유효하지 않은 권한입니다.',
   VALIDATION_ERROR: '유효성 검사 오류가 발생했습니다.',

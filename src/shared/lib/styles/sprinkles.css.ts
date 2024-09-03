@@ -43,6 +43,11 @@ const responsiveProperties = defineProperties({
     fontWeight: theme.typography.fontWeight,
     textAlign: ['left', 'center', 'right', 'justify'],
     borderRadius: theme.borderRadius,
+    position: ['static', 'relative', 'absolute', 'fixed', 'sticky'],
+    top: { ...theme.space, auto: 'auto' },
+    right: { ...theme.space, auto: 'auto' },
+    bottom: { ...theme.space, auto: 'auto' },
+    left: { ...theme.space, auto: 'auto' },
   },
   shorthands: {
     padding: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],

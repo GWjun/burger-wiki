@@ -1,7 +1,15 @@
-'use server';
+// 'use server';
+//
+// import { signOut } from '#shared/lib/utils/auth';
+//
+// export async function handleSignOut() {
+//   await signOut();
+// }
 
-import { signOut } from '#shared/lib/utils/auth';
+'use client';
 
-export async function handleSignOut() {
-  await signOut();
+import { signOut } from 'next-auth/react';
+
+export function handleSignOut() {
+  return signOut();
 }

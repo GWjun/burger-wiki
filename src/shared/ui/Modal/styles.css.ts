@@ -27,7 +27,7 @@ export const modal = style({
 
   border: 'none',
   borderRadius: theme.borderRadius.md,
-  backgroundColor: 'white',
+  backgroundColor: theme.colors.main,
   boxShadow: theme.shadows.sm,
 
   animation: `${fadeIn} 0.2s ease-in`,

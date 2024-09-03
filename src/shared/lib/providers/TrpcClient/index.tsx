@@ -8,6 +8,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
+import { useToast } from '#shared/hooks/useToast';
 import { trpc } from '#shared/lib/utils/trpc';
 
 function getBaseUrl() {
@@ -20,6 +21,8 @@ export default function TrpcClientProvider({
 }: {
   children: ReactNode;
 }) {
+  const { addToast } = useToast();
+
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -33,16 +36,23 @@ export default function TrpcClientProvider({
         },
         queryCache: new QueryCache({
           onError: (error: Error) => {
-            alert(error);
+            addToast({
+              message: error.message,
+              variant: 'error',
+            });
           },
         }),
         mutationCache: new MutationCache({
           onError: (error: Error) => {
-            alert(error);
+            addToast({
+              message: error.message,
+              variant: 'error',
+            });
           },
         }),
       }),
   );
+
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [

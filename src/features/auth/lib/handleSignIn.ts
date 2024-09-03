@@ -1,8 +1,17 @@
-'use server';
+// 'use server';
+//
+// import { signIn } from '#shared/lib/utils/auth';
+// import { AuthProvider } from '../model/AuthProvider';
+//
+// export async function handleSignIn(provider: AuthProvider) {
+//   await signIn(provider);
+// }
 
-import { signIn } from '#shared/lib/utils/auth';
+'use client';
+
 import { AuthProvider } from '../model/AuthProvider';
+import { signIn } from 'next-auth/react';
 
-export async function handleSignIn(provider: AuthProvider) {
-  await signIn(provider);
+export function handleSignIn(provider: AuthProvider) {
+  return signIn(provider);
 }

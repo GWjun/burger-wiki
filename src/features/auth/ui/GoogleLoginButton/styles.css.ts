@@ -9,4 +9,5 @@ export const button = style({
   ':hover': {
     backgroundColor: theme.colors.gray_200,
   },
+  minWidth: '13.75rem',
 });

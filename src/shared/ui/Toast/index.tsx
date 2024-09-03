@@ -24,6 +24,7 @@ const Toast = ({
       aria-live="assertive"
       {...props}
     >
+      <div className={styles.toastLineVariants({ variant })} />
       <span className={styles.title}>{getToastName(variant)}</span>
       <p className={styles.content}>{children}</p>
       <CloseButton onClick={onClose} />

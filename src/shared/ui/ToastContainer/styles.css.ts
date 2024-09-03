@@ -12,4 +12,11 @@ export const container = style({
   gap: '1rem',
 
   zIndex: 50,
+
+  '@media': {
+    'screen and (max-width: 640px)': {
+      right: '50%',
+      transform: 'translateX(50%)',
+    },
+  },
 });
