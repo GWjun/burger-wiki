@@ -1,8 +1,15 @@
 import { style } from '@vanilla-extract/css';
 
 export const container = style({
+  position: 'fixed',
+  bottom: '2rem',
+  right: '1rem',
+
   display: 'flex',
+  flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  height: '100%',
+  gap: '1rem',
+
+  zIndex: 50,
 });

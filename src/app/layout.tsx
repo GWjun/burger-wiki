@@ -2,9 +2,12 @@ import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import { ReactNode } from 'react';
 import { Header } from '#widgets/Header';
+
 import TrpcClientProvider from '#shared/lib/providers/TrpcClient';
 import AuthProvider from '#shared/lib/providers/AuthProvider';
 import ThemeModeProvider from '#shared/lib/providers/ThemeProvider';
+import ToastProvider from '#shared/lib/providers/ToastProvider';
+
 import '#shared/lib/styles/global.css';
 
 (BigInt.prototype as any).toJSON = function () {
@@ -34,8 +37,10 @@ export default function RootLayout({
         <TrpcClientProvider>
           <AuthProvider>
             <ThemeModeProvider>
-              <Header />
-              <main>{children}</main>
+              <ToastProvider>
+                <Header />
+                <main>{children}</main>
+              </ToastProvider>
             </ThemeModeProvider>
           </AuthProvider>
         </TrpcClientProvider>

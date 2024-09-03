@@ -1,4 +1,3 @@
-export { handleSignOut } from './model/handleSignOut';
+export { useSign } from './hooks/useSign';
 
 export { GoogleLoginButton } from './ui/GoogleLoginButton';
-export { LogoutButton } from './ui/LogoutButton';

@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef } from 'react';
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { X } from 'lucide-react';
+import CloseButton from '#shared/ui/CloseButton';
 import clsx from 'clsx';
 import * as styles from './styles.css';
 
@@ -48,14 +48,7 @@ const Modal = ({
             className={clsx(styles.modal, className)}
             {...props}
           >
-            <button
-              onClick={onClose}
-              className={styles.closeButton}
-              aria-label="모달창 닫기 버튼"
-            >
-              <X size={15} aria-label="X" className={styles.icon} />
-            </button>
-
+            <CloseButton onClick={onClose} />
             {children}
           </dialog>
         </>

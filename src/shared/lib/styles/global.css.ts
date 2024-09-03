@@ -7,6 +7,10 @@ globalStyle('body', {
   margin: 0,
 });
 
+globalStyle('main', {
+  height: 'calc(100vh - 4rem)',
+});
+
 globalStyle('a', {
   textDecoration: 'none',
   color: theme.colors.mainText,
