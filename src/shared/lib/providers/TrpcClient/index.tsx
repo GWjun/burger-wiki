@@ -1,13 +1,16 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { captureException } from '@sentry/nextjs';
+import { ReactNode, useState, useCallback } from 'react';
 import {
   MutationCache,
   QueryCache,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { httpBatchLink } from '@trpc/client';
+
 import { useToast } from '#shared/hooks/useToast';
 import { trpc } from '#shared/lib/utils/trpc';
 
@@ -23,6 +26,20 @@ export default function TrpcClientProvider({
 }) {
   const { addToast } = useToast();
 
+  const handleError = useCallback(
+    (error: Error) => {
+      addToast({
+        message: error.message,
+        variant: 'error',
+      });
+
+      if (process.env.NODE_ENV === 'production') {
+        captureException(error);
+      }
+    },
+    [addToast],
+  );
+
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -35,20 +52,10 @@ export default function TrpcClientProvider({
           },
         },
         queryCache: new QueryCache({
-          onError: (error: Error) => {
-            addToast({
-              message: error.message,
-              variant: 'error',
-            });
-          },
+          onError: handleError,
         }),
         mutationCache: new MutationCache({
-          onError: (error: Error) => {
-            addToast({
-              message: error.message,
-              variant: 'error',
-            });
-          },
+          onError: handleError,
         }),
       }),
   );
@@ -69,7 +76,10 @@ export default function TrpcClientProvider({
 
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </trpc.Provider>
   );
 }
