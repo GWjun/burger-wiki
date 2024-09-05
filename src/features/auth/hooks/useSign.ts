@@ -16,7 +16,6 @@ export function useSign() {
 
     try {
       await handleSignIn(provider);
-      setStatus('success');
     } catch (err) {
       setStatus('error');
       setError(err instanceof Error ? err.message : 'unknown error');
@@ -29,7 +28,6 @@ export function useSign() {
 
     try {
       await handleSignOut();
-      setStatus('success');
     } catch (err) {
       setStatus('error');
       setError(err instanceof Error ? err.message : 'unknown error');

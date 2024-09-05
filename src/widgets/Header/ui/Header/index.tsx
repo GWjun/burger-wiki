@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { ThemeChangeButton } from '#features/theme';
 import { UserMenu } from '#features/menu';
 import { auth } from '#shared/lib/utils/auth';
+import LogoIcon from '#shared/ui/LogoIcon';
+import LogoText from '#shared/ui/LogoText';
 import * as styles from './styles.css';
 
 export async function Header() {
@@ -12,13 +13,8 @@ export async function Header() {
     <header className={styles.header}>
       <div className={styles.leftContainer}>
         <Link href="/" className={styles.logo}>
-          <Image
-            src="/icons/burger-crew-icon.svg"
-            width={30}
-            height={30}
-            alt="버거크루 아이콘"
-          />
-          <h1 className={styles.title}>버거크루</h1>
+          <LogoIcon size={30} />
+          <LogoText size={30} className={styles.title} />
         </Link>
         <nav>
           <ul className={styles.navList}>

@@ -39,9 +39,6 @@ export const logo = style([
 ]);
 
 export const title = sprinkles({
-  fontSize: 'x2l',
-  fontWeight: 'bold',
-  margin: 0,
   display: {
     xs: 'none',
     sm: 'flex',

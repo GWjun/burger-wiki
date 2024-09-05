@@ -15,9 +15,38 @@
 
 ### 환경 변수 설정
 
-루트 디렉터리에 `.env` 파일 생성 후 DB에 해당하는 정보 입력
+루트 디렉터리에 `.env` 파일 생성 후 `prisma`, `auth.js`, `sentry` 에 해당하는 환경 변수 입력
 
-```bash
+```sh
+# prisma
 DATABASE_URL="postgresql://johndoe:randompassword@localhost:6543/mydb?schema=public?pgbouncer=true"
 DIRECT_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+
+# auth.js
+AUTH_SECRET="your_auth_secret"
+AUTH_GOOGLE_ID="your_oauth_id"
+AUTH_GOOGLE_SECRET="your_oauth_secret"
+
+# sentry
+SENTRY_AUTH_TOKEN=your_sentry_token
+SENTRY_DSN=your_sentry_dsn
 ```
+
+### 설치
+
+```sh
+pnpm install
+```
+
+### prisma client 생성
+
+```sh
+pnpx prisma generate
+```
+
+### 실행
+
+```sh
+pnpm dev
+```
+

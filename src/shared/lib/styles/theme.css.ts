@@ -2,7 +2,6 @@ import {
   createGlobalTheme,
   createTheme,
   createThemeContract,
-  globalStyle,
 } from '@vanilla-extract/css';
 import colorScales from '#shared/lib/styles/colors';
 

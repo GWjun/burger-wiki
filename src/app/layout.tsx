@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: 'Burger Crew',
   description: '버거 크루',
   icons: {
-    icon: '/icons/burger-crew-icon.svg',
+    icon: '/logo/burger-crew-icon.svg',
   },
 };
 
