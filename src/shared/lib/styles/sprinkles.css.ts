@@ -4,13 +4,13 @@ import { theme } from '#shared/lib/styles/theme.css';
 const responsiveProperties = defineProperties({
   conditions: {
     xs: {},
-    sm: { '@media': `screen and (min-width: 640px)` },
-    md: { '@media': `screen and (min-width: 768px)` },
-    lg: { '@media': `screen and (min-width: 1024px)` },
-    xl: { '@media': `screen and (min-width: 1280px)` },
-    x2l: { '@media': `screen and (min-width: 1536px)` },
-    x3l: { '@media': `screen and (min-width: 1920px)` },
-    x4l: { '@media': `screen and (min-width: 2560px)` },
+    sm: { '@media': `screen and (min-width: ${theme.breakpoints.sm})` },
+    md: { '@media': `screen and (min-width: ${theme.breakpoints.md})` },
+    lg: { '@media': `screen and (min-width: ${theme.breakpoints.lg})` },
+    xl: { '@media': `screen and (min-width: ${theme.breakpoints.xl})` },
+    x2l: { '@media': `screen and (min-width: ${theme.breakpoints.x2l})` },
+    x3l: { '@media': `screen and (min-width: ${theme.breakpoints.x3l})` },
+    x4l: { '@media': `screen and (min-width: ${theme.breakpoints.x4l})` },
   },
   defaultCondition: 'xs',
   properties: {

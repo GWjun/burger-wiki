@@ -10,10 +10,6 @@ import ThemeModeProvider from '#shared/lib/providers/ThemeProvider';
 
 import '#shared/lib/styles/global.css';
 
-(BigInt.prototype as any).toJSON = function () {
-  return this.toString();
-};
-
 const NotoSansKr = Noto_Sans_KR({
   subsets: ['latin'],
 });

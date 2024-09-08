@@ -116,7 +116,7 @@ let themeColor = createThemeContract({
 export const lightTheme = createTheme(themeColor, {
   main: '#fff',
   mainText: '#000',
-  border: '#ddd',
+  border: '#e9e9e9',
 
   primary: '#0095f6',
   primaryText: '#fff',
@@ -137,7 +137,7 @@ export const lightTheme = createTheme(themeColor, {
 export const darkTheme = createTheme(themeColor, {
   main: '#1D1F22',
   mainText: '#fff',
-  border: '#494949',
+  border: '#2d2d2d',
 
   primary: '#2d9834',
   primaryText: '#fff',
@@ -160,4 +160,15 @@ const colors = {
   ...colorScales,
 };
 
-export const theme = { ...global, colors };
+export const breakpoints = {
+  xs: '0px',
+  sm: '640px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+  x2l: '1536px',
+  x3l: '1920px',
+  x4l: '2560px',
+} as const;
+
+export const theme = { ...global, colors, breakpoints };

@@ -1,7 +1,10 @@
 import { initTRPC } from '@trpc/server';
 import { Context } from '#server/context';
+import superjson from 'superjson';
 
-const t = initTRPC.context<Context>().create();
+const t = initTRPC.context<Context>().create({
+  transformer: superjson,
+});
 
 export const middleware = t.middleware;
 export const createCallerFactory = t.createCallerFactory;

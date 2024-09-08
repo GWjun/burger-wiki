@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { theme } from '#shared/lib/styles/theme.css';
 
 export const container = style({
   position: 'fixed',
@@ -14,7 +15,7 @@ export const container = style({
   zIndex: 50,
 
   '@media': {
-    'screen and (max-width: 640px)': {
+    [`screen and (min-width: ${theme.breakpoints.sm})`]: {
       right: '50%',
       transform: 'translateX(50%)',
     },

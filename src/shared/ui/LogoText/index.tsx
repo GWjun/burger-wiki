@@ -30,6 +30,7 @@ const LogoText = ({
       height={size}
       className={className}
       alt="버거크루 텍스트"
+      priority
       {...props}
     />
   );

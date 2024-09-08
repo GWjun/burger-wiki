@@ -10,6 +10,7 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { httpBatchLink } from '@trpc/client';
+import superjson from 'superjson';
 
 import { useToast } from '#shared/hooks/useToast';
 import { trpc } from '#shared/lib/utils/trpc';
@@ -46,6 +47,7 @@ export default function TrpcClientProvider({
         defaultOptions: {
           queries: {
             retry: 0,
+            structuralSharing: false,
           },
           mutations: {
             retry: 0,
@@ -65,7 +67,7 @@ export default function TrpcClientProvider({
       links: [
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
-
+          transformer: superjson,
           async headers() {
             return {};
           },
