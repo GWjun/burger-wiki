@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import type { Product } from '@prisma/client';
 import * as styles from './styles.css';

@@ -1,4 +1,9 @@
 export { useRecentProducts } from './hooks/useRecentProducts';
 
-export { ProductCard } from './ui/ProductCard';
-export { ProductCardSkeleton } from './ui/ProductCardSkeleton';
+export { ProductList } from './ui/ProductList';
+export { ProductListSkeleton } from './ui/ProductListSkeleton';
+
+export {
+  containerStyle,
+  titleStyle,
+} from './ui/ProductListSkeleton/styles.css';
