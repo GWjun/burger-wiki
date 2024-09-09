@@ -7,6 +7,12 @@ export const container = style({
   flex: 1,
   minWidth: '150px',
   maxWidth: '233.59px',
+
+  '@media': {
+    [`screen and (min-width: ${theme.breakpoints.md})`]: {
+      minWidth: 'unset',
+    },
+  },
 });
 
 export const imageContainer = style({
@@ -15,6 +21,10 @@ export const imageContainer = style({
   aspectRatio: '1 / 1',
   backgroundColor: theme.colors.secondary,
   borderRadius: theme.borderRadius.lg,
+});
+
+export const image = style({
+  objectFit: 'contain',
 });
 
 export const titleContainer = style({
@@ -44,24 +54,6 @@ export const price = style({
   fontSize: theme.typography.fontSize.sm,
   fontWeight: theme.typography.fontWeight.semibold,
   marginTop: '0.5rem',
-});
-
-export const contentSkeletonContainer = style({
-  display: 'flex',
-  flexDirection: 'column',
-  marginTop: '0.7rem',
-  gap: '0.35rem',
-});
-
-export const contentSkeleton = style({
-  width: '100%',
-  height: '1rem',
-});
-
-export const priceSkeleton = style({
-  width: '4rem',
-  height: '1rem',
-  marginTop: '0.8rem',
 });
 
 export const hidden = style({

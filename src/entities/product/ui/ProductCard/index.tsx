@@ -2,13 +2,10 @@
 
 import Image from 'next/image';
 import type { Product } from '@prisma/client';
-import Skeleton from '#shared/ui/Skeleton';
 import * as styles from './styles.css';
 import clsx from 'clsx';
 
-export function ProductCard({ product }: { product: Product | null }) {
-  if (!product) return <ProductCardSkeleton />;
-
+export function ProductCard({ product }: { product: Product }) {
   const { image_url, name, description, price, brand_name } = product;
   const localePrice = Number(price).toLocaleString();
 
@@ -19,8 +16,9 @@ export function ProductCard({ product }: { product: Product | null }) {
           src={image_url || ''}
           alt="버거 이미지"
           fill
-          sizes="(max-width: 640px) 233.59px, 150px"
-          style={{ objectFit: 'contain' }}
+          sizes="(max-width: 640px) 150px, 233.59px"
+          className={styles.image}
+          priority
         />
       </div>
 
@@ -30,20 +28,6 @@ export function ProductCard({ product }: { product: Product | null }) {
       </div>
       <p className={clsx(styles.description, styles.hidden)}>{description}</p>
       <p className={styles.price}>{localePrice} 원</p>
-    </div>
-  );
-}
-
-export function ProductCardSkeleton() {
-  return (
-    <div className={styles.container}>
-      <Skeleton className={styles.imageContainer} />
-      <div className={styles.contentSkeletonContainer}>
-        <Skeleton className={styles.contentSkeleton} />
-        <Skeleton className={clsx(styles.contentSkeleton, styles.hidden)} />
-        <Skeleton className={clsx(styles.contentSkeleton, styles.hidden)} />
-      </div>
-      <Skeleton className={styles.priceSkeleton} />
     </div>
   );
 }

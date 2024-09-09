@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import { ReactNode } from 'react';
-import { Header } from '#widgets/Header';
+import { Header } from 'src/widgets/header';
 
 import AuthProvider from '#shared/lib/providers/AuthProvider';
 import ToastProvider from '#shared/lib/providers/ToastProvider';
