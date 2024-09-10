@@ -1,33 +1,30 @@
 'use client';
 
-import {
-  containerStyle,
-  titleStyle,
-  ProductList,
-  ProductListSkeleton,
-  useRecentProducts,
-} from '#entities/product';
+import { ProductList, useRecentProducts } from '#entities/product';
 import Button from '#shared/ui/Button';
+import { useMediaQuery } from '#shared/hooks/useMediaQuery';
+import { theme } from '#shared/lib/styles/theme.css';
+
+import { RecentProductsSkeleton } from './RecentProductsSkeleton';
 import * as styles from './styles.css';
 
 export function RecentProducts() {
-  const { data, status, fetchNextPage, hasNextPage } = useRecentProducts({
-    limit: 5,
+  const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
+  const { products, status, fetchNextPage, hasNextPage } = useRecentProducts({
+    limit: isMobile ? 15 : 5,
   });
 
   if (status === 'pending') {
-    return <ProductListSkeleton title="최근 출시 버거" />;
+    return <RecentProductsSkeleton />;
   }
 
   return (
-    <div className={containerStyle}>
-      <span className={titleStyle}>최근 출시 버거</span>
+    <div className={styles.container}>
+      <span className={styles.title}>최근 출시 버거</span>
 
-      <div className={styles.container}>
+      <div className={styles.productsContainer}>
         <div className={styles.products}>
-          {data?.pages.map((page, index) => (
-            <ProductList key={index} products={page.products} />
-          ))}
+          <ProductList products={products} />
         </div>
 
         {hasNextPage && (
