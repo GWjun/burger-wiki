@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ThemeChangeButton } from '#features/theme';
-import { UserMenu } from '#features/menu';
+import { UserMenu } from 'src/entities/user';
 import { auth } from '#shared/lib/utils/auth';
 import LogoIcon from '#shared/ui/LogoIcon';
 import LogoText from '#shared/ui/LogoText';

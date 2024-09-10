@@ -17,6 +17,7 @@ const LogoIcon = ({ size = 30, className, ...props }: LogoIconProps) => {
       height={size}
       className={className}
       alt="버거크루 로고 아이콘"
+      priority
       {...props}
     />
   );

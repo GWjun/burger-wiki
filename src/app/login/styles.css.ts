@@ -11,6 +11,8 @@ export const container = style({
 });
 
 export const text = style({
+  marginTop: '1rem',
+  marginBottom: '1rem',
   fontSize: theme.typography.fontSize.x2l,
   fontWeight: theme.typography.fontWeight.medium,
 });

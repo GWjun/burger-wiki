@@ -20,7 +20,7 @@ globalStyle('ul, ol, li', {
   listStyle: 'none',
 });
 
-globalStyle('ul', {
+globalStyle('ul, p', {
   padding: 0,
   margin: 0,
 });

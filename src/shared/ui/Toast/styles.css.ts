@@ -23,7 +23,7 @@ export const toast = style([
     animation: `${fadeIn} 0.2s ease-in, ${moveUp} 0.2s ease-in`,
 
     '@media': {
-      'screen and (max-width: 640px)': {
+      [`screen and (min-width: ${theme.breakpoints.sm})`]: {
         minWidth: '90vw',
         padding: `0.4rem 0.6rem`,
       },

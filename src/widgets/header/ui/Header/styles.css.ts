@@ -8,13 +8,14 @@ export const header = style([
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 4,
-    backgroundColor: 'secondary',
+    backgroundColor: 'main',
     zIndex: 50,
   }),
   {
     position: 'sticky',
-    height: '4rem',
     top: 0,
+    height: '4rem',
+    borderBottom: `1px solid ${theme.colors.border}`,
     boxSizing: 'border-box',
   },
 ]);
