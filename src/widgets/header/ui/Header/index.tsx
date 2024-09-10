@@ -11,32 +11,34 @@ export async function Header() {
 
   return (
     <header className={styles.header}>
-      <div className={styles.leftContainer}>
-        <Link href="/" className={styles.logo}>
-          <LogoIcon size={30} />
-          <LogoText size={30} className={styles.title} />
-        </Link>
-        <nav>
-          <ul className={styles.navList}>
-            <li>
-              <Link href="/test" className={styles.navLink}>
-                메뉴목록
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <div className={styles.rightContainer}>
-        {session?.user ? (
-          <UserMenu />
-        ) : (
-          <Link href="/login" className={styles.login}>
-            로그인
+      <div className={styles.fullContainer}>
+        <div className={styles.leftContainer}>
+          <Link href="/" className={styles.logo}>
+            <LogoIcon size={30} />
+            <LogoText size={30} className={styles.title} />
           </Link>
-        )}
+          <nav>
+            <ul className={styles.navList}>
+              <li>
+                <Link href="/test" className={styles.navLink}>
+                  메뉴목록
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
 
-        <ThemeChangeButton />
+        <div id="header-menu" className={styles.rightContainer}>
+          {session?.user ? (
+            <UserMenu />
+          ) : (
+            <Link href="/login" className={styles.login}>
+              로그인
+            </Link>
+          )}
+
+          <ThemeChangeButton />
+        </div>
       </div>
     </header>
   );

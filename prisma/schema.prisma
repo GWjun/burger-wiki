@@ -104,7 +104,7 @@ model Product {
   name             String     @db.VarChar
   description      String?
   image_url        String?    @db.VarChar
-  price            Decimal?   @db.Decimal
+  price            Decimal    @db.Decimal
   available        Boolean?
   category         String?    @db.VarChar
   shop_url         String?    @db.VarChar

@@ -20,6 +20,14 @@ export const header = style([
   },
 ]);
 
+export const fullContainer = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  width: '100%',
+  maxWidth: '1280px',
+  margin: '0 auto',
+});
+
 export const leftContainer = style({
   display: 'flex',
   justifyContent: 'center',
@@ -57,6 +65,7 @@ export const navLink = style({
 });
 
 export const rightContainer = style({
+  position: 'relative',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
