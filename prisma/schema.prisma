@@ -112,6 +112,8 @@ model Product {
   description_full String?
   released_at      DateTime?  @db.Timestamptz(6)
   brand_name       String     @db.VarChar
+  likes_count      Int        @default(0)
+  dislikes_count   Int        @default(0)
   Nutrition        Nutrition?
   Brand            Brand      @relation(fields: [brand_name], references: [name], onDelete: NoAction, onUpdate: NoAction)
 }

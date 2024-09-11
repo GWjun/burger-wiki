@@ -1,6 +1,6 @@
 import { auth } from '#shared/lib/utils/auth';
 import * as styles from './styles.css';
-import { RecentProducts } from '#widgets/product';
+import { BestProducts, RecentProducts } from '#widgets/product';
 
 export default async function Home() {
   const session = await auth();
@@ -8,6 +8,7 @@ export default async function Home() {
   return (
     <div className={styles.container}>
       <RecentProducts />
+      <BestProducts />
     </div>
   );
 }

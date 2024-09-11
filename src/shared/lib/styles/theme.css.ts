@@ -160,6 +160,8 @@ const colors = {
   ...colorScales,
 };
 
+const mainWidth = '1280px';
+
 export const breakpoints = {
   xs: '0px',
   sm: '640px',
@@ -171,4 +173,4 @@ export const breakpoints = {
   x4l: '2560px',
 } as const;
 
-export const theme = { ...global, colors, breakpoints };
+export const theme = { ...global, colors, mainWidth, breakpoints };

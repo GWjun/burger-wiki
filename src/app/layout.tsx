@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import { ReactNode } from 'react';
-import { Header } from 'src/widgets/header';
 
+import { Header } from '#widgets/header';
+import { Footer } from '#widgets/footer';
 import AuthProvider from '#shared/lib/providers/AuthProvider';
 import ToastProvider from '#shared/lib/providers/ToastProvider';
 import TrpcClientProvider from '#shared/lib/providers/TrpcClient';
@@ -36,6 +37,7 @@ export default function RootLayout({
               <ThemeModeProvider>
                 <Header />
                 <main>{children}</main>
+                <Footer />
               </ThemeModeProvider>
             </TrpcClientProvider>
           </ToastProvider>

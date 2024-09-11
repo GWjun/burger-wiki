@@ -24,7 +24,7 @@ export const fullContainer = style({
   display: 'flex',
   justifyContent: 'space-between',
   width: '100%',
-  maxWidth: '1280px',
+  maxWidth: theme.mainWidth,
   margin: '0 auto',
 });
 

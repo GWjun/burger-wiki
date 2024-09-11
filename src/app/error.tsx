@@ -27,8 +27,8 @@ export default function Error({
         display: 'flex',
         flexDirection: 'column',
         placeItems: 'center',
-        size: 'full',
       })}
+      style={{ minHeight: '100vh' }}
     >
       <h2 className={sprinkles({ marginBottom: 0 })}>
         서비스에 접속할 수 없습니다.
