@@ -12,11 +12,11 @@ interface LogoIconProps
 const LogoIcon = ({ size = 30, className, ...props }: LogoIconProps) => {
   return (
     <Image
-      src="/logo/burger-crew-icon.svg"
+      src="/logo/burger-wiki-icon.svg"
       width={size}
       height={size}
       className={className}
-      alt="버거크루 로고 아이콘"
+      alt="버거위키 로고 아이콘"
       priority
       {...props}
     />

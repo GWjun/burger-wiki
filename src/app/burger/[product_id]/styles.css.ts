@@ -5,6 +5,7 @@ export const container = style({
   display: 'flex',
   flexDirection: 'column',
   margin: '0 auto',
+  width: '100%',
   maxWidth: '1280px',
   boxSizing: 'border-box',
 

@@ -16,10 +16,10 @@ const NotoSansKr = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: 'Burger Crew',
-  description: '버거 크루',
+  title: 'Burger Wiki',
+  description: '한국 버거 정보 공유 플랫폼',
   icons: {
-    icon: '/logo/burger-crew-icon.svg',
+    icon: '/logo/burger-wiki-icon.svg',
   },
 };
 

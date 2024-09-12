@@ -1,5 +1,5 @@
 <div align="center">
-  <h2>Burger Crew</h2>
+  <h2>Burger Wiki</h2>
   <p align="center">
     <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js badge">
     <img src="https://img.shields.io/badge/-tRPC-2596BE?style=flat&logo=trpc&logoColor=white" alt="tRPC badge">

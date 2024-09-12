@@ -1,34 +1,33 @@
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
 import { style } from '@vanilla-extract/css';
-import { sprinkles } from '#shared/lib/styles/sprinkles.css';
 import { theme } from '#shared/lib/styles/theme.css';
 
 const { colors } = theme;
 
 const baseStyle = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+
   border: '1px solid transparent',
+  borderRadius: theme.borderRadius.md,
+  fontSize: theme.typography.fontSize.sm,
+  fontWeight: theme.typography.fontWeight.medium,
   cursor: 'pointer',
   transition: 'background-color 0.2s',
+
   ':focus-visible': {
     outlineWidth: '1px',
   },
+
   ':disabled': {
     pointerEvents: 'none',
     opacity: 0.5,
   },
 });
 
-const baseSprinkle = sprinkles({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 'md',
-  fontSize: 'sm',
-  fontWeight: 'medium',
-});
-
 export const buttonVariants = recipe({
-  base: [baseStyle, baseSprinkle],
+  base: [baseStyle],
 
   variants: {
     variant: {
@@ -68,9 +67,9 @@ export const buttonVariants = recipe({
       },
     },
     size: {
-      sm: sprinkles({ paddingX: 4, paddingY: 2 }),
-      md: sprinkles({ paddingX: 6, paddingY: 3 }),
-      lg: sprinkles({ paddingX: 8, paddingY: 3 }),
+      sm: style({ padding: '0.5rem 1rem' }),
+      md: style({ padding: '0.75rem 1.5rem' }),
+      lg: style({ padding: '0.75rem 2rem' }),
     },
   },
 

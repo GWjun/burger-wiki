@@ -1,5 +1,7 @@
 import Image from 'next/image';
+import { Suspense } from 'react';
 import { createAsyncCaller } from '#server/routers';
+import LoadingSpinner from '#shared/ui/LoadingSpinner';
 import * as styles from './styles.css';
 
 export default async function Burger({
@@ -19,14 +21,16 @@ export default async function Burger({
     <div className={styles.container}>
       <div className={styles.leftCol}>
         <div className={styles.imageContainer}>
-          <Image
-            src={image_url || ''}
-            alt="버거 이미지"
-            fill
-            sizes="(max-width: 768px) 100%, 560px"
-            className={styles.image}
-            priority
-          />
+          <Suspense fallback={<LoadingSpinner variant="inset" />}>
+            <Image
+              src={image_url || ''}
+              alt="버거 이미지"
+              fill
+              sizes="(max-width: 768px) 100%, 560px"
+              className={styles.image}
+              priority
+            />
+          </Suspense>
         </div>
       </div>
 
