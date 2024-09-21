@@ -89,13 +89,22 @@ export const name = style({
   fontSize: theme.typography.fontSize.xl,
   fontWeight: theme.typography.fontWeight.semibold,
 });
+
 export const description = style({
   marginTop: '1rem',
   fontSize: theme.typography.fontSize.md,
 });
+
 export const price = style({
   marginLeft: 'auto',
   marginTop: '1rem',
   fontSize: theme.typography.fontSize.xl,
   fontWeight: theme.typography.fontWeight.medium,
+});
+
+export const devComment = style({
+  margin: 'auto',
+  marginTop: '3rem',
+  fontSize: theme.typography.fontSize.md,
+  color: 'gray',
 });

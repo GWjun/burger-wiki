@@ -23,6 +23,7 @@ export const productsContainer = style({
   flexDirection: 'row',
   alignItems: 'center',
   gap: '1.5rem',
+  width: 'calc(100vw - 1rem)',
   overflowX: 'auto',
   '::-webkit-scrollbar': {
     display: 'none',

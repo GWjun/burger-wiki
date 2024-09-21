@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: 'Burger Wiki',
   description: '한국 버거 정보 공유 플랫폼',
   icons: {
-    icon: '/logo/burger-wiki-icon.svg',
+    icon: '/logo/product-wiki-icon.svg',
   },
 };
 

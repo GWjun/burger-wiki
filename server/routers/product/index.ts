@@ -82,4 +82,58 @@ export const productRouter = router({
 
       return product;
     }),
+
+  addProductLike: baseProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        product_id: z.number(),
+        is_like: z.boolean(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const { userId, product_id, is_like } = input;
+
+      return prisma.$transaction(async (tx) => {
+        const existingLike = await tx.productLike.findUnique({
+          where: {
+            userId_product_id: { userId, product_id },
+          },
+        });
+
+        if (existingLike) {
+          if (existingLike.is_like === is_like) {
+            if (is_like === true)
+              throw new Error(getErrorMessage('ALREADY_LIKED'));
+            else throw new Error(getErrorMessage('ALREADY_DISLIKED'));
+          } else {
+            await tx.product.update({
+              where: { product_id },
+              data: {
+                likes_count: { decrement: existingLike.is_like ? 1 : 0 },
+                dislikes_count: { decrement: existingLike.is_like ? 0 : 1 },
+              },
+            });
+
+            await tx.productLike.delete({
+              where: { id: existingLike.id },
+            });
+          }
+        }
+
+        await tx.productLike.create({
+          data: { userId, product_id, is_like },
+        });
+
+        await tx.product.update({
+          where: { product_id },
+          data: {
+            likes_count: { increment: is_like ? 1 : 0 },
+            dislikes_count: { increment: is_like ? 0 : 1 },
+          },
+        });
+
+        return existingLike;
+      });
+    }),
 });

@@ -1,4 +1,6 @@
 import { trpc } from '#shared/lib/utils/trpc';
+import { flatMap } from 'es-toolkit';
+import { Product } from '@prisma/client';
 
 export function useRecentProducts({ limit }: { limit?: number }) {
   const result = trpc.product.getRecentProducts.useInfiniteQuery(
@@ -9,7 +11,10 @@ export function useRecentProducts({ limit }: { limit?: number }) {
   );
 
   const { data, ...rest } = result;
-  const products = result.data?.pages.flatMap((page) => page.products) || [];
+  const products = flatMap(
+    data?.pages || [],
+    (page) => page.products,
+  ) as Product[];
 
   return { products, ...rest };
 }
