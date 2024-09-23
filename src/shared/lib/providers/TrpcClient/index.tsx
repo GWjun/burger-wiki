@@ -14,6 +14,7 @@ import superjson from 'superjson';
 
 import { useToast } from '#shared/hooks/useToast';
 import { trpc } from '#shared/lib/utils/trpc';
+import { getErrorMessage } from '#error/error';
 
 function getBaseUrl() {
   if (typeof window !== 'undefined') return '';
@@ -30,7 +31,7 @@ export default function TrpcClientProvider({
   const handleError = useCallback(
     (error: Error) => {
       addToast({
-        message: error.message,
+        message: getErrorMessage(error.message),
         variant: 'error',
       });
 

@@ -7,6 +7,8 @@ export const ERROR_MESSAGES = {
   FORBIDDEN: '잘못된 접근입니다.',
   TIMEOUT: '요청이 시간 초과되었습니다.',
   CONTEXT_NOT_FOUND: '잘못된 참조 입니다.',
+  ALREADY_LIKED: '이미 추천한 버거 입니다.',
+  ALREADY_DISLIKED: '이미 비추천한 버거 입니다.',
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_MESSAGES;
@@ -25,6 +27,11 @@ export class AppError extends Error {
   }
 }
 
-export function getErrorMessage(code: ErrorCode): string {
-  return ERROR_MESSAGES[code] || '알 수 없는 오류가 발생했습니다.';
+export function getErrorCode(code: ErrorCode) {
+  return code;
+}
+
+export function getErrorMessage(code: ErrorCode | string) {
+  if (code in ERROR_MESSAGES) return ERROR_MESSAGES[code as ErrorCode];
+  return '알 수 없는 오류가 발생했습니다.';
 }

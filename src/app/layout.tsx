@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import { ReactNode } from 'react';
-import { Header } from 'src/widgets/header';
 
+import { Header } from '#widgets/header';
+import { Footer } from '#widgets/footer';
 import AuthProvider from '#shared/lib/providers/AuthProvider';
 import ToastProvider from '#shared/lib/providers/ToastProvider';
 import TrpcClientProvider from '#shared/lib/providers/TrpcClient';
@@ -15,10 +16,10 @@ const NotoSansKr = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: 'Burger Crew',
-  description: '버거 크루',
+  title: 'Burger Wiki',
+  description: '한국 버거 정보 공유 플랫폼',
   icons: {
-    icon: '/logo/burger-crew-icon.svg',
+    icon: '/logo/product-wiki-icon.svg',
   },
 };
 
@@ -36,6 +37,7 @@ export default function RootLayout({
               <ThemeModeProvider>
                 <Header />
                 <main>{children}</main>
+                <Footer />
               </ThemeModeProvider>
             </TrpcClientProvider>
           </ToastProvider>

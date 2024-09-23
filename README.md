@@ -1,5 +1,5 @@
 <div align="center">
-  <h2>Burger Crew</h2>
+  <h2>Burger Wiki</h2>
   <p align="center">
     <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js badge">
     <img src="https://img.shields.io/badge/-tRPC-2596BE?style=flat&logo=trpc&logoColor=white" alt="tRPC badge">
@@ -30,6 +30,11 @@ AUTH_GOOGLE_SECRET="your_oauth_secret"
 # sentry
 SENTRY_AUTH_TOKEN=your_sentry_token
 SENTRY_DSN=your_sentry_dsn
+
+# supabase storage
+NEXT_PUBLIC_SUPABASE_URL=your_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
+NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET=your-bucket
 ```
 
 ### 설치

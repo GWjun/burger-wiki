@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
 import clsx from 'clsx';
 import * as styles from './styles.css';
+import { createPortal } from 'react-dom';
 
 export interface MenuProps extends ComponentPropsWithoutRef<'div'> {
   isOpen: boolean;
@@ -16,6 +17,7 @@ const Menu = ({
   ...props
 }: MenuProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
+  const renderElement = document.getElementById('header-menu') ?? document.body;
 
   useEffect(() => {
     const handleBackdropClick = (event: globalThis.MouseEvent) => {
@@ -39,14 +41,15 @@ const Menu = ({
     };
   }, [onClose]);
 
-  return (
+  return createPortal(
     <>
       {isOpen && (
         <div ref={menuRef} className={clsx(styles.menu, className)} {...props}>
           <ul>{children}</ul>
         </div>
       )}
-    </>
+    </>,
+    renderElement,
   );
 };
 

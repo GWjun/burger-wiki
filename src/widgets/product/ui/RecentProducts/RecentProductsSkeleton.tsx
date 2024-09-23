@@ -9,6 +9,7 @@ export function RecentProductsSkeleton() {
         <div className={products}>
           <ProductCardSkeleton count={5} />
         </div>
+        <div style={{ height: '38px' }} />
       </div>
     </div>
   );

@@ -4,9 +4,17 @@ import { auth } from '#shared/lib/utils/auth';
 import LogoText from '#shared/ui/LogoText';
 import * as styles from './styles.css';
 
-export default async function Login() {
+export default async function Login({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const session = await auth();
-  if (session) redirect('/');
+  const callbackUrl = searchParams.callbackUrl as string | undefined;
+
+  if (session) {
+    redirect(callbackUrl || '/');
+  }
 
   return (
     <div className={styles.container}>

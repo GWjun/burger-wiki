@@ -10,9 +10,8 @@ export const toast = style([
     justifyContent: 'space-between',
     flexDirection: 'column',
 
-    minWidth: '300px',
-    maxWidth: '300px',
-    padding: `0.5rem 0.8rem`,
+    minWidth: '90vw',
+    padding: `0.4rem 0.6rem`,
     borderRadius: theme.borderRadius.md,
 
     boxShadow: theme.shadows.sm,
@@ -24,8 +23,9 @@ export const toast = style([
 
     '@media': {
       [`screen and (min-width: ${theme.breakpoints.sm})`]: {
-        minWidth: '90vw',
-        padding: `0.4rem 0.6rem`,
+        minWidth: '300px',
+        maxWidth: '300px',
+        padding: `0.5rem 0.8rem`,
       },
     },
   },

@@ -6,8 +6,8 @@ export const container = style({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
+  margin: 'auto',
   gap: '0.5rem',
-  height: '100%',
 });
 
 export const text = style({

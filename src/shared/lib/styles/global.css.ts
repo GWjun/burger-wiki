@@ -8,7 +8,10 @@ globalStyle('body', {
 });
 
 globalStyle('main', {
-  height: 'calc(100vh - 4rem)',
+  display: 'flex',
+  boxSizing: 'border-box',
+  minHeight: 'calc(100vh - 4rem)',
+  paddingBottom: '2rem',
 });
 
 globalStyle('a', {

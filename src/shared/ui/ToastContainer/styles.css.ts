@@ -4,7 +4,8 @@ import { theme } from '#shared/lib/styles/theme.css';
 export const container = style({
   position: 'fixed',
   bottom: '2rem',
-  right: '1rem',
+  right: '50%',
+  transform: 'translateX(50%)',
 
   display: 'flex',
   flexDirection: 'column',
@@ -12,12 +13,12 @@ export const container = style({
   alignItems: 'center',
   gap: '1rem',
 
-  zIndex: 50,
+  zIndex: 60,
 
   '@media': {
     [`screen and (min-width: ${theme.breakpoints.sm})`]: {
-      right: '50%',
-      transform: 'translateX(50%)',
+      right: '1rem',
+      transform: 'unset',
     },
   },
 });

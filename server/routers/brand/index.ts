@@ -1,7 +1,7 @@
 import { prisma } from '#server/prisma';
 import { baseProcedure, router } from '#server/trpc';
 import { z } from 'zod';
-import { getErrorMessage } from '#error/error';
+import { getErrorCode } from '#error/error';
 
 export const brandRouter = router({
   getBrandById: baseProcedure
@@ -13,7 +13,7 @@ export const brandRouter = router({
         },
       });
 
-      if (!brand) throw new Error(getErrorMessage('NOT_FOUND'));
+      if (!brand) throw new Error(getErrorCode('NOT_FOUND'));
 
       return brand;
     }),
@@ -30,7 +30,7 @@ export const brandRouter = router({
         },
       });
 
-      if (!brandName) throw new Error(getErrorMessage('NOT_FOUND'));
+      if (!brandName) throw new Error(getErrorCode('NOT_FOUND'));
 
       return brandName;
     }),

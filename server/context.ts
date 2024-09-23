@@ -1,7 +1,9 @@
+import { auth } from '#shared/lib/utils/auth';
+
 export const createContext = async () => {
-  // const session = await getSession();
+  const session = await auth();
   const ctx = {
-    // session,
+    session,
   };
 
   return ctx;

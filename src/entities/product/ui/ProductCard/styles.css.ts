@@ -7,6 +7,7 @@ export const container = style({
   flex: 1,
   minWidth: '150px',
   maxWidth: '233.59px',
+  cursor: 'pointer',
 
   '@media': {
     [`screen and (min-width: ${theme.breakpoints.md})`]: {
