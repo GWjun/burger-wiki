@@ -1,22 +1,20 @@
 'use client';
 
-import type { Session } from 'next-auth';
-
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import Button from '#shared/ui/Button';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
 import Skeleton from '#shared/ui/Skeleton';
+import { useSession } from 'next-auth/react';
 import { trpc } from '#shared/lib/utils/trpc';
 import * as styles from './styles.css';
 
 interface ProductLikesProps {
   product_id: number;
-  session: Session | null;
 }
 
-export function ProductLikes({ product_id, session }: ProductLikesProps) {
+export function ProductLikes({ product_id }: ProductLikesProps) {
   const { data: product, refetch } = trpc.product.getProductById.useQuery({
     product_id,
   });
@@ -24,6 +22,8 @@ export function ProductLikes({ product_id, session }: ProductLikesProps) {
   const { mutate, status } = trpc.product.addProductLike.useMutation();
 
   const router = useRouter();
+  const session = useSession();
+
   const [isLike, setIsLike] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -45,25 +45,23 @@ export function ProductLikes({ product_id, session }: ProductLikesProps) {
   const { likes_count, dislikes_count } = product;
 
   function handleLike() {
-    if (!session || !session.user?.id) {
+    if (session.status === 'unauthenticated') {
       router.push(`/login?callbackUrl=burger/${product_id}`);
       return null;
     }
 
     setIsLike(true);
-    const userId = session.user.id;
-    mutate({ userId, product_id, is_like: true });
+    mutate({ product_id, is_like: true });
   }
 
   function handleDisLike() {
-    if (!session || !session.user?.id) {
+    if (session.status === 'unauthenticated') {
       router.push(`/login?callbackUrl=burger/${product_id}`);
       return null;
     }
 
     setIsLike(false);
-    const userId = session.user.id;
-    mutate({ userId, product_id, is_like: false });
+    mutate({ product_id, is_like: false });
   }
 
   return (

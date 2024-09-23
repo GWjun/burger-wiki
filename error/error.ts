@@ -27,6 +27,11 @@ export class AppError extends Error {
   }
 }
 
-export function getErrorMessage(code: ErrorCode): string {
-  return ERROR_MESSAGES[code] || '알 수 없는 오류가 발생했습니다.';
+export function getErrorCode(code: ErrorCode) {
+  return code;
+}
+
+export function getErrorMessage(code: ErrorCode | string) {
+  if (code in ERROR_MESSAGES) return ERROR_MESSAGES[code as ErrorCode];
+  return '알 수 없는 오류가 발생했습니다.';
 }

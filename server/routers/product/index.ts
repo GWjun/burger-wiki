@@ -1,7 +1,7 @@
 import { prisma } from '#server/prisma';
-import { baseProcedure, router } from '#server/trpc';
+import { baseProcedure, protectedProcedure, router } from '#server/trpc';
 import { z } from 'zod';
-import { getErrorMessage } from '#error/error';
+import { getErrorCode } from '#error/error';
 
 export const productRouter = router({
   getRecentProducts: baseProcedure
@@ -78,21 +78,21 @@ export const productRouter = router({
         where: { product_id },
       });
 
-      if (!product) throw new Error(getErrorMessage('NOT_FOUND'));
+      if (!product) throw new Error(getErrorCode('NOT_FOUND'));
 
       return product;
     }),
 
-  addProductLike: baseProcedure
+  addProductLike: protectedProcedure
     .input(
       z.object({
-        userId: z.string(),
         product_id: z.number(),
         is_like: z.boolean(),
       }),
     )
-    .mutation(async ({ input }) => {
-      const { userId, product_id, is_like } = input;
+    .mutation(async ({ ctx, input }) => {
+      const { product_id, is_like } = input;
+      const { userId } = ctx;
 
       return prisma.$transaction(async (tx) => {
         const existingLike = await tx.productLike.findUnique({
@@ -104,8 +104,8 @@ export const productRouter = router({
         if (existingLike) {
           if (existingLike.is_like === is_like) {
             if (is_like === true)
-              throw new Error(getErrorMessage('ALREADY_LIKED'));
-            else throw new Error(getErrorMessage('ALREADY_DISLIKED'));
+              throw new Error(getErrorCode('ALREADY_LIKED'));
+            else throw new Error(getErrorCode('ALREADY_DISLIKED'));
           } else {
             await tx.product.update({
               where: { product_id },

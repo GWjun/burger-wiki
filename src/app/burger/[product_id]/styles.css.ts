@@ -103,7 +103,7 @@ export const price = style({
 });
 
 export const devComment = style({
-  margin: 'auto',
+  margin: '0 auto',
   marginTop: '3rem',
   fontSize: theme.typography.fontSize.md,
   color: 'gray',

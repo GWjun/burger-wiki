@@ -22,7 +22,7 @@ export const modal = style({
   alignItems: 'center',
 
   minWidth: '300px',
-  padding: '1rem',
+  padding: '1.5rem',
   margin: '0 auto',
 
   border: 'none',

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { AppError, getErrorMessage } from '#error/error';
+import { AppError, getErrorCode } from '#error/error';
 import { sprinkles } from '#shared/lib/styles/sprinkles.css';
 import Button from '#shared/ui/Button';
 
@@ -16,7 +16,7 @@ export default function Error({
   let message;
 
   if (error instanceof AppError) {
-    message = getErrorMessage(error.code);
+    message = getErrorCode(error.code);
   } else {
     message = error?.message;
   }
@@ -28,7 +28,7 @@ export default function Error({
         flexDirection: 'column',
         placeItems: 'center',
       })}
-      style={{ minHeight: '100vh' }}
+      style={{ width: '100vw', height: '100vh' }}
     >
       <h2 className={sprinkles({ marginBottom: 0 })}>
         서비스에 접속할 수 없습니다.

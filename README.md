@@ -30,6 +30,11 @@ AUTH_GOOGLE_SECRET="your_oauth_secret"
 # sentry
 SENTRY_AUTH_TOKEN=your_sentry_token
 SENTRY_DSN=your_sentry_dsn
+
+# supabase storage
+NEXT_PUBLIC_SUPABASE_URL=your_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
+NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET=your-bucket
 ```
 
 ### 설치

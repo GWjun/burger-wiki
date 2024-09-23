@@ -13,7 +13,7 @@ export const container = style({
   alignItems: 'center',
   gap: '1rem',
 
-  zIndex: 50,
+  zIndex: 60,
 
   '@media': {
     [`screen and (min-width: ${theme.breakpoints.sm})`]: {

@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import { Suspense } from 'react';
 import { createAsyncCaller } from '#server/routers';
+
+import { ProductReview } from '#widgets/review';
 import { ProductLikes } from '#widgets/product';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
-import { auth } from '#shared/lib/utils/auth';
 import * as styles from './styles.css';
 
 export default async function Burger({
@@ -11,8 +12,6 @@ export default async function Burger({
 }: {
   params: { product_id: string };
 }) {
-  const session = await auth();
-
   const trpc = await createAsyncCaller();
   const product = await trpc.product.getProductById({
     product_id: Number(product_id),
@@ -44,8 +43,10 @@ export default async function Burger({
           <p className={styles.description}>{description_full}</p>
           <p className={styles.price}>{localPrice}</p>
 
-          <ProductLikes product_id={parseInt(product_id)} session={session} />
+          <ProductLikes product_id={parseInt(product_id)} />
           <p className={styles.devComment}>{dev_comment}</p>
+
+          <ProductReview product_id={parseInt(product_id)} />
         </div>
       </div>
     </div>
