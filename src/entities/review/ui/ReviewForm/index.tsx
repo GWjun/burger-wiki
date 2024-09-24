@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,9 +12,9 @@ import { FormData } from '../../model/ReviewFormData';
 import { reviewFormSchema } from '../../model/ReviewFormSchema';
 
 import { ImageElement } from '../ImageUploader';
-import { RatingStarElement } from '../RatingStar';
 import { DatePickerElement } from '../DatePicker';
 import * as styles from './styles.css';
+import { Rating } from 'react-simple-star-rating';
 
 export interface ReviewFormProps {
   product_id: number;
@@ -25,6 +23,7 @@ export interface ReviewFormProps {
 
 export function ReviewForm({ product_id, onClose }: ReviewFormProps) {
   const { addToast } = useToast();
+  const utils = trpc.useUtils();
 
   const methods = useForm<FormData>({
     resolver: zodResolver(reviewFormSchema),
@@ -38,10 +37,15 @@ export function ReviewForm({ product_id, onClose }: ReviewFormProps) {
   const {
     handleSubmit,
     formState: { errors, isSubmitting },
+    setValue,
     reset,
   } = methods;
 
-  const { mutateAsync, status } = trpc.review.addReview.useMutation();
+  const { mutateAsync, status } = trpc.review.addReview.useMutation({
+    onSuccess: () => {
+      utils.review.getReviews.invalidate({ product_id });
+    },
+  });
 
   useEffect(() => {
     if (status === 'success') {
@@ -84,7 +88,17 @@ export function ReviewForm({ product_id, onClose }: ReviewFormProps) {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <RatingStarElement />
+        <Rating
+          onClick={(rate) => setValue('score', rate)}
+          readonly={isSubmitting}
+          size={40}
+          allowFraction
+          transition
+          className={styles.stars}
+        />
+        {errors.score && (
+          <span className={styles.error}>{errors.score.message}</span>
+        )}
 
         <DatePickerElement />
 

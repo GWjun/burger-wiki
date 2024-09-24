@@ -4,8 +4,8 @@ import { theme } from '#shared/lib/styles/theme.css';
 export const container = style({
   position: 'relative',
   display: 'flex',
+  flexDirection: 'column',
   justifyContent: 'center',
-  alignItems: 'center',
   marginTop: '3rem',
   paddingTop: '1rem',
 
@@ -28,4 +28,12 @@ export const top = style({
 export const filter = style({
   display: 'flex',
   gap: '0.3rem',
+});
+
+export const nothing = style({
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: '1rem',
+  color: 'gray',
+  fontSize: theme.typography.fontSize.md,
 });

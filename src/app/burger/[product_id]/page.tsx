@@ -1,10 +1,11 @@
 import Image from 'next/image';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { createAsyncCaller } from '#server/routers';
 
 import { ProductReview } from '#widgets/review';
 import { ProductLikes } from '#widgets/product';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
+import RatingStar from '#shared/ui/RatingStar';
 import * as styles from './styles.css';
 
 export default async function Burger({
@@ -17,7 +18,8 @@ export default async function Burger({
     product_id: Number(product_id),
   });
 
-  const { image_url, name, description_full, price, dev_comment } = product;
+  const { image_url, name, score_avg, description_full, price, dev_comment } =
+    product;
   const localPrice = Number(price).toLocaleString() + '원';
 
   return (
@@ -39,7 +41,11 @@ export default async function Burger({
 
       <div className={styles.rightCol}>
         <div className={styles.infoContainer}>
-          <span className={styles.name}>{name}</span>
+          <div className={styles.topInfo}>
+            <span className={styles.name}>{name}</span>
+            <RatingStar size={24} initialValue={score_avg} />
+          </div>
+
           <p className={styles.description}>{description_full}</p>
           <p className={styles.price}>{localPrice}</p>
 

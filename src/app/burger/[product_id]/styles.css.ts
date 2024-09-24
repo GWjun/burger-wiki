@@ -85,6 +85,12 @@ export const infoContainer = style({
   },
 });
 
+export const topInfo = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+});
+
 export const name = style({
   fontSize: theme.typography.fontSize.xl,
   fontWeight: theme.typography.fontWeight.semibold,

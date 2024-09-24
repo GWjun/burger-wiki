@@ -17,6 +17,10 @@ export const form = style({
   },
 });
 
+export const stars = style({
+  alignSelf: 'center',
+});
+
 export const textarea = style({
   flex: 1,
   width: '100%',

@@ -3,8 +3,8 @@ import Image from 'next/image';
 import { Controller, useFormContext } from 'react-hook-form';
 import { X } from 'lucide-react';
 
-import { FormData, MAX_IMAGE } from '#entities/Review/model/ReviewFormData';
-import { useImageUpload } from '#entities/Review/hooks/useImageUpload';
+import { FormData, MAX_IMAGE } from '#entities/review/model/ReviewFormData';
+import { useImageUpload } from '#entities/review/hooks/useImageUpload';
 import * as styles from './styles.css';
 
 export const ImageElement = memo(() => {

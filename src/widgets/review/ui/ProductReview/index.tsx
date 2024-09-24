@@ -1,12 +1,13 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useOverlay } from '@toss/use-overlay';
 
-import { ReviewForm } from '#entities/Review';
-import { useSession } from 'next-auth/react';
+import { ReviewForm, ReviewPost, useReview } from '#entities/review';
 import Button from '#shared/ui/Button';
 import Modal from '#shared/ui/Modal';
+import LoadingSpinner from '#shared/ui/LoadingSpinner';
 import * as styles from './styles.css';
 
 interface ProductReviewProps {
@@ -15,8 +16,12 @@ interface ProductReviewProps {
 
 export function ProductReview({ product_id }: ProductReviewProps) {
   const router = useRouter();
-  const overlay = useOverlay();
   const session = useSession();
+  const overlay = useOverlay();
+  const { reviews, status, ref, isFetchingNextPage } = useReview({
+    product_id,
+    limit: 10,
+  });
 
   function openModal() {
     if (session.status === 'unauthenticated') {
@@ -34,14 +39,25 @@ export function ProductReview({ product_id }: ProductReviewProps) {
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        {/*<div className={styles.filter}>*/}
-        {/*  <Button>필터</Button>*/}
-        {/*  <Button>필터</Button>*/}
-        {/*</div>*/}
-        {/*<Button variant="outline" onClick={openModal}>*/}
-        {/*  작성하기*/}
-        {/*</Button>*/}
+        <div className={styles.filter}>
+          <Button>필터</Button>
+          <Button>필터</Button>
+        </div>
+        <Button variant="outline" onClick={openModal}>
+          작성하기
+        </Button>
       </div>
+
+      {status === 'pending' ? (
+        <LoadingSpinner />
+      ) : reviews.length ? (
+        reviews.map((review) => <ReviewPost review={review} key={review.id} />)
+      ) : (
+        <div className={styles.nothing}>리뷰를 작성해 주세요</div>
+      )}
+
+      <div ref={ref} />
+      {isFetchingNextPage && <LoadingSpinner />}
     </div>
   );
 }

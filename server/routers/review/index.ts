@@ -1,15 +1,55 @@
 import { prisma } from '#server/prisma';
-import { protectedProcedure, router } from '#server/trpc';
+import { baseProcedure, protectedProcedure, router } from '#server/trpc';
 import { z } from 'zod';
+import { getErrorCode } from '#error/error';
 
 export const reviewRouter = router({
+  getReviews: baseProcedure
+    .input(
+      z.object({
+        product_id: z.number(),
+        limit: z.number().min(1).max(50).nullish(),
+        cursor: z.number().nullish(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const limit = input.limit ?? 30;
+      const { product_id, cursor } = input;
+
+      const reviews = await prisma.review.findMany({
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        where: {
+          product_id,
+        },
+        include: {
+          User: true,
+          ReviewImage: true,
+        },
+        orderBy: {
+          created_at: 'desc',
+        },
+      });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+
+      if (reviews.length > limit) {
+        const nextItem = reviews.pop();
+        nextCursor = Number(nextItem!.id);
+      }
+      return {
+        reviews,
+        nextCursor,
+      };
+    }),
+
   addReview: protectedProcedure
     .input(
       z.object({
         product_id: z.number(),
         score: z.number().min(0.5).max(5),
         comment: z.string().optional(),
-        consumed_at: z.date().optional(),
+        consumed_at: z.date(),
         image_url: z.array(z.string()).optional(),
       }),
     )
@@ -18,13 +58,6 @@ export const reviewRouter = router({
       const { userId } = ctx;
 
       return prisma.$transaction(async (tx) => {
-        await tx.product.update({
-          where: { product_id },
-          data: {
-            review_count: { increment: 1 },
-          },
-        });
-
         await tx.review.create({
           data: {
             userId,
@@ -38,6 +71,27 @@ export const reviewRouter = router({
           },
           include: {
             ReviewImage: true,
+          },
+        });
+
+        const product = await tx.product.findUnique({
+          where: { product_id },
+          select: { score_avg: true, review_count: true },
+        });
+
+        if (!product) {
+          throw new Error(getErrorCode('NOT_FOUND'));
+        }
+
+        const newReviewCount = product.review_count + 1;
+        const newScoreAvg =
+          (product.score_avg * product.review_count + score) / newReviewCount;
+
+        await tx.product.update({
+          where: { product_id },
+          data: {
+            score_avg: newScoreAvg,
+            review_count: newReviewCount,
           },
         });
       });
