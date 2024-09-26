@@ -12,6 +12,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { httpBatchLink } from '@trpc/client';
 import superjson from 'superjson';
 
+import { useAuthRedirect } from '#shared/hooks/useAuthRedirect';
 import { useToast } from '#shared/hooks/useToast';
 import { trpc } from '#shared/lib/utils/trpc';
 import { getErrorMessage } from '#error/error';
@@ -26,10 +27,17 @@ export default function TrpcClientProvider({
 }: {
   children: ReactNode;
 }) {
+  const { isRedirect, redirectToLogin } = useAuthRedirect();
   const { addToast } = useToast();
 
   const handleError = useCallback(
     (error: Error) => {
+      // redirect to login page if not logged in
+      if (error.message === 'UNAUTHORIZED' && isRedirect) {
+        redirectToLogin(window.location.pathname);
+        return;
+      }
+
       addToast({
         message: getErrorMessage(error.message),
         variant: 'error',
@@ -39,7 +47,7 @@ export default function TrpcClientProvider({
         captureException(error);
       }
     },
-    [addToast],
+    [isRedirect, redirectToLogin, addToast],
   );
 
   const [queryClient] = useState(

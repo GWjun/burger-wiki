@@ -8,6 +8,7 @@ import Avatar from '#shared/ui/Avatar';
 import Menu from '#shared/ui/Menu';
 import MenuItem from '#shared/ui/MenuItem';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
+import * as styles from './styles.css';
 
 export function UserMenu() {
   const session = useSession();
@@ -16,7 +17,12 @@ export function UserMenu() {
 
   function openModal() {
     return overlay.open(({ isOpen, close }) => (
-      <Menu isOpen={isOpen} onClose={close}>
+      <Menu
+        renderId="header-menu"
+        isOpen={isOpen}
+        onClose={close}
+        className={styles.menu}
+      >
         <MenuItem onClick={signOut}>
           {status === 'loading' ? (
             <LoadingSpinner variant="inset" />

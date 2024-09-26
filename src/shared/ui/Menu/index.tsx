@@ -7,17 +7,21 @@ import { createPortal } from 'react-dom';
 export interface MenuProps extends ComponentPropsWithoutRef<'div'> {
   isOpen: boolean;
   onClose: () => void;
+  renderId?: string;
 }
 
 const Menu = ({
   isOpen,
   onClose,
+  renderId,
   children,
   className,
   ...props
 }: MenuProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
-  const renderElement = document.getElementById('header-menu') ?? document.body;
+  const renderElement = renderId
+    ? document.getElementById(renderId)
+    : document.body;
 
   useEffect(() => {
     const handleBackdropClick = (event: globalThis.MouseEvent) => {
@@ -49,7 +53,7 @@ const Menu = ({
         </div>
       )}
     </>,
-    renderElement,
+    renderElement ?? document.body,
   );
 };
 

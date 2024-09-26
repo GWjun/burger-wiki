@@ -31,7 +31,6 @@ export function useReview({
   const { ref } = useInView({
     onChange: useCallback(
       (inView: boolean) => {
-        console.log(inView, hasNextPage, !isFetchingNextPage);
         if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
       },
       [fetchNextPage, hasNextPage, isFetchingNextPage],

@@ -96,4 +96,56 @@ export const reviewRouter = router({
         });
       });
     }),
+
+  addReviewLike: protectedProcedure
+    .input(
+      z.object({
+        review_id: z.number(),
+        is_like: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { review_id, is_like } = input;
+      const { userId } = ctx;
+
+      return prisma.$transaction(async (tx) => {
+        const existingLike = await tx.reviewLike.findUnique({
+          where: {
+            userId_review_id: { userId, review_id },
+          },
+        });
+
+        if (existingLike) {
+          if (existingLike.is_like === is_like) {
+            if (is_like === true)
+              throw new Error(getErrorCode('ALREADY_LIKED'));
+            else throw new Error(getErrorCode('ALREADY_DISLIKED'));
+          } else {
+            await tx.review.update({
+              where: { id: review_id },
+              data: {
+                likes_count: { decrement: existingLike.is_like ? 1 : 0 },
+                dislikes_count: { decrement: existingLike.is_like ? 0 : 1 },
+              },
+            });
+
+            await tx.reviewLike.delete({
+              where: { id: existingLike.id },
+            });
+          }
+        }
+
+        await tx.reviewLike.create({
+          data: { userId, review_id, is_like },
+        });
+
+        await tx.review.update({
+          where: { id: review_id },
+          data: {
+            likes_count: { increment: is_like ? 1 : 0 },
+            dislikes_count: { increment: is_like ? 0 : 1 },
+          },
+        });
+      });
+    }),
 });

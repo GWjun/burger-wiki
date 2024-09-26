@@ -20,6 +20,7 @@ model User {
   Authenticator Authenticator[]
   ProductLike   ProductLike[]
   Review        Review[]
+  ReviewLike    ReviewLike[]
   sessions      Session[]
 }
 
@@ -136,16 +137,19 @@ model ProductLike {
 }
 
 model Review {
-  id          BigInt        @id @default(autoincrement())
-  userId      String
-  product_id  BigInt
-  comment     String?
-  consumed_at DateTime      @db.Timestamptz(6)
-  created_at  DateTime      @default(now()) @db.Timestamptz(6)
-  score       Float         @db.Real
-  Product     Product       @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: NoAction, map: "Review_productId_fkey")
-  User        User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  ReviewImage ReviewImage[]
+  id             BigInt        @id @default(autoincrement())
+  userId         String
+  product_id     BigInt
+  comment        String?
+  consumed_at    DateTime      @db.Timestamptz(6)
+  created_at     DateTime      @default(now()) @db.Timestamptz(6)
+  score          Float         @db.Real
+  likes_count    Int           @default(0)
+  dislikes_count Int           @default(0)
+  Product        Product       @relation(fields: [product_id], references: [product_id], onDelete: Cascade, onUpdate: NoAction, map: "Review_productId_fkey")
+  User           User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  ReviewImage    ReviewImage[]
+  ReviewLike     ReviewLike[]
 }
 
 model ReviewImage {
@@ -154,6 +158,20 @@ model ReviewImage {
   image_url  String
   created_at DateTime @default(now()) @db.Timestamptz(6)
   Review     Review   @relation(fields: [review_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model ReviewLike {
+  id         BigInt   @id @default(autoincrement())
+  userId     String
+  review_id  BigInt
+  is_like    Boolean
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  Review     Review   @relation(fields: [review_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([userId, review_id], map: "unique_user_review")
+  @@index([userId, review_id], map: "idx_user_review")
 }
 
 enum Patty {

@@ -19,6 +19,13 @@ export const container = style({
   },
 });
 
+export const dropdown = style({
+  position: 'relative',
+  ':hover': {
+    backgroundColor: 'transparent',
+  },
+});
+
 export const top = style({
   display: 'flex',
   justifyContent: 'space-between',

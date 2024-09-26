@@ -132,8 +132,6 @@ export const productRouter = router({
             dislikes_count: { increment: is_like ? 0 : 1 },
           },
         });
-
-        return existingLike;
       });
     }),
 });

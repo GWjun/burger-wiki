@@ -67,3 +67,30 @@ export const image = style({
   objectFit: 'cover',
   borderRadius: theme.borderRadius.md,
 });
+
+export const likesContainer = style({
+  display: 'flex',
+  gap: '0.5rem',
+  marginTop: '1rem',
+});
+
+export const likes = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '0.2rem',
+  fontSize: theme.typography.fontSize.sm,
+});
+
+export const button = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: 0,
+  border: 'none',
+  backgroundColor: 'transparent',
+  cursor: 'pointer',
+  ':focus': {
+    outline: `none`,
+  },
+});
