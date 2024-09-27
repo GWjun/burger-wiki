@@ -2,33 +2,49 @@ import { prisma } from '#server/prisma';
 import { baseProcedure, protectedProcedure, router } from '#server/trpc';
 import { z } from 'zod';
 import { getErrorCode } from '#error/error';
+import { ReviewOrderType } from '#entities/review';
 
 export const reviewRouter = router({
   getReviews: baseProcedure
     .input(
       z.object({
         product_id: z.number(),
+        order: z.custom<ReviewOrderType>().default('LATEST'),
+        withImage: z.boolean().default(false),
         limit: z.number().min(1).max(50).nullish(),
         cursor: z.number().nullish(),
       }),
     )
     .query(async ({ input }) => {
       const limit = input.limit ?? 30;
-      const { product_id, cursor } = input;
+      const { product_id, order, withImage, cursor } = input;
+
+      let where: any = { product_id };
+      let orderBy: any = { created_at: 'desc' };
+
+      switch (order) {
+        case 'HIGHEST_RATING':
+          orderBy = { score: 'desc' };
+          break;
+        case 'LOWEST_RATING':
+          orderBy = { score: 'asc' };
+          break;
+        case 'MOST_LIKES':
+          orderBy = { likes_count: 'desc' };
+          break;
+      }
+
+      if (withImage) where = { ...where, ReviewImage: { some: {} } };
 
       const reviews = await prisma.review.findMany({
         take: limit + 1,
         cursor: cursor ? { id: cursor } : undefined,
-        where: {
-          product_id,
-        },
         include: {
           User: true,
           ReviewImage: true,
         },
-        orderBy: {
-          created_at: 'desc',
-        },
+        where,
+        orderBy,
       });
 
       let nextCursor: typeof cursor | undefined = undefined;

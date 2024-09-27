@@ -19,22 +19,10 @@ export const container = style({
   },
 });
 
-export const dropdown = style({
-  position: 'relative',
-  ':hover': {
-    backgroundColor: 'transparent',
-  },
-});
-
 export const top = style({
   display: 'flex',
   justifyContent: 'space-between',
   width: '100%',
-});
-
-export const filter = style({
-  display: 'flex',
-  gap: '0.3rem',
 });
 
 export const nothing = style({

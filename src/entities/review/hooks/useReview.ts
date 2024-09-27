@@ -1,19 +1,27 @@
 import { useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { flatMap } from 'es-toolkit';
+
+import type { ReviewOrderType } from '#entities/review';
 import { trpc } from '#shared/lib/utils/trpc';
 import { Review, User, ReviewImage } from '@prisma/client';
 
 export function useReview({
   product_id,
+  order = 'LATEST',
+  withImage = false,
   limit,
 }: {
   product_id: number;
+  order?: ReviewOrderType;
+  withImage?: boolean;
   limit?: number;
 }) {
   const result = trpc.review.getReviews.useInfiniteQuery(
     {
       product_id,
+      order,
+      withImage,
       limit,
     },
     {
