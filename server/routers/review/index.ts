@@ -113,6 +113,122 @@ export const reviewRouter = router({
       });
     }),
 
+  updateReview: protectedProcedure
+    .input(
+      z.object({
+        review_id: z.number(),
+        score: z.number().min(0.5).max(5).optional(),
+        comment: z.string().optional(),
+        consumed_at: z.date().optional(),
+        image_url: z.array(z.string()).optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { review_id, score, comment, consumed_at, image_url } = input;
+      const { userId } = ctx;
+
+      return prisma.$transaction(async (tx) => {
+        const existingReview = await tx.review.findUnique({
+          where: { id: review_id },
+          include: { ReviewImage: true },
+        });
+
+        if (!existingReview) {
+          throw new Error(getErrorCode('NOT_FOUND'));
+        }
+
+        if (existingReview.userId !== userId) {
+          throw new Error(getErrorCode('FORBIDDEN'));
+        }
+
+        await tx.review.update({
+          where: { id: review_id },
+          data: {
+            score: score ?? existingReview.score,
+            comment: comment ?? existingReview.comment,
+            consumed_at: consumed_at ?? existingReview.consumed_at,
+            ReviewImage: image_url
+              ? {
+                  deleteMany: {},
+                  create: image_url.map((url) => ({ image_url: url })),
+                }
+              : undefined,
+          },
+          include: {
+            ReviewImage: true,
+          },
+        });
+
+        if (score !== undefined && score !== existingReview.score) {
+          const product = await tx.product.findUnique({
+            where: { product_id: existingReview.product_id },
+            select: { score_avg: true, review_count: true },
+          });
+
+          if (product) {
+            const newScoreAvg =
+              (product.score_avg * product.review_count -
+                existingReview.score +
+                score) /
+              product.review_count;
+
+            await tx.product.update({
+              where: { product_id: existingReview.product_id },
+              data: { score_avg: newScoreAvg },
+            });
+          }
+        }
+      });
+    }),
+
+  removeReview: protectedProcedure
+    .input(z.object({ review_id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const { review_id } = input;
+      const { userId } = ctx;
+
+      return prisma.$transaction(async (tx) => {
+        const existingReview = await tx.review.findUnique({
+          where: { id: review_id },
+        });
+
+        if (!existingReview) {
+          throw new Error(getErrorCode('NOT_FOUND'));
+        }
+
+        if (existingReview.userId !== userId) {
+          throw new Error(getErrorCode('FORBIDDEN'));
+        }
+
+        await tx.review.delete({
+          where: { id: review_id },
+        });
+
+        const product = await tx.product.findUnique({
+          where: { product_id: existingReview.product_id },
+          select: { score_avg: true, review_count: true },
+        });
+
+        if (product) {
+          const newReviewCount = product.review_count - 1;
+          const newScoreAvg =
+            newReviewCount > 0
+              ? (product.score_avg * product.review_count -
+                  existingReview.score) /
+                newReviewCount
+              : 0;
+
+          await tx.product.update({
+            where: { product_id: existingReview.product_id },
+            data: {
+              score_avg: newScoreAvg,
+              review_count: newReviewCount,
+            },
+          });
+        }
+      });
+    }),
+
   addReviewLike: protectedProcedure
     .input(
       z.object({

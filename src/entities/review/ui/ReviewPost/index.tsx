@@ -1,24 +1,44 @@
 import { Review, ReviewImage, User } from '@prisma/client';
 import Image from 'next/image';
-import { ThumbsDown, ThumbsUp } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
+import { useOverlay } from '@toss/use-overlay';
+import { Ellipsis, ThumbsDown, ThumbsUp } from 'lucide-react';
 
 import { getBasicDate } from '#shared/lib/utils/date';
 import Avatar from '#shared/ui/Avatar';
 import RatingStar from '#shared/ui/RatingStar';
+import Menu from '#shared/ui/Menu';
+import MenuItem from '#shared/ui/MenuItem';
+
+import { useReviewMutations } from '../../hooks/useReviewMutations';
+import { DeleteImageProvider } from '../../lib/DeleteImageProvider';
+import { UpdateReview } from '../UpdateReview';
 import * as styles from './styles.css';
-import { trpc } from '#shared/lib/utils/trpc';
 
 interface ReviewPostProps {
+  product_id: number;
   review: Review & { User: User; ReviewImage: ReviewImage[] };
 }
 
-export function ReviewPost({ review }: ReviewPostProps) {
-  const utils = trpc.useUtils();
-  const { mutate, status } = trpc.review.addReviewLike.useMutation({
-    onSuccess: () => {
-      utils.review.getReviews.invalidate();
-    },
-  });
+export function ReviewPost({ product_id, review }: ReviewPostProps) {
+  const session = useSession();
+  const overlay = useOverlay();
+
+  const { remove, like } = useReviewMutations();
+  const [updateMode, setUpdateMode] = useState(false);
+
+  if (updateMode) {
+    return (
+      <DeleteImageProvider>
+        <UpdateReview
+          product_id={product_id}
+          review={review}
+          onClose={setUpdateMode}
+        />
+      </DeleteImageProvider>
+    );
+  }
 
   const {
     id,
@@ -34,12 +54,40 @@ export function ReviewPost({ review }: ReviewPostProps) {
   let isPlain = true;
   if (comment || ReviewImage.length) isPlain = false;
 
+  function openMenu() {
+    return overlay.open(({ isOpen, close }) => (
+      <Menu
+        renderId={`review-menu-${id}`}
+        isOpen={isOpen}
+        onClose={close}
+        className={styles.menu}
+      >
+        <MenuItem
+          onClick={() => {
+            setUpdateMode(true);
+          }}
+          className={styles.updateItem}
+        >
+          수정하기
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            remove.mutate({ review_id: Number(id) });
+          }}
+          className={styles.deleteItem}
+        >
+          삭제하기
+        </MenuItem>
+      </Menu>
+    ));
+  }
+
   function handleLike() {
-    mutate({ review_id: Number(id), is_like: true });
+    like.mutate({ review_id: Number(id), is_like: true });
   }
 
   function handleDisLike() {
-    mutate({ review_id: Number(id), is_like: false });
+    like.mutate({ review_id: Number(id), is_like: false });
   }
 
   return (
@@ -53,6 +101,16 @@ export function ReviewPost({ review }: ReviewPostProps) {
             <div className={styles.date}>{getBasicDate(consumed_at)}</div>
           </div>
         </div>
+        {User.email === session.data?.user?.email && (
+          <button
+            id={`review-menu-${id}`}
+            onClick={openMenu}
+            disabled={remove.status === 'pending'}
+            className={styles.menuButton}
+          >
+            <Ellipsis size={14} aria-label="리뷰 메뉴" />
+          </button>
+        )}
       </div>
 
       <div className={styles.comment}>{comment}</div>
@@ -77,7 +135,7 @@ export function ReviewPost({ review }: ReviewPostProps) {
             <button
               onClick={handleLike}
               className={styles.button}
-              disabled={status === 'pending'}
+              disabled={like.status === 'pending'}
               aria-label="좋아요"
             >
               <ThumbsUp size={14} />
@@ -88,7 +146,7 @@ export function ReviewPost({ review }: ReviewPostProps) {
             <button
               onClick={handleDisLike}
               className={styles.button}
-              disabled={status === 'pending'}
+              disabled={like.status === 'pending'}
               aria-label="싫어요"
             >
               <ThumbsDown size={14} aria-label="싫어요" />

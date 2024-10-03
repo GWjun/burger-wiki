@@ -1,23 +1,21 @@
-import type { ChangeEvent } from 'react';
-import { useState, useEffect } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
+
+import { uploadImage } from '#shared/lib/utils/image-upload';
 import { FormData } from '../model/ReviewFormData';
+import { useDeleteImage } from '../hooks/useDeleteImage';
 
-export interface ImagePreview {
-  file: File;
-  preview: string;
-}
-
-export function useImageUpload(maxImages: number) {
-  const [images, setImages] = useState<ImagePreview[]>([]);
+export function useImageUpload(maxImages: number, initialImages?: string[]) {
+  const [imageUrls, setImageUrls] = useState<string[]>(initialImages ?? []);
+  const { setDeleteImageUrls } = useDeleteImage();
 
   useEffect(() => {
     return () => {
-      images.forEach((image) => URL.revokeObjectURL(image.preview));
+      imageUrls.forEach((image) => URL.revokeObjectURL(image));
     };
-  }, [images]);
+  }, [imageUrls]);
 
-  function handleImageChange(
+  async function handleImageChange(
     e: ChangeEvent<HTMLInputElement>,
     field: ControllerRenderProps<FormData, 'images'>,
   ) {
@@ -25,39 +23,44 @@ export function useImageUpload(maxImages: number) {
     if (files && files.length > 0) {
       const selectedFiles = Array.from(files);
 
-      const newImages = selectedFiles.map((file) => ({
-        file,
-        preview: URL.createObjectURL(file),
-      }));
+      const newImages = await Promise.all(
+        selectedFiles.map(async (file) => {
+          return uploadImage(file, 'temp');
+        }),
+      );
 
-      const totalImages = [...images, ...newImages].slice(0, maxImages);
+      const totalImages = [...imageUrls, ...newImages].slice(0, maxImages);
 
-      setImages(totalImages);
+      setImageUrls(totalImages);
 
-      const filesForField = totalImages.map((image) => image.file);
-      field.onChange(filesForField);
+      const urlsForField = totalImages.map((image) => image);
+      field.onChange(urlsForField);
     }
   }
 
-  function handleRemoveImage(
+  async function handleRemoveImage(
     index: number,
     field: ControllerRenderProps<FormData, 'images'>,
   ) {
-    setImages((prevImages) => {
-      const newImages = [...prevImages];
-      URL.revokeObjectURL(newImages[index].preview);
-      newImages.splice(index, 1);
+    const newImages = imageUrls.filter((_, i) => i !== index);
+    const removedImage = imageUrls[index];
 
-      const filesForField = newImages.map((image) => image.file);
-      field.onChange(filesForField);
+    setImageUrls(newImages);
 
-      return newImages;
-    });
+    if (
+      removedImage.includes(
+        `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET}/review`,
+      )
+    ) {
+      setDeleteImageUrls((prev) => [...prev, removedImage]);
+    }
+
+    field.onChange(newImages);
   }
 
   return {
-    images,
-    setImages,
+    imageUrls,
+    setImageUrls,
     handleImageChange,
     handleRemoveImage,
   };

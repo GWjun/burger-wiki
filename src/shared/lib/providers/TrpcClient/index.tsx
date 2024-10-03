@@ -2,6 +2,7 @@
 
 import { captureException } from '@sentry/nextjs';
 import { ReactNode, useState, useCallback } from 'react';
+import { RecoilRoot } from 'recoil';
 import {
   MutationCache,
   QueryCache,
@@ -86,11 +87,13 @@ export default function TrpcClientProvider({
   );
 
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </trpc.Provider>
+    <RecoilRoot>
+      <trpc.Provider client={trpcClient} queryClient={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          {children}
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </trpc.Provider>
+    </RecoilRoot>
   );
 }

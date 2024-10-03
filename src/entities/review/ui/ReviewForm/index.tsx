@@ -1,89 +1,53 @@
-import React, { useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useToast } from '#shared/hooks/useToast';
-import { trpc } from '#shared/lib/utils/trpc';
-import { uploadImage } from '#shared/lib/utils/image-upload';
 import Button from '#shared/ui/Button';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
 
-import { FormData } from '../../model/ReviewFormData';
+import type { FormData, FormDataValues } from '../../model/ReviewFormData';
 import { reviewFormSchema } from '../../model/ReviewFormSchema';
 
+import { Rating } from 'react-simple-star-rating';
 import { ImageElement } from '../ImageUploader';
 import { DatePickerElement } from '../DatePicker';
 import * as styles from './styles.css';
-import { Rating } from 'react-simple-star-rating';
 
 export interface ReviewFormProps {
-  product_id: number;
-  onClose: () => void;
+  onSubmit: (data: FormData) => void;
+  initialValues?: FormDataValues;
+  submitName?: string;
+  onClose?: any;
+  isCloseButton?: boolean;
 }
 
-export function ReviewForm({ product_id, onClose }: ReviewFormProps) {
-  const { addToast } = useToast();
-  const utils = trpc.useUtils();
+export function ReviewForm({
+  onSubmit,
+  initialValues,
+  submitName = '리뷰 작성',
+  onClose,
+  isCloseButton = false,
+}: ReviewFormProps) {
+  const defaultValues = {
+    comment: '',
+    score: 0,
+    consumed_at: new Date(),
+    ...initialValues,
+  };
 
   const methods = useForm<FormData>({
     resolver: zodResolver(reviewFormSchema),
-    defaultValues: {
-      comment: '',
-      score: 0,
-      consumed_at: new Date(),
-    },
+    defaultValues,
   });
 
   const {
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
-    reset,
   } = methods;
 
-  const { mutateAsync, status } = trpc.review.addReview.useMutation({
-    onSuccess: () => {
-      utils.review.getReviews.invalidate({ product_id });
-    },
-  });
-
-  useEffect(() => {
-    if (status === 'success') {
-      onClose();
-      reset();
-    }
-  }, [onClose, status, reset]);
-
-  const onSubmit = async (data: FormData) => {
-    const { score, comment, consumed_at, images } = data;
-    let image_url;
-
-    try {
-      if (images) {
-        const imagesArray = Array.from(images);
-        const uploadPromises = imagesArray.map((file) =>
-          uploadImage(file, `review/${product_id}`),
-        );
-        const urls = await Promise.all(uploadPromises);
-        image_url = urls.filter((url): url is string => url !== null);
-      }
-
-      await mutateAsync({
-        product_id,
-        score,
-        comment,
-        consumed_at,
-        image_url,
-      });
-    } catch (error) {
-      addToast({
-        message: '이미지를 전송하는데 실패했습니다.',
-        variant: 'error',
-      });
-
-      console.error(error);
-    }
-  };
+  function handleClose() {
+    onClose?.();
+  }
 
   return (
     <FormProvider {...methods}>
@@ -92,6 +56,7 @@ export function ReviewForm({ product_id, onClose }: ReviewFormProps) {
           onClick={(rate) => setValue('score', rate)}
           readonly={isSubmitting}
           size={40}
+          initialValue={defaultValues.score}
           allowFraction
           transition
           className={styles.stars}
@@ -113,11 +78,29 @@ export function ReviewForm({ product_id, onClose }: ReviewFormProps) {
           <span className={styles.error}>{errors.comment.message}</span>
         )}
 
-        <ImageElement />
+        <ImageElement initialImages={initialValues?.images} />
 
-        <Button type="submit" disabled={isSubmitting} className={styles.button}>
-          {isSubmitting ? <LoadingSpinner /> : '리뷰 작성'}
-        </Button>
+        <div className={styles.buttonContainer}>
+          {isCloseButton && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleClose}
+              disabled={isSubmitting}
+              className={styles.button}
+            >
+              취소하기
+            </Button>
+          )}
+
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className={styles.button}
+          >
+            {isSubmitting ? <LoadingSpinner /> : submitName}
+          </Button>
+        </div>
       </form>
     </FormProvider>
   );

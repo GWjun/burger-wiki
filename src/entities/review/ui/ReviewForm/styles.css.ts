@@ -38,6 +38,11 @@ export const textarea = style({
   },
 });
 
+export const buttonContainer = style({
+  display: 'flex',
+  gap: '1rem',
+});
+
 export const button = style({
   marginTop: '1.5rem',
   minWidth: '86.34px',

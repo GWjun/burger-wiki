@@ -37,36 +37,9 @@ export const userName = style({
 });
 
 export const date = style({
+  marginLeft: '3px',
   fontSize: theme.typography.fontSize.sm,
   color: 'gray',
-});
-
-export const menuButton = style({
-  position: 'relative',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginLeft: 'auto',
-  border: 'none',
-  backgroundColor: 'transparent',
-  cursor: 'pointer',
-});
-
-export const menu = style({
-  top: '1.5rem',
-  right: 0,
-  minWidth: '7rem',
-});
-
-export const updateItem = style({
-  display: 'flex',
-  justifyContent: 'center',
-});
-
-export const deleteItem = style({
-  display: 'flex',
-  justifyContent: 'center',
-  color: theme.colors.destructive,
 });
 
 export const comment = style({
