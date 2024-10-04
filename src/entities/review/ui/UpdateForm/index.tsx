@@ -7,27 +7,20 @@ import { trpc } from '#shared/lib/utils/trpc';
 import { deleteImage, moveImage } from '#shared/lib/utils/image-upload';
 import { useToast } from '#shared/hooks/useToast';
 import Avatar from '#shared/ui/Avatar';
-import { useDeleteImage } from '../../hooks/useDeleteImage';
 import * as styles from './styles.css';
 
-interface UpdateReviewProps {
+interface UpdateFormProps {
   product_id: number;
   review: Review & { User: User; ReviewImage: ReviewImage[] };
   onClose?: Dispatch<SetStateAction<boolean>>;
 }
 
-export function UpdateReview({
-  product_id,
-  review,
-  onClose,
-}: UpdateReviewProps) {
+export function UpdateForm({ product_id, review, onClose }: UpdateFormProps) {
   const { addToast } = useToast();
   const utils = trpc.useUtils();
 
   const { id, consumed_at, score, comment, User, ReviewImage } = review;
   const images = ReviewImage.map((image) => image.image_url);
-
-  const { deleteImageUrls } = useDeleteImage();
 
   const { mutateAsync } = trpc.review.updateReview.useMutation({
     onSuccess: () => {
@@ -37,17 +30,23 @@ export function UpdateReview({
   });
 
   const onSubmit = async (data: FormData) => {
-    const { score, comment, consumed_at, images } = data;
+    const { score, comment, consumed_at, images: newImages } = data;
     let image_url: string[] = [];
 
     try {
-      if (images && images.length > 0) {
+      if (newImages && newImages.length > 0) {
         image_url = await Promise.all(
-          images.map((tempUrl) => moveImage(tempUrl, `review/${product_id}`)),
+          newImages.map((tempUrl) =>
+            moveImage(tempUrl, `review/${product_id}`),
+          ),
         );
       }
 
-      deleteImageUrls.map((url) => deleteImage(url));
+      const imagesToDelete = images.filter(
+        (image) => !newImages.includes(image),
+      );
+
+      imagesToDelete.map((url) => deleteImage(url));
 
       await mutateAsync({
         review_id: Number(id),

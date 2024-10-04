@@ -10,7 +10,6 @@ import {
   ReviewForm,
   ReviewPost,
   useReview,
-  DeleteImageProvider,
 } from '#entities/review';
 
 import { trpc } from '#shared/lib/utils/trpc';
@@ -92,9 +91,7 @@ export function ProductReview({ product_id }: ProductReviewProps) {
 
       return (
         <Modal isOpen={isOpen} onClose={close}>
-          <DeleteImageProvider>
-            <ReviewForm onSubmit={onSubmit} />
-          </DeleteImageProvider>
+          <ReviewForm onSubmit={onSubmit} />
         </Modal>
       );
     });

@@ -3,11 +3,9 @@ import { ControllerRenderProps } from 'react-hook-form';
 
 import { uploadImage } from '#shared/lib/utils/image-upload';
 import { FormData } from '../model/ReviewFormData';
-import { useDeleteImage } from '../hooks/useDeleteImage';
 
 export function useImageUpload(maxImages: number, initialImages?: string[]) {
   const [imageUrls, setImageUrls] = useState<string[]>(initialImages ?? []);
-  const { setDeleteImageUrls } = useDeleteImage();
 
   useEffect(() => {
     return () => {
@@ -43,17 +41,8 @@ export function useImageUpload(maxImages: number, initialImages?: string[]) {
     field: ControllerRenderProps<FormData, 'images'>,
   ) {
     const newImages = imageUrls.filter((_, i) => i !== index);
-    const removedImage = imageUrls[index];
 
     setImageUrls(newImages);
-
-    if (
-      removedImage.includes(
-        `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET}/review`,
-      )
-    ) {
-      setDeleteImageUrls((prev) => [...prev, removedImage]);
-    }
 
     field.onChange(newImages);
   }

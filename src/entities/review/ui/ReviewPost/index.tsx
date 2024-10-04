@@ -6,14 +6,14 @@ import { useOverlay } from '@toss/use-overlay';
 import { Ellipsis, ThumbsDown, ThumbsUp } from 'lucide-react';
 
 import { getBasicDate } from '#shared/lib/utils/date';
+import { deleteImage } from '#shared/lib/utils/image-upload';
 import Avatar from '#shared/ui/Avatar';
 import RatingStar from '#shared/ui/RatingStar';
 import Menu from '#shared/ui/Menu';
 import MenuItem from '#shared/ui/MenuItem';
 
 import { useReviewMutations } from '../../hooks/useReviewMutations';
-import { DeleteImageProvider } from '../../lib/DeleteImageProvider';
-import { UpdateReview } from '../UpdateReview';
+import { UpdateForm } from '../UpdateForm';
 import * as styles from './styles.css';
 
 interface ReviewPostProps {
@@ -30,13 +30,11 @@ export function ReviewPost({ product_id, review }: ReviewPostProps) {
 
   if (updateMode) {
     return (
-      <DeleteImageProvider>
-        <UpdateReview
-          product_id={product_id}
-          review={review}
-          onClose={setUpdateMode}
-        />
-      </DeleteImageProvider>
+      <UpdateForm
+        product_id={product_id}
+        review={review}
+        onClose={setUpdateMode}
+      />
     );
   }
 
@@ -72,6 +70,7 @@ export function ReviewPost({ product_id, review }: ReviewPostProps) {
         </MenuItem>
         <MenuItem
           onClick={() => {
+            ReviewImage.map((image) => deleteImage(image.image_url));
             remove.mutate({ review_id: Number(id) });
           }}
           className={styles.deleteItem}
