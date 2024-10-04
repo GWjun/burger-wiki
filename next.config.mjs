@@ -6,7 +6,12 @@ const withVanillaExtract = createVanillaExtractPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost', 'lh3.googleusercontent.com', 'img.lotteeatz.com' ]
+    domains: [
+      'localhost',
+      'lh3.googleusercontent.com',
+      'isjwiotgzqgcmfbunmzo.supabase.co',
+      'img.lotteeatz.com'
+    ]
   },
 };
 

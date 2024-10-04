@@ -1,12 +1,25 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useOverlay } from '@toss/use-overlay';
 
-import { ReviewForm } from '#entities/Review';
-import { useSession } from 'next-auth/react';
+import {
+  type ReviewOrderType,
+  type FormData,
+  FilterMenu,
+  ReviewForm,
+  ReviewPost,
+  useReview,
+} from '#entities/review';
+
+import { trpc } from '#shared/lib/utils/trpc';
+import { moveImage } from '#shared/lib/utils/image-upload';
+import { useToast } from '#shared/hooks/useToast';
+import { useAuthRedirect } from '#shared/hooks/useAuthRedirect';
+
 import Button from '#shared/ui/Button';
 import Modal from '#shared/ui/Modal';
+import LoadingSpinner from '#shared/ui/LoadingSpinner';
 import * as styles from './styles.css';
 
 interface ProductReviewProps {
@@ -14,34 +27,102 @@ interface ProductReviewProps {
 }
 
 export function ProductReview({ product_id }: ProductReviewProps) {
-  const router = useRouter();
+  const { isRedirect, redirectToLogin } = useAuthRedirect();
   const overlay = useOverlay();
-  const session = useSession();
+  const { addToast } = useToast();
+  const utils = trpc.useUtils();
 
-  function openModal() {
-    if (session.status === 'unauthenticated') {
-      router.push(`/login?callbackUrl=burger/${product_id}`);
-      return null;
+  const [order, setOrder] = useState<ReviewOrderType>('LATEST');
+  const [withImage, setWithImage] = useState(false);
+
+  const { reviews, status, ref, isFetchingNextPage } = useReview({
+    product_id,
+    order,
+    withImage,
+    limit: 10,
+  });
+
+  function openWriteModal() {
+    if (isRedirect) {
+      redirectToLogin();
+      return;
     }
 
-    return overlay.open(({ isOpen, close }) => (
-      <Modal isOpen={isOpen} onClose={close}>
-        <ReviewForm product_id={product_id} onClose={close} />
-      </Modal>
-    ));
+    return overlay.open(({ isOpen, close }) => {
+      const { mutateAsync } = trpc.review.addReview.useMutation({
+        onSuccess: () => {
+          utils.review.getReviews.invalidate({ product_id });
+          close();
+        },
+      });
+
+      const onSubmit = async (data: FormData) => {
+        const { score, comment, consumed_at, images } = data;
+        let image_url: string[] = [];
+
+        try {
+          if (images && images.length > 0) {
+            image_url = await Promise.all(
+              images.map((tempUrl) =>
+                moveImage(tempUrl, `review/${product_id}`),
+              ),
+            );
+          }
+
+          await mutateAsync({
+            product_id,
+            score,
+            comment,
+            consumed_at,
+            image_url,
+          });
+
+          addToast({
+            message: '리뷰가 성공적으로 제출되었습니다.',
+            variant: 'success',
+          });
+        } catch (error) {
+          addToast({
+            message: '리뷰를 제출하는데 실패했습니다.',
+            variant: 'error',
+          });
+        }
+      };
+
+      return (
+        <Modal isOpen={isOpen} onClose={close}>
+          <ReviewForm onSubmit={onSubmit} />
+        </Modal>
+      );
+    });
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        {/*<div className={styles.filter}>*/}
-        {/*  <Button>필터</Button>*/}
-        {/*  <Button>필터</Button>*/}
-        {/*</div>*/}
-        {/*<Button variant="outline" onClick={openModal}>*/}
-        {/*  작성하기*/}
-        {/*</Button>*/}
+        <FilterMenu
+          filter={order}
+          setFilter={setOrder}
+          withImage={withImage}
+          setWithImage={setWithImage}
+        />
+        <Button variant="outline" onClick={openWriteModal}>
+          작성하기
+        </Button>
       </div>
+
+      {status === 'pending' ? (
+        <LoadingSpinner />
+      ) : reviews.length ? (
+        reviews.map((review) => (
+          <ReviewPost product_id={product_id} review={review} key={review.id} />
+        ))
+      ) : (
+        <div className={styles.nothing}>리뷰를 작성해 주세요</div>
+      )}
+
+      <div ref={ref} />
+      {isFetchingNextPage && <LoadingSpinner />}
     </div>
   );
 }

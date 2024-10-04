@@ -18,6 +18,7 @@ export const imageBox = style({
 
 export const image = style({
   objectFit: 'cover',
+  borderRadius: theme.borderRadius.md,
 });
 
 export const deleteButton = style({

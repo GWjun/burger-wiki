@@ -4,7 +4,7 @@ import { theme } from '#shared/lib/styles/theme.css';
 export const menu = style({
   position: 'absolute',
   top: '2.5rem',
-  right: '3rem',
+
   display: 'flex',
   flexDirection: 'column',
 
