@@ -10,7 +10,8 @@ const nextConfig = {
       'localhost',
       'lh3.googleusercontent.com',
       'isjwiotgzqgcmfbunmzo.supabase.co',
-      'img.lotteeatz.com'
+      'img.lotteeatz.com',
+      'd1cua0vf0mkpiy.cloudfront.net'
     ]
   },
 };

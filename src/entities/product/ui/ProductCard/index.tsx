@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useEffect } from 'react';
 import type { Product } from '@prisma/client';
 import clsx from 'clsx';
 import * as styles from './styles.css';
@@ -10,6 +11,10 @@ export function ProductCard({ product }: { product: Product }) {
   const { product_id, image_url, name, description, price, brand_name } =
     product;
   const localePrice = Number(price).toLocaleString();
+
+  useEffect(() => {
+    router.prefetch(`burger/${product_id}`);
+  }, [product_id, router]);
 
   return (
     <div
