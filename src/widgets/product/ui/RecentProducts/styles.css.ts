@@ -33,6 +33,7 @@ export const productsContainer = style({
     [`screen and (min-width: ${theme.breakpoints.md})`]: {
       flexDirection: 'column',
       overflowX: 'unset',
+      width: '100%',
     },
   },
 });

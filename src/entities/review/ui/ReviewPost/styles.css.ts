@@ -72,6 +72,7 @@ export const deleteItem = style({
 export const comment = style({
   marginTop: '0.5rem',
   fontSize: theme.typography.fontSize.sm,
+  whiteSpace: 'pre-wrap',
 });
 
 export const imageGrid = style({

@@ -42,6 +42,7 @@ export const productsContainer = style({
     [`screen and (min-width: ${theme.breakpoints.md})`]: {
       flexDirection: 'column',
       overflowX: 'unset',
+      width: '100%',
     },
   },
 });
@@ -55,6 +56,7 @@ export const products = style({
     [`screen and (min-width: ${theme.breakpoints.md})`]: {
       width: '100%',
       display: 'grid',
+      margin: 0,
       gridTemplateColumns: 'repeat(5, minmax(0, 233.59px))',
     },
   },
