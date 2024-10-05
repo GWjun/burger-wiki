@@ -18,6 +18,7 @@ model User {
   updatedAt     DateTime        @updatedAt
   accounts      Account[]
   Authenticator Authenticator[]
+  BrandLike     BrandLike[]
   ProductLike   ProductLike[]
   Review        Review[]
   ReviewLike    ReviewLike[]
@@ -88,13 +89,17 @@ model Nutrition {
 }
 
 model Brand {
-  id          BigInt    @id(map: "Brands_pkey") @default(autoincrement())
-  name        String    @unique @db.VarChar
-  description String?
-  logo_url    String?   @db.VarChar
-  website_url String?   @db.VarChar
-  created_at  DateTime  @default(now()) @db.Timestamptz(6)
-  Product     Product[]
+  id                   BigInt      @id(map: "Brands_pkey") @default(autoincrement())
+  name                 String      @unique @db.VarChar
+  description          String?
+  logo_url             String?     @db.VarChar
+  website_url          String?     @db.VarChar
+  created_at           DateTime    @default(now()) @db.Timestamptz(6)
+  likes_count          Int         @default(0)
+  name_eng             String      @unique @db.VarChar
+  background_image_url String?     @db.VarChar
+  BrandLike            BrandLike[]
+  Product              Product[]
 }
 
 model Product {
@@ -116,7 +121,7 @@ model Product {
   patty            Patty         @default(undefined)
   dev_comment      String?       @db.VarChar
   review_count     Int           @default(0)
-  score_avg        Float         @db.Real
+  score_avg        Float         @default(0) @db.Real
   Nutrition        Nutrition?
   Brand            Brand         @relation(fields: [brand_name], references: [name], onDelete: NoAction, onUpdate: NoAction)
   ProductLike      ProductLike[]
@@ -172,6 +177,19 @@ model ReviewLike {
 
   @@unique([userId, review_id], map: "unique_user_review")
   @@index([userId, review_id], map: "idx_user_review")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model BrandLike {
+  id         BigInt   @id @default(autoincrement())
+  userId     String
+  brand_id   BigInt
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  Brand      Brand    @relation(fields: [brand_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([userId, brand_id], map: "unique_user_brand")
+  @@index([userId, brand_id], map: "idx_user_brand")
 }
 
 enum Patty {
