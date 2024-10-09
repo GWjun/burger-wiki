@@ -5,7 +5,7 @@ import * as styles from './styles.css';
 export default async function Home() {
   return (
     <div className={styles.container}>
-      {/*<BestBrands />*/}
+      <BestBrands />
       <RecentProducts />
       <BestProducts />
     </div>

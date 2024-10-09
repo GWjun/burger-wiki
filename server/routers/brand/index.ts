@@ -1,5 +1,10 @@
 import { prisma } from '#server/prisma';
-import { baseProcedure, router } from '#server/trpc';
+import {
+  baseProcedure,
+  commonProcedure,
+  protectedProcedure,
+  router,
+} from '#server/trpc';
 import { z } from 'zod';
 import { getErrorCode } from '#error/error';
 
@@ -7,9 +12,11 @@ export const brandRouter = router({
   getBrandById: baseProcedure
     .input(z.object({ id: z.number() }))
     .query(async ({ input }) => {
+      const { id } = input;
+
       const brand = await prisma.brand.findUnique({
         where: {
-          id: input.id,
+          id,
         },
       });
 
@@ -18,20 +25,95 @@ export const brandRouter = router({
       return brand;
     }),
 
-  getBrandNameById: baseProcedure
-    .input(z.object({ id: z.number() }))
+  getBrandByName: baseProcedure
+    .input(z.object({ name_eng: z.string() }))
     .query(async ({ input }) => {
-      const brandName = await prisma.brand.findUnique({
+      const { name_eng } = input;
+
+      const brand = await prisma.brand.findUnique({
         where: {
-          id: input.id,
-        },
-        select: {
-          name: true,
+          name_eng,
         },
       });
 
-      if (!brandName) throw new Error(getErrorCode('NOT_FOUND'));
+      if (!brand) throw new Error(getErrorCode('NOT_FOUND'));
 
-      return brandName;
+      return brand;
+    }),
+
+  getBestBrands: baseProcedure.query(async () => {
+    const brands = await prisma.brand.findMany({
+      orderBy: {
+        likes_count: 'desc',
+      },
+      take: 5,
+    });
+
+    if (!brands) throw new Error(getErrorCode('NOT_FOUND'));
+
+    return brands;
+  }),
+
+  getBrandLike: commonProcedure
+    .input(z.object({ brand_id: z.number() }))
+    .query(async ({ ctx, input }) => {
+      const { brand_id } = input;
+      const { user } = ctx;
+
+      if (!user || !user.id) return false;
+
+      const brandLike = await prisma.brandLike.findUnique({
+        where: {
+          userId_brand_id: { userId: user.id, brand_id },
+        },
+      });
+
+      if (!brandLike) return false;
+      return true;
+    }),
+
+  toggleBrandLike: protectedProcedure
+    .input(
+      z.object({
+        brand_id: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { brand_id } = input;
+      const { userId } = ctx;
+
+      return prisma.$transaction(async (tx) => {
+        const existingLike = await tx.brandLike.findUnique({
+          where: {
+            userId_brand_id: { userId, brand_id },
+          },
+        });
+
+        if (existingLike) {
+          await tx.brandLike.delete({
+            where: {
+              userId_brand_id: { userId, brand_id },
+            },
+          });
+
+          await tx.brand.update({
+            where: { id: brand_id },
+            data: {
+              likes_count: { decrement: 1 },
+            },
+          });
+        } else {
+          await tx.brandLike.create({
+            data: { userId, brand_id },
+          });
+
+          await tx.brand.update({
+            where: { id: brand_id },
+            data: {
+              likes_count: { increment: 1 },
+            },
+          });
+        }
+      });
     }),
 });

@@ -9,9 +9,17 @@ const nextConfig = {
     domains: [
       'localhost',
       'lh3.googleusercontent.com',
+
+      // burger
       'isjwiotgzqgcmfbunmzo.supabase.co',
       'img.lotteeatz.com',
-      'd1cua0vf0mkpiy.cloudfront.net'
+      'd1cua0vf0mkpiy.cloudfront.net',
+      'www.shinsegaefood.com',
+
+      // brand
+      'www.lottegrs.com',
+      'i.namu.wiki',
+      'upload.wikimedia.org',
     ]
   },
 };
