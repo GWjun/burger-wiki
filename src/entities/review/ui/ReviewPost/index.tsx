@@ -112,7 +112,7 @@ export function ReviewPost({ product_id, review }: ReviewPostProps) {
         )}
       </div>
 
-      <div className={styles.comment}>{comment}</div>
+      <div className={styles.comment}>{comment?.trim()}</div>
 
       <div className={styles.imageGrid}>
         {ReviewImage.map((image, index) => (

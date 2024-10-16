@@ -18,6 +18,11 @@ export const productRouter = router({
       const products = await prisma.product.findMany({
         take: limit + 1,
         cursor: cursor ? { product_id: cursor } : undefined,
+        where: {
+          released_at: {
+            not: null,
+          },
+        },
         orderBy: {
           released_at: 'desc',
         },
@@ -49,9 +54,12 @@ export const productRouter = router({
       const products = await prisma.product.findMany({
         take: limit + 1,
         cursor: cursor ? { product_id: cursor } : undefined,
-        orderBy: {
-          likes_count: 'desc',
+        where: {
+          likes_count: {
+            gt: 0,
+          },
         },
+        orderBy: [{ likes_count: 'desc' }, { dislikes_count: 'asc' }],
       });
 
       let nextCursor: typeof cursor | undefined = undefined;
