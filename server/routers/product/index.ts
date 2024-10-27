@@ -142,4 +142,43 @@ export const productRouter = router({
         });
       });
     }),
+
+  getBrandProducts: baseProcedure
+    .input(
+      z.object({
+        brand_name_kor: z.string(),
+        limit: z.number().min(1).max(50).nullish(),
+        cursor: z.number().nullish(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const limit = input.limit ?? 30;
+      const { cursor, brand_name_kor } = input;
+
+      const products = await prisma.product.findMany({
+        take: limit + 1,
+        cursor: cursor ? { product_id: cursor } : undefined,
+        where: {
+          brand_name: brand_name_kor,
+        },
+        orderBy: {
+          // 임시로 출시순으로 설정
+          released_at: {
+            sort: 'desc',
+            nulls: 'last',
+          },
+        },
+      });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+
+      if (products.length > limit) {
+        const nextItem = products.pop();
+        nextCursor = Number(nextItem!.product_id);
+      }
+      return {
+        products,
+        nextCursor,
+      };
+    }),
 });

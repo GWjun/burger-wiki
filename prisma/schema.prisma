@@ -197,5 +197,6 @@ enum Patty {
   shrimp
   chicken
   squid
+  vegan
   undefined
 }

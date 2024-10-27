@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { createAsyncCaller } from '#server/routers';
 import { LikeButton } from '#entities/brand';
+import { BrandProducts } from '#widgets/product';
 import * as styles from './styles.css';
 
 export default async function Brand({
@@ -11,7 +12,7 @@ export default async function Brand({
   params: { name: string };
 }) {
   const trpc = await createAsyncCaller();
-  const product = await trpc.brand.getBrandByName({
+  const brand = await trpc.brand.getBrandByName({
     name_eng: name,
   });
 
@@ -23,7 +24,7 @@ export default async function Brand({
     website_url,
     likes_count,
     background_image_url,
-  } = product;
+  } = brand;
 
   return (
     <div>
@@ -32,6 +33,8 @@ export default async function Brand({
           src={background_image_url ?? ''}
           fill
           sizes="100vw"
+          placeholder="blur"
+          blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
           alt="매장 이미지"
           className={styles.backgroundImage}
         />
@@ -65,6 +68,8 @@ export default async function Brand({
             </Link>
           </div>
         </div>
+
+        <BrandProducts brand_name_kor={name_kor} />
       </div>
     </div>
   );

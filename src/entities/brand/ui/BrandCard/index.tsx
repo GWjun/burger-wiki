@@ -12,15 +12,15 @@ export function BrandCard({ brand }: { brand: Brand }) {
   const { name, name_eng, logo_url } = brand;
 
   useEffect(() => {
-    router.prefetch(`brand/${name_eng}`);
+    router.prefetch(`/brand/${name_eng}`);
   }, [name_eng, router]);
 
   return (
     <div
-      onClick={() => router.push(`brand/${name_eng}`)}
+      onClick={() => router.push(`/brand/${name_eng}`)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
-          router.push(`brand/${name_eng}`);
+          router.push(`/brand/${name_eng}`);
         }
       }}
       role="button"
