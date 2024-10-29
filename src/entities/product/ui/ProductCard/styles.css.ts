@@ -6,12 +6,12 @@ export const container = style({
   flexDirection: 'column',
   flex: 1,
   minWidth: '150px',
-  maxWidth: '233.59px',
   cursor: 'pointer',
 
   '@media': {
     [`screen and (min-width: ${theme.breakpoints.md})`]: {
       minWidth: 'unset',
+      maxWidth: '233.59px',
     },
   },
 });
@@ -51,10 +51,21 @@ export const description = style({
   marginTop: '0.2rem',
 });
 
+export const bottomContainer = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginTop: '0.5rem',
+});
+
 export const price = style({
   fontSize: theme.typography.fontSize.sm,
   fontWeight: theme.typography.fontWeight.semibold,
-  marginTop: '0.5rem',
+});
+
+export const score = style({
+  fontSize: theme.typography.fontSize.sm,
+  fontWeight: theme.typography.fontWeight.semibold,
+  color: '#d2c100',
 });
 
 export const hidden = style({

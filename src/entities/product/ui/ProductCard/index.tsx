@@ -8,20 +8,35 @@ import * as styles from './styles.css';
 export function ProductCard({ product }: { product: Product }) {
   const router = useRouter();
 
-  const { product_id, image_url, name, description, price, brand_name } =
-    product;
-  const localePrice = Number(price).toLocaleString();
+  const {
+    product_id,
+    image_url,
+    name,
+    description,
+    price,
+    brand_name,
+    score_avg,
+  } = product;
 
   useEffect(() => {
-    router.prefetch(`burger/${product_id}`);
+    router.prefetch(`/burger/${product_id}`);
   }, [product_id, router]);
 
+  let formattedPrice = '';
+  if (Number(price) !== 0) {
+    formattedPrice = Number(price).toLocaleString() + '원';
+  }
+
+  let formattedScore = '';
+  if (score_avg !== 0) {
+    formattedScore = score_avg.toFixed(1) + '점';
+  }
   return (
     <div
-      onClick={() => router.push(`burger/${product_id}`)}
+      onClick={() => router.push(`/burger/${product_id}`)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
-          router.push(`burger/${product_id}`);
+          router.push(`/burger/${product_id}`);
         }
       }}
       role="button"
@@ -47,7 +62,10 @@ export function ProductCard({ product }: { product: Product }) {
         </span>
       </div>
       <p className={clsx(styles.description, styles.hidden)}>{description}</p>
-      <p className={styles.price}>{localePrice} 원</p>
+      <div className={styles.bottomContainer}>
+        <p className={styles.price}>{formattedPrice}</p>
+        <p className={styles.score}>{formattedScore}</p>
+      </div>
     </div>
   );
 }

@@ -1,11 +1,5 @@
 import { style } from '@vanilla-extract/css';
 
-export const filter = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '0.2rem',
-});
-
 export const dropdownButton = style({
   position: 'relative',
   display: 'flex',

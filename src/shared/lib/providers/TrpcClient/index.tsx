@@ -44,6 +44,10 @@ export default function TrpcClientProvider({
         variant: 'error',
       });
 
+      if (process.env.NODE_ENV === 'development') {
+        console.log(error);
+      }
+
       if (process.env.NODE_ENV === 'production') {
         captureException(error);
       }

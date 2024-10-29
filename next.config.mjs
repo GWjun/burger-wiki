@@ -8,18 +8,24 @@ const nextConfig = {
   images: {
     domains: [
       'localhost',
+      // google avatar
       'lh3.googleusercontent.com',
-
-      // burger
+      // storage
       'isjwiotgzqgcmfbunmzo.supabase.co',
-      'img.lotteeatz.com',
-      'd1cua0vf0mkpiy.cloudfront.net',
-      'www.shinsegaefood.com',
 
-      // brand
-      'www.lottegrs.com',
-      'i.namu.wiki',
+      // lotteria
+      'img.lotteeatz.com',
+      // burgerking
+      'd1cua0vf0mkpiy.cloudfront.net',
+      // nobrand
+      'www.shinsegaefood.com',
+      // kfc
+      'kfcapi.inicis.com',
+
+      // brand image
       'upload.wikimedia.org',
+      'www.lottegrs.com',
+      'www.kfckorea.com',
     ]
   },
 };
