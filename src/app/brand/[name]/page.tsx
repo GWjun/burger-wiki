@@ -47,7 +47,7 @@ export default async function Brand({
               src={logo_url ?? ''}
               width={0}
               height={0}
-              alt="로고 이미지"
+              alt="브랜드 로고 이미지"
               className={styles.avatar}
             />
           </div>

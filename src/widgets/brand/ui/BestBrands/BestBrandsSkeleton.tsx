@@ -7,7 +7,7 @@ export function BestBrandsSkeleton() {
       <span className={title}>인기 브랜드</span>
       <div className={brandsContainer}>
         <div className={brands}>
-          <BrandCardSkeleton count={3} />
+          <BrandCardSkeleton count={4} />
         </div>
       </div>
     </div>

@@ -22,8 +22,29 @@ export const container = style({
   },
 });
 
-export const title = style({
-  fontWeight: theme.typography.fontWeight.semibold,
+export const filter = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.2rem',
+  marginLeft: '1rem',
+
+  '@media': {
+    [`screen and (min-width: ${theme.breakpoints.md})`]: {
+      marginLeft: 'unset',
+    },
+  },
+});
+
+export const sortOrderButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  padding: 0,
+  border: 'none',
+  backgroundColor: 'transparent',
+  cursor: 'pointer',
+  ':focus': {
+    outline: `none`,
+  },
 });
 
 export const productsContainer = style({

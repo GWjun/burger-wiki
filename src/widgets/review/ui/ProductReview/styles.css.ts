@@ -19,10 +19,20 @@ export const container = style({
   },
 });
 
+export const filter = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.2rem',
+});
+
 export const top = style({
   display: 'flex',
   justifyContent: 'space-between',
   width: '100%',
+});
+
+export const label = style({
+  color: 'gray',
 });
 
 export const nothing = style({

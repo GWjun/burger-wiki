@@ -2,6 +2,7 @@ import { prisma } from '#server/prisma';
 import { baseProcedure, protectedProcedure, router } from '#server/trpc';
 import { z } from 'zod';
 import { getErrorCode } from '#error/error';
+import { BrandProductOrderType } from '#entities/product';
 
 export const productRouter = router({
   getRecentProducts: baseProcedure
@@ -147,13 +148,43 @@ export const productRouter = router({
     .input(
       z.object({
         brand_name_kor: z.string(),
+        order: z.custom<BrandProductOrderType>().default('RELEASE'),
+        sortOrder: z.enum(['asc', 'desc']).default('desc'),
         limit: z.number().min(1).max(50).nullish(),
         cursor: z.number().nullish(),
       }),
     )
     .query(async ({ input }) => {
       const limit = input.limit ?? 30;
-      const { cursor, brand_name_kor } = input;
+      const { cursor, brand_name_kor, order, sortOrder } = input;
+
+      let orderField: string;
+      let orderValue: any = sortOrder;
+      switch (order) {
+        case 'RELEASE':
+          orderField = 'released_at';
+          orderValue = {
+            sort: sortOrder,
+            nulls: 'last',
+          };
+          break;
+        case 'NAME':
+          orderField = 'name';
+          orderValue = sortOrder === 'asc' ? 'desc' : 'asc';
+          break;
+        case 'HIGHEST_RATING':
+          orderField = 'score_avg';
+          break;
+        case 'MOST_LIKES':
+          if (sortOrder === 'desc') orderField = 'likes_count';
+          else {
+            orderField = 'dislikes_count';
+            orderValue = 'desc';
+          }
+          break;
+        default:
+          orderField = 'released_at';
+      }
 
       const products = await prisma.product.findMany({
         take: limit + 1,
@@ -162,11 +193,7 @@ export const productRouter = router({
           brand_name: brand_name_kor,
         },
         orderBy: {
-          // 임시로 출시순으로 설정
-          released_at: {
-            sort: 'desc',
-            nulls: 'last',
-          },
+          [orderField]: orderValue,
         },
       });
 

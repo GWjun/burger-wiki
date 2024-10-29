@@ -16,6 +16,7 @@ export const background = style({
 export const backgroundImage = style({
   objectFit: 'cover',
   filter: 'brightness(0.6)',
+  backgroundColor: theme.colors.secondary,
 });
 
 export const container = style({

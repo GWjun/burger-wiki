@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { useOverlay } from '@toss/use-overlay';
 
 import {
-  type ReviewOrderType,
   type FormData,
-  FilterMenu,
+  type ReviewOrderType,
+  ReviewOrderOptions,
   ReviewForm,
   ReviewPost,
   useReview,
@@ -21,6 +21,8 @@ import Button from '#shared/ui/Button';
 import Modal from '#shared/ui/Modal';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
 import * as styles from './styles.css';
+import Label from '#shared/ui/Label';
+import { FilterMenuButton } from '#features/filter';
 
 interface ProductReviewProps {
   product_id: number;
@@ -100,12 +102,23 @@ export function ProductReview({ product_id }: ProductReviewProps) {
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <FilterMenu
-          filter={order}
-          setFilter={setOrder}
-          withImage={withImage}
-          setWithImage={setWithImage}
-        />
+        <div className={styles.filter}>
+          <FilterMenuButton
+            filter={order}
+            setFilter={setOrder}
+            options={ReviewOrderOptions}
+          />
+          <input
+            id="withImage"
+            type="checkbox"
+            checked={withImage}
+            onChange={(e) => setWithImage(e.target.checked)}
+          />
+          <Label id="withImage" className={styles.label}>
+            포토리뷰
+          </Label>
+        </div>
+
         <Button variant="outline" onClick={openWriteModal}>
           작성하기
         </Button>
