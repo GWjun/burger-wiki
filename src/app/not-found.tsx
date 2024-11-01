@@ -1,15 +1,8 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
 import { sprinkles } from '#shared/lib/styles/sprinkles.css';
 import Button from '#shared/ui/Button';
+import Link from 'next/link';
 
-export default function Error({}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
-  const router = useRouter();
-
+export default function NotFound({}: {}) {
   return (
     <div
       className={sprinkles({
@@ -20,12 +13,14 @@ export default function Error({}: {
       style={{ width: '100vw', height: '100vh' }}
     >
       <h2 className={sprinkles({ marginBottom: 2 })}>
-        서비스에 접속할 수 없습니다.
+        요청하신 페이지를 찾을 수 없습니다.
       </h2>
       <p className={sprinkles({ color: 'gray_400', marginBottom: 8 })}>
-        오류가 발생했습니다.
+        주소를 올바르게 입력하였는지 확인해 주세요.
       </p>
-      <Button onClick={() => router.back()}>뒤로가기</Button>
+      <Link href="/">
+        <Button>홈으로 가기</Button>
+      </Link>
     </div>
   );
 }
