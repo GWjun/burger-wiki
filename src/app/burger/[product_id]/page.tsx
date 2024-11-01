@@ -4,6 +4,7 @@ import { createAsyncCaller } from '#server/routers';
 
 import { ProductReview } from '#widgets/review';
 import { ProductLikes } from '#widgets/product';
+import { NutritionTable } from '#entities/nutrition';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
 import RatingStar from '#shared/ui/RatingStar';
 import * as styles from './styles.css';
@@ -15,6 +16,9 @@ export default async function Burger({
 }) {
   const trpc = await createAsyncCaller();
   const product = await trpc.product.getProductById({
+    product_id: Number(product_id),
+  });
+  const nutrition_info = await trpc.nutrition.getInfoByProductId({
     product_id: Number(product_id),
   });
 
@@ -51,6 +55,8 @@ export default async function Burger({
 
           <ProductLikes product_id={parseInt(product_id)} />
           <p className={styles.devComment}>{dev_comment}</p>
+
+          <NutritionTable nutrition_info={nutrition_info} />
 
           <ProductReview product_id={parseInt(product_id)} />
         </div>

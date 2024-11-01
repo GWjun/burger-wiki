@@ -76,16 +76,14 @@ model Authenticator {
 }
 
 model Nutrition {
-  product_id    BigInt   @id @default(autoincrement())
-  calories      Decimal? @db.Decimal
-  fat           Decimal? @db.Decimal
-  protein       Decimal? @db.Decimal
-  carbohydrates Decimal? @db.Decimal
-  sugar         Decimal? @db.Decimal
-  sodium        Decimal? @db.Decimal
-  cholesterol   Decimal? @db.Decimal
-  created_at    DateTime @default(now()) @db.Timestamptz(6)
-  Products      Product  @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction)
+  product_id BigInt   @id @default(autoincrement())
+  calories   Decimal? @db.Decimal
+  fat        Decimal? @db.Decimal
+  protein    Decimal? @db.Decimal
+  sugar      Decimal? @db.Decimal
+  sodium     Decimal? @db.Decimal
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  Products   Product  @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Brand {
