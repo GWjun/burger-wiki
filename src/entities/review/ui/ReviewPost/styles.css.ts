@@ -95,6 +95,7 @@ export const imageBox = style({
 export const image = style({
   objectFit: 'cover',
   borderRadius: theme.borderRadius.md,
+  background: theme.colors.secondary,
 });
 
 export const likesContainer = style({

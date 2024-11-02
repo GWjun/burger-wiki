@@ -24,9 +24,7 @@ export const productRouter = router({
             not: null,
           },
         },
-        orderBy: {
-          released_at: 'desc',
-        },
+        orderBy: [{ released_at: 'desc' }, { product_id: 'asc' }],
       });
 
       let nextCursor: typeof cursor | undefined = undefined;
@@ -60,7 +58,11 @@ export const productRouter = router({
             gt: 0,
           },
         },
-        orderBy: [{ likes_count: 'desc' }, { dislikes_count: 'asc' }],
+        orderBy: [
+          { likes_count: 'desc' },
+          { dislikes_count: 'asc' },
+          { product_id: 'asc' },
+        ],
       });
 
       let nextCursor: typeof cursor | undefined = undefined;
@@ -69,6 +71,8 @@ export const productRouter = router({
         const nextItem = products.pop();
         nextCursor = Number(nextItem!.product_id);
       }
+
+      console.log(products, nextCursor);
       return {
         products,
         nextCursor,
@@ -192,9 +196,7 @@ export const productRouter = router({
         where: {
           brand_name: brand_name_kor,
         },
-        orderBy: {
-          [orderField]: orderValue,
-        },
+        orderBy: [{ [orderField]: orderValue }, { product_id: 'asc' }],
       });
 
       let nextCursor: typeof cursor | undefined = undefined;
