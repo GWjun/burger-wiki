@@ -6,6 +6,7 @@ import { X } from 'lucide-react';
 import { FormData, MAX_IMAGE } from '#entities/review/model/ReviewFormData';
 import { useImageUpload } from '#entities/review/hooks/useImageUpload';
 import * as styles from './styles.css';
+import LoadingSpinner from '#shared/ui/LoadingSpinner';
 
 export const ImageElement = memo(
   ({ initialImages }: { initialImages?: string[] }) => {
@@ -16,10 +17,8 @@ export const ImageElement = memo(
       formState: { errors },
     } = useFormContext<FormData>();
 
-    const { imageUrls, handleImageChange, handleRemoveImage } = useImageUpload(
-      MAX_IMAGE,
-      initialImages,
-    );
+    const { imageStates, handleImageChange, handleRemoveImage } =
+      useImageUpload(MAX_IMAGE, initialImages);
 
     return (
       <Controller
@@ -28,32 +27,38 @@ export const ImageElement = memo(
         render={({ field }) => (
           <>
             <div className={styles.imagePreviewGrid}>
-              {imageUrls.map((image, index) => (
+              {imageStates.map((image, index) => (
                 <div key={index} className={styles.imageBox}>
-                  <Image
-                    src={image}
-                    fill
-                    sizes="100px"
-                    alt={`미리보기 ${index}`}
-                    className={styles.image}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImage(index, field)}
-                    className={styles.deleteButton}
-                  >
-                    <X size={12} />
-                  </button>
+                  {image.loading ? (
+                    <LoadingSpinner variant="inset" />
+                  ) : (
+                    <>
+                      <Image
+                        src={image.url}
+                        fill
+                        sizes="100px"
+                        alt={`미리보기 ${index}`}
+                        className={styles.image}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveImage(index, field)}
+                        className={styles.deleteButton}
+                      >
+                        <X size={12} />
+                      </button>
+                    </>
+                  )}
                 </div>
               ))}
-              {imageUrls.length < MAX_IMAGE && (
+              {imageStates.length < MAX_IMAGE && (
                 <>
                   <label
                     htmlFor={`image-upload-input-${uniqueId}`}
                     className={styles.imageUploadBox}
                   >
                     <span>
-                      {imageUrls.length} / {MAX_IMAGE}
+                      {imageStates.length} / {MAX_IMAGE}
                     </span>
                   </label>
                   <input

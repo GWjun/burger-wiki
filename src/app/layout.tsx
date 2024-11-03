@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   description: '햄버거 정보 제공 플랫폼',
   icons: {
-    icon: '/logo/product-wiki-icon.svg',
+    icon: '/logo/burger-wiki-icon.svg',
   },
   metadataBase: new URL('https://burger-wiki.vercel.app/'),
   openGraph: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     url: 'https://burger-wiki.vercel.app/',
     images: [
       {
-        url: '/logo/product-wiki-both.svg',
+        url: '/logo/burger-wiki-both.svg',
         width: 800,
         height: 600,
         alt: 'Burger Wiki 메인 이미지',

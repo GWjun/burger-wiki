@@ -4,14 +4,21 @@ import { ControllerRenderProps } from 'react-hook-form';
 import { uploadImage } from '#shared/lib/utils/image-upload';
 import { FormData } from '../model/ReviewFormData';
 
+interface ImageState {
+  url: string;
+  loading: boolean;
+}
+
 export function useImageUpload(maxImages: number, initialImages?: string[]) {
-  const [imageUrls, setImageUrls] = useState<string[]>(initialImages ?? []);
+  const [imageStates, setImageStates] = useState<ImageState[]>(
+    initialImages?.map((url) => ({ url, loading: false })) ?? [],
+  );
 
   useEffect(() => {
     return () => {
-      imageUrls.forEach((image) => URL.revokeObjectURL(image));
+      imageStates.forEach((image) => URL.revokeObjectURL(image.url));
     };
-  }, [imageUrls]);
+  }, [imageStates]);
 
   async function handleImageChange(
     e: ChangeEvent<HTMLInputElement>,
@@ -21,18 +28,34 @@ export function useImageUpload(maxImages: number, initialImages?: string[]) {
     if (files && files.length > 0) {
       const selectedFiles = Array.from(files);
 
-      const newImages = await Promise.all(
-        selectedFiles.map(async (file) => {
-          return uploadImage(file, 'temp');
-        }),
+      // 로딩 상태를 위한 임시 데이터 추가
+      const newLoadingStates = selectedFiles.map(() => ({
+        url: '',
+        loading: true,
+      }));
+      setImageStates((prev) =>
+        [...prev, ...newLoadingStates].slice(0, maxImages),
       );
 
-      const totalImages = [...imageUrls, ...newImages].slice(0, maxImages);
+      try {
+        const uploadedUrls = await Promise.all(
+          selectedFiles.map((file) => uploadImage(file, 'temp')),
+        );
 
-      setImageUrls(totalImages);
+        const currentImages = imageStates.filter((img) => !img.loading);
+        const newImages = uploadedUrls.map((url) => ({ url, loading: false }));
+        const updatedStates = [...currentImages, ...newImages].slice(
+          0,
+          maxImages,
+        );
 
-      const urlsForField = totalImages.map((image) => image);
-      field.onChange(urlsForField);
+        setImageStates(updatedStates);
+        field.onChange(updatedStates.map((state) => state.url));
+      } catch (error) {
+        const updatedStates = imageStates.filter((img) => !img.loading);
+        setImageStates(updatedStates);
+        field.onChange(updatedStates.map((state) => state.url));
+      }
     }
   }
 
@@ -40,16 +63,16 @@ export function useImageUpload(maxImages: number, initialImages?: string[]) {
     index: number,
     field: ControllerRenderProps<FormData, 'images'>,
   ) {
-    const newImages = imageUrls.filter((_, i) => i !== index);
+    const newImages = imageStates.filter((_, i) => i !== index);
 
-    setImageUrls(newImages);
+    setImageStates(newImages);
 
     field.onChange(newImages);
   }
 
   return {
-    imageUrls,
-    setImageUrls,
+    imageStates,
+    setImageStates,
     handleImageChange,
     handleRemoveImage,
   };
