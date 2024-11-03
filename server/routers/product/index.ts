@@ -71,8 +71,6 @@ export const productRouter = router({
         const nextItem = products.pop();
         nextCursor = Number(nextItem!.product_id);
       }
-
-      console.log(products, nextCursor);
       return {
         products,
         nextCursor,
@@ -95,6 +93,14 @@ export const productRouter = router({
 
       return product;
     }),
+
+  getAllProducts: baseProcedure.query(async () => {
+    const products = await prisma.product.findMany();
+
+    if (!products) throw new Error(getErrorCode('NOT_FOUND'));
+
+    return products;
+  }),
 
   addProductLike: protectedProcedure
     .input(

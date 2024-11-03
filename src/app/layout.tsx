@@ -16,10 +16,33 @@ const NotoSansKr = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: 'Burger Wiki',
-  description: '한국 버거 정보 공유 플랫폼',
+  title: {
+    template: '%s - 버거위키',
+    default: '버거위키',
+  },
+  description: '햄버거 정보 제공 플랫폼',
   icons: {
     icon: '/logo/product-wiki-icon.svg',
+  },
+  metadataBase: new URL('https://burger-wiki.vercel.app/'),
+  openGraph: {
+    title: '버거위키 - 버거 정보 공유',
+    description: '햄버거에 대해 알아보세요!',
+    url: 'https://burger-wiki.vercel.app/',
+    images: [
+      {
+        url: '/logo/product-wiki-both.svg',
+        width: 800,
+        height: 600,
+        alt: 'Burger Wiki 메인 이미지',
+      },
+    ],
+  },
+  verification: {
+    google: 'F-hAA-H6D0Gog0pmewxCE4WZBQR_Z6trKasxv9my7Sk',
+    other: {
+      'naver-site-verification': 'a555c1bd87bc2faccbbc732e03a76b930196fe1b',
+    },
   },
 };
 

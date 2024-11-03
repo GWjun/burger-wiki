@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -5,6 +6,34 @@ import { createAsyncCaller } from '#server/routers';
 import { LikeButton } from '#entities/brand';
 import { BrandProducts } from '#widgets/product';
 import * as styles from './styles.css';
+
+export async function generateMetadata({
+  params: { name },
+}: {
+  params: { name: string };
+}): Promise<Metadata> {
+  const trpc = await createAsyncCaller();
+  const brand = await trpc.brand.getBrandByName({
+    name_eng: name,
+  });
+
+  return {
+    title: brand.name,
+    openGraph: {
+      title: `${brand.name} - 버거위키`,
+      description: `${brand.name}에 대해 자세히 알아보세요!`,
+      url: `https://burger-wiki.vercel.app/brand/${brand}`,
+      images: [
+        {
+          url: brand.logo_url ?? '/logo/product-wiki-both.svg',
+          width: 800,
+          height: 600,
+          alt: '브랜드 로고 이미지',
+        },
+      ],
+    },
+  };
+}
 
 export default async function Brand({
   params: { name },

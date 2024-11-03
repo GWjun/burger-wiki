@@ -3,30 +3,36 @@ import {createVanillaExtractPlugin} from '@vanilla-extract/next-plugin';
 
 const withVanillaExtract = createVanillaExtractPlugin();
 
+const domains = [
+  // common
+  { protocol: 'http', hostname: 'localhost', port: '3000' },
+  { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
+  { protocol: 'https', hostname: 'isjwiotgzqgcmfbunmzo.supabase.co' },
+
+  // lotteria
+  { protocol: 'https', hostname: 'img.lotteeatz.com' },
+  // burgerking
+  { protocol: 'https', hostname: 'd1cua0vf0mkpiy.cloudfront.net' },
+  // nobrand
+  { protocol: 'https', hostname: 'www.shinsegaefood.com' },
+  // kfc
+  { protocol: 'https', hostname: 'kfcapi.inicis.com' },
+
+  // brand image
+  { protocol: 'https', hostname: 'upload.wikimedia.org' },
+  { protocol: 'https', hostname: 'www.lottegrs.com' },
+  { protocol: 'https', hostname: 'www.kfckorea.com' },
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      'localhost',
-      // google avatar
-      'lh3.googleusercontent.com',
-      // storage
-      'isjwiotgzqgcmfbunmzo.supabase.co',
-
-      // lotteria
-      'img.lotteeatz.com',
-      // burgerking
-      'd1cua0vf0mkpiy.cloudfront.net',
-      // nobrand
-      'www.shinsegaefood.com',
-      // kfc
-      'kfcapi.inicis.com',
-
-      // brand image
-      'upload.wikimedia.org',
-      'www.lottegrs.com',
-      'www.kfckorea.com',
-    ]
+    remotePatterns: domains.map(domain => ({
+      protocol: domain.protocol,
+      hostname: domain.hostname,
+      pathname: '/**',
+      ...(domain.port && { port: domain.port }),
+    })),
   },
 };
 

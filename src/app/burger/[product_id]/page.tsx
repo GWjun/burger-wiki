@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import React, { Suspense } from 'react';
 import { createAsyncCaller } from '#server/routers';
@@ -8,6 +9,34 @@ import { NutritionTable } from '#entities/nutrition';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
 import RatingStar from '#shared/ui/RatingStar';
 import * as styles from './styles.css';
+
+export async function generateMetadata({
+  params: { product_id },
+}: {
+  params: { product_id: string };
+}): Promise<Metadata> {
+  const trpc = await createAsyncCaller();
+  const product = await trpc.product.getProductById({
+    product_id: Number(product_id),
+  });
+
+  return {
+    title: product.name,
+    openGraph: {
+      title: `${product.name} - 버거위키`,
+      description: `${product.name}에 대해 자세히 알아보세요!`,
+      url: `https://burger-wiki.vercel.app/burger/${product_id}`,
+      images: [
+        {
+          url: product.image_url ?? '/logo/product-wiki-both.svg',
+          width: 800,
+          height: 600,
+          alt: '버거 이미지',
+        },
+      ],
+    },
+  };
+}
 
 export default async function Burger({
   params: { product_id },
