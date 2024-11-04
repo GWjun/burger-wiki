@@ -88,6 +88,7 @@ export function UpdateForm({ product_id, review, onClose }: UpdateFormProps) {
         submitName="수정하기"
         onClose={onClose}
         isCloseButton
+        className={styles.form}
       />
     </div>
   );

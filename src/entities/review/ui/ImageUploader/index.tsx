@@ -5,8 +5,10 @@ import { X } from 'lucide-react';
 
 import { FormData, MAX_IMAGE } from '#entities/review/model/ReviewFormData';
 import { useImageUpload } from '#entities/review/hooks/useImageUpload';
-import * as styles from './styles.css';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
+
+import clsx from 'clsx';
+import * as styles from './styles.css';
 
 export const ImageElement = memo(
   ({ initialImages }: { initialImages?: string[] }) => {
@@ -17,7 +19,7 @@ export const ImageElement = memo(
       formState: { errors },
     } = useFormContext<FormData>();
 
-    const { imageStates, handleImageChange, handleRemoveImage } =
+    const { imageStates, isLoading, handleImageChange, handleRemoveImage } =
       useImageUpload(MAX_IMAGE, initialImages);
 
     return (
@@ -28,7 +30,7 @@ export const ImageElement = memo(
           <>
             <div className={styles.imagePreviewGrid}>
               {imageStates.map((image, index) => (
-                <div key={index} className={styles.imageBox}>
+                <div key={index} className={styles.baseBox}>
                   {image.loading ? (
                     <LoadingSpinner variant="inset" />
                   ) : (
@@ -55,7 +57,10 @@ export const ImageElement = memo(
                 <>
                   <label
                     htmlFor={`image-upload-input-${uniqueId}`}
-                    className={styles.imageUploadBox}
+                    className={clsx(
+                      styles.imageUploadBox,
+                      isLoading && styles.disabled,
+                    )}
                   >
                     <span>
                       {imageStates.length} / {MAX_IMAGE}
@@ -67,6 +72,7 @@ export const ImageElement = memo(
                     multiple
                     accept="image/*"
                     onChange={(e) => handleImageChange(e, field)}
+                    disabled={isLoading}
                     style={{ display: 'none' }}
                   />
                 </>

@@ -10,6 +10,7 @@ import { reviewFormSchema } from '../../model/ReviewFormSchema';
 import { Rating } from 'react-simple-star-rating';
 import { ImageElement } from '../ImageUploader';
 import { DatePickerElement } from '../DatePicker';
+import clsx from 'clsx';
 import * as styles from './styles.css';
 
 export interface ReviewFormProps {
@@ -18,6 +19,7 @@ export interface ReviewFormProps {
   submitName?: string;
   onClose?: any;
   isCloseButton?: boolean;
+  className?: string;
 }
 
 export function ReviewForm({
@@ -26,6 +28,7 @@ export function ReviewForm({
   submitName = '리뷰 작성',
   onClose,
   isCloseButton = false,
+  className,
 }: ReviewFormProps) {
   const defaultValues = {
     comment: '',
@@ -51,7 +54,10 @@ export function ReviewForm({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={clsx(styles.form, className)}
+      >
         <Rating
           onClick={(rate) => setValue('score', rate)}
           readonly={isSubmitting}

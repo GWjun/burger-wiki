@@ -13,6 +13,7 @@ export function useImageUpload(maxImages: number, initialImages?: string[]) {
   const [imageStates, setImageStates] = useState<ImageState[]>(
     initialImages?.map((url) => ({ url, loading: false })) ?? [],
   );
+  const isLoading = imageStates.some((image) => image.loading);
 
   useEffect(() => {
     return () => {
@@ -72,6 +73,7 @@ export function useImageUpload(maxImages: number, initialImages?: string[]) {
 
   return {
     imageStates,
+    isLoading,
     setImageStates,
     handleImageChange,
     handleRemoveImage,
