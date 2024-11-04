@@ -14,6 +14,7 @@ export const baseBox = style({
   position: 'relative',
   flex: '1',
   aspectRatio: '1 / 1',
+  maxWidth: '100px',
   maxHeight: '100px',
   border: `1px solid ${theme.colors.border}`,
   borderRadius: theme.borderRadius.md,

@@ -27,6 +27,7 @@ export const DatePickerElement = memo(() => {
             placeholderText="소비 날짜를 선택하세요"
             maxDate={new Date()}
             locale={ko}
+            onFocus={(e) => e.target.blur()}
             className={styles.datePicker}
             calendarClassName={styles.calender}
           />

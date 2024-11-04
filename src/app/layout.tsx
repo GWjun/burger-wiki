@@ -32,6 +32,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/logo/burger-wiki-both.svg',
+        width: 58,
+        height: 15,
         alt: 'Burger Wiki 메인 이미지',
       },
     ],
