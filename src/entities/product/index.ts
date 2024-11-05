@@ -1,11 +1,11 @@
 export { useProduct } from './hooks/useProduct';
 export { useBestProducts } from './hooks/useBestProducts';
 export { useRecentProducts } from './hooks/useRecentProducts';
-export { useBrandProducts } from './hooks/useBrandProducts';
+export { useFilteredProducts } from './hooks/useFilteredProducts';
 
 export {
-  BrandProductOrderOptions,
-  type BrandProductOrderType,
+  ProductOrderOptions,
+  type ProductOrderType,
 } from './model/ReviewOrderOptions';
 
 export { ProductCardSkeleton } from './ui/ProductCardSkeleton';

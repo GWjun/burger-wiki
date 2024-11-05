@@ -19,6 +19,7 @@ export const form = style({
 
 export const stars = style({
   alignSelf: 'center',
+  WebkitTapHighlightColor: 'transparent',
 });
 
 export const textarea = style({

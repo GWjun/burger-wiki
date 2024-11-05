@@ -20,9 +20,9 @@ export async function Header() {
           <nav>
             <ul className={styles.navList}>
               <li>
-                {/*<Link href="/test" className={styles.navLink}>*/}
-                {/*  메뉴목록*/}
-                {/*</Link>*/}
+                <Link href="/burgers" className={styles.navLink}>
+                  버거목록
+                </Link>
               </li>
             </ul>
           </nav>

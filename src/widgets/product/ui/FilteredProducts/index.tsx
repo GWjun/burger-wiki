@@ -17,7 +17,7 @@ import LoadingSpinner from '#shared/ui/LoadingSpinner';
 
 import * as styles from './styles.css';
 
-export function BrandProducts({ brand_name_kor }: { brand_name_kor: string }) {
+export function FilteredProducts() {
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
   const [order, setOrder] = useQueryState<ProductOrderType>('order', 'RELEASE');
   const [sortOrder, setSortOrder] = useQueryState<'asc' | 'desc'>(
@@ -26,9 +26,12 @@ export function BrandProducts({ brand_name_kor }: { brand_name_kor: string }) {
   );
 
   const { products, status, ref, isFetchingNextPage } = useFilteredProducts({
-    filters: {
-      brands: [brand_name_kor],
-    },
+    // filters: {
+    //   brands: ['버거킹', '롯데리아'],
+    //   calories: { min: 500 },
+    //   pattyTypes: ['meat'],
+    //   // price: { min: 5000, max: 10000 },
+    // },
     order,
     sortOrder,
     limit: isMobile ? 10 : 20,
