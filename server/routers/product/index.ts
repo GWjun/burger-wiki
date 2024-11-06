@@ -110,7 +110,7 @@ export const productRouter = router({
     .input(
       z.object({
         filters: ProductFilterSchema.optional(),
-        order: z.custom<ProductOrderType>().default('RELEASE'),
+        order: z.custom<ProductOrderType>().default('release'),
         sortOrder: z.enum(['asc', 'desc']).default('desc'),
         limit: z.number().min(1).max(50).nullish(),
         cursor: z.number().nullish(),

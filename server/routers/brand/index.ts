@@ -62,6 +62,14 @@ export const brandRouter = router({
     return brands;
   }),
 
+  getAllBrandsName: baseProcedure.query(async () => {
+    const brands = await prisma.brand.findMany();
+
+    if (!brands) throw new Error(getErrorCode('NOT_FOUND'));
+
+    return brands.map((brand) => brand.name);
+  }),
+
   getBrandLike: commonProcedure
     .input(z.object({ brand_id: z.number() }))
     .query(async ({ ctx, input }) => {

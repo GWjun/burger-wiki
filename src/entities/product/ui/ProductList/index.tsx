@@ -7,7 +7,7 @@ interface ProductListProps {
 }
 
 export function ProductList({ products }: ProductListProps) {
-  if (!products) {
+  if (!products.length) {
     return <div className={styles.nothing}>표시할 상품이 없습니다</div>;
   }
 

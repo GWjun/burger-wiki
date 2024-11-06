@@ -8,21 +8,21 @@ export default function getOrderClause(
   let orderValue: any = sortOrder;
 
   switch (order) {
-    case 'RELEASE':
+    case 'release':
       orderField = 'released_at';
       orderValue = {
         sort: sortOrder,
         nulls: 'last',
       };
       break;
-    case 'NAME':
+    case 'name':
       orderField = 'name';
       orderValue = sortOrder === 'asc' ? 'desc' : 'asc';
       break;
-    case 'HIGHEST_RATING':
+    case 'rating':
       orderField = 'score_avg';
       break;
-    case 'MOST_LIKES':
+    case 'like':
       if (sortOrder === 'desc') orderField = 'likes_count';
       else {
         orderField = 'dislikes_count';

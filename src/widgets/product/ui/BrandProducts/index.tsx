@@ -19,7 +19,7 @@ import * as styles from './styles.css';
 
 export function BrandProducts({ brand_name_kor }: { brand_name_kor: string }) {
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
-  const [order, setOrder] = useQueryState<ProductOrderType>('order', 'RELEASE');
+  const [order, setOrder] = useQueryState<ProductOrderType>('order', 'release');
   const [sortOrder, setSortOrder] = useQueryState<'asc' | 'desc'>(
     'sortOrder',
     'desc',

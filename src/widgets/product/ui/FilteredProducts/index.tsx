@@ -7,6 +7,7 @@ import {
   ProductList,
   ProductCardSkeleton,
   useFilteredProducts,
+  useProductFilter,
 } from '#entities/product';
 import { FilterMenuButton } from '#features/filter';
 
@@ -19,19 +20,15 @@ import * as styles from './styles.css';
 
 export function FilteredProducts() {
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
-  const [order, setOrder] = useQueryState<ProductOrderType>('order', 'RELEASE');
+  const [order, setOrder] = useQueryState<ProductOrderType>('order', 'release');
   const [sortOrder, setSortOrder] = useQueryState<'asc' | 'desc'>(
     'sortOrder',
     'desc',
   );
 
+  const { filters } = useProductFilter();
   const { products, status, ref, isFetchingNextPage } = useFilteredProducts({
-    // filters: {
-    //   brands: ['버거킹', '롯데리아'],
-    //   calories: { min: 500 },
-    //   pattyTypes: ['meat'],
-    //   // price: { min: 5000, max: 10000 },
-    // },
+    filters,
     order,
     sortOrder,
     limit: isMobile ? 10 : 20,

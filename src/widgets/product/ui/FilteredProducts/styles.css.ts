@@ -72,7 +72,7 @@ export const products = style({
 
   '@media': {
     [`screen and (min-width: ${theme.breakpoints.md})`]: {
-      gridTemplateColumns: 'repeat(5, minmax(0, 233.59px))',
+      gridTemplateColumns: 'repeat(4, minmax(0, 233.59px))',
     },
   },
 });
