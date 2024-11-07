@@ -56,6 +56,12 @@ export const navList = style({
 
 export const navLink = style({
   padding: '0.5rem 1rem',
+  transition: 'color 0.3s ease',
+
+  ':hover': {
+    color: theme.colors.brandColor,
+    fontWeight: theme.typography.fontWeight.medium,
+  },
 });
 
 export const rightContainer = style({

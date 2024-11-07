@@ -15,7 +15,8 @@ import * as styles from './styles.css';
 
 export function ProductFilter() {
   const { data: brandsList, status } = trpc.brand.getAllBrandsName.useQuery();
-  const { filters, handleArrayChange, resetFilter } = useProductFilter();
+  const { filters, updateFilter, handleArrayChange, resetFilter } =
+    useProductFilter();
 
   if (status === 'pending') return <ProductFilterSkeleton />;
   if (!brandsList) return null;
@@ -65,6 +66,42 @@ export function ProductFilter() {
               {pattyNameMap[patty]}
             </Label>
           ))}
+        </div>
+      </div>
+
+      <div className={styles.filter}>
+        <h4 className={styles.filterName}>칼로리</h4>
+        <div className={styles.options}>
+          <Label className={styles.label}>
+            <input
+              type="radio"
+              value="400 이하"
+              checked={filters?.calories?.max === 400}
+              onChange={() => updateFilter({ calories: { max: 400 } })}
+              className={styles.radio}
+            />
+            400 이하
+          </Label>
+          <Label className={styles.label}>
+            <input
+              type="radio"
+              value="800 이상"
+              checked={filters?.calories?.min === 800}
+              onChange={() => updateFilter({ calories: { min: 800 } })}
+              className={styles.radio}
+            />
+            800 이상
+          </Label>
+          <Label className={styles.label}>
+            <input
+              type="radio"
+              value="선택 안함"
+              checked={!filters?.calories}
+              onChange={() => updateFilter({ calories: undefined })}
+              className={styles.radio}
+            />
+            선택 안함
+          </Label>
         </div>
       </div>
     </div>

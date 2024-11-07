@@ -35,6 +35,7 @@ export function useProductFilter() {
 
   return {
     filters,
+    updateFilter,
     resetFilter,
     handleArrayChange,
   };

@@ -7,17 +7,16 @@ export const container = style({
   flexDirection: 'column',
   gap: '0.75rem',
 
-  '::before': {
-    content: '',
-    inset: 0,
-    margin: '3rem 0 2rem 0',
-    height: '1px',
-    backgroundColor: theme.colors.border,
-  },
-
   '@media': {
     [`screen and (min-width: ${theme.breakpoints.md})`]: {
       padding: '0 2.5rem 0 2.5rem',
+      '::before': {
+        content: '',
+        inset: 0,
+        margin: '3rem 0 2rem 0',
+        height: '1px',
+        backgroundColor: theme.colors.border,
+      },
     },
   },
 });
@@ -26,11 +25,11 @@ export const filter = style({
   display: 'flex',
   alignItems: 'center',
   gap: '0.2rem',
-  marginLeft: '1rem',
+  margin: '0 1rem 0 1rem',
 
   '@media': {
     [`screen and (min-width: ${theme.breakpoints.md})`]: {
-      marginLeft: 'unset',
+      margin: 'unset',
     },
   },
 });
@@ -44,6 +43,16 @@ export const sortOrderButton = style({
   cursor: 'pointer',
   ':focus': {
     outline: `none`,
+  },
+});
+
+export const filterButton = style({
+  marginLeft: 'auto',
+
+  '@media': {
+    [`screen and (min-width: ${theme.breakpoints.md})`]: {
+      display: 'none',
+    },
   },
 });
 

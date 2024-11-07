@@ -4,7 +4,9 @@ import * as styles from './styles.css';
 export default function Burgers() {
   return (
     <div className={styles.container}>
-      <ProductFilter />
+      <div className={styles.hidden}>
+        <ProductFilter />
+      </div>
       <FilteredProducts />
     </div>
   );

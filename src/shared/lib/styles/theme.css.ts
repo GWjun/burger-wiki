@@ -158,6 +158,7 @@ export const darkTheme = createTheme(themeColor, {
 const colors = {
   ...themeColor,
   ...colorScales,
+  brandColor: '#ff9d3b',
 };
 
 const mainWidth = '1280px';

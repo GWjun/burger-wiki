@@ -1,6 +1,9 @@
 'use client';
 
 import { ArrowDownNarrowWide, ArrowUpWideNarrow } from 'lucide-react';
+import { useOverlay } from '@toss/use-overlay';
+
+import { ProductFilter } from '#widgets/product';
 import {
   type ProductOrderType,
   ProductOrderOptions,
@@ -15,10 +18,13 @@ import { useMediaQuery } from '#shared/hooks/useMediaQuery';
 import { useQueryState } from '#shared/hooks/useQueryState';
 import { theme } from '#shared/lib/styles/theme.css';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
+import Button from '#shared/ui/Button';
+import Modal from '#shared/ui/Modal';
 
 import * as styles from './styles.css';
 
 export function FilteredProducts() {
+  const overlay = useOverlay();
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
   const [order, setOrder] = useQueryState<ProductOrderType>('order', 'release');
   const [sortOrder, setSortOrder] = useQueryState<'asc' | 'desc'>(
@@ -33,6 +39,14 @@ export function FilteredProducts() {
     sortOrder,
     limit: isMobile ? 10 : 20,
   });
+
+  function openModal() {
+    return overlay.open(({ isOpen, close }) => (
+      <Modal isOpen={isOpen} onClose={close}>
+        <ProductFilter />
+      </Modal>
+    ));
+  }
 
   return (
     <div className={styles.container}>
@@ -53,6 +67,13 @@ export function FilteredProducts() {
             <ArrowDownNarrowWide size={18} />
           )}
         </button>
+        <Button
+          onClick={openModal}
+          variant="outline"
+          className={styles.filterButton}
+        >
+          필터
+        </Button>
       </div>
 
       <div className={styles.productsContainer}>
