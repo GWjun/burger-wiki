@@ -1,7 +1,7 @@
-import { prisma } from '#server/prisma';
-import { baseProcedure, protectedProcedure, router } from '#server/trpc';
+import { prisma } from '@server/prisma';
+import { baseProcedure, protectedProcedure, router } from '@server/trpc';
 import { z } from 'zod';
-import { getErrorCode } from '#error/error';
+import { getErrorCode } from '@error/error';
 import { ReviewOrderType } from '#entities/review';
 
 export const reviewRouter = router({

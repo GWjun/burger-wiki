@@ -5,7 +5,7 @@ import Button from '#shared/ui/Button';
 import { useMediaQuery } from '#shared/hooks/useMediaQuery';
 import { theme } from '#shared/lib/styles/theme.css';
 
-import { BestProductsSkeleton } from './BestProductsSkeleton';
+import { BestProductsSkeleton } from './index.skeleton';
 import * as styles from './styles.css';
 
 export function BestProducts() {

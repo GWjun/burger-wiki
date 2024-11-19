@@ -129,6 +129,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.3.0
+      '@vanilla-extract/jest-transform':
+        specifier: ^1.1.10
+        version: 1.1.10(@types/node@20.16.2)(terser@5.31.6)
       '@vanilla-extract/next-plugin':
         specifier: ^2.4.5
         version: 2.4.5(@types/node@20.16.2)(next@14.2.6(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.31.6)(webpack@5.94.0)
@@ -1599,11 +1602,23 @@ packages:
   '@vanilla-extract/babel-plugin-debug-ids@1.0.6':
     resolution: {integrity: sha512-C188vUEYmw41yxg3QooTs8r1IdbDQQ2mH7L5RkORBnHx74QlmsNfqVmKwAVTgrlYt8JoRaWMtPfGm/Ql0BNQrA==}
 
+  '@vanilla-extract/babel-plugin-debug-ids@1.1.0':
+    resolution: {integrity: sha512-Zy9bKjaL2P5zsrFYQJ8IjWGlFODmZrpvFmjFE0Zv8om55Pz1JtpJtL6DvlxlWUxbVaP1HKCqsmEfFOZN8fX/ZQ==}
+
   '@vanilla-extract/css@1.15.5':
     resolution: {integrity: sha512-N1nQebRWnXvlcmu9fXKVUs145EVwmWtMD95bpiEKtvehHDpUhmO1l2bauS7FGYKbi3dU1IurJbGpQhBclTr1ng==}
 
+  '@vanilla-extract/css@1.16.0':
+    resolution: {integrity: sha512-05JTbvG1E0IrSZKZ5el2EM9CmAX0XSdsNY+d4aRZxDvYf3/hwxomvFFEz2b/awjgg9yTVHW83Wq19wE4OoTEMg==}
+
+  '@vanilla-extract/integration@7.1.10':
+    resolution: {integrity: sha512-EXe8l0u51ta2H78kksf7gJENkdYnvDW9c+18FUvKfxtjHmpc4KthXnUTuALt5k9wbAjfFakIR4IsqzvOP43cDQ==}
+
   '@vanilla-extract/integration@7.1.9':
     resolution: {integrity: sha512-bkikYnUdEiUoUZGX3tErmkpU43M4Q0McZcSUHutP/pQCeuDB29t8brLOLzdkahwD+RteX2/R3ukmIm3lAYzUnA==}
+
+  '@vanilla-extract/jest-transform@1.1.10':
+    resolution: {integrity: sha512-Chn6QD4zPD2sbAOepiRzV9KrEkpMD+0s9h5BOeUtyHGy/n8Et0bwy7UwFsbrVcHdpuYHIBhdUJ7Bsr46zqxKHg==}
 
   '@vanilla-extract/next-plugin@2.4.5':
     resolution: {integrity: sha512-moOwqL+pSvGHmZaENrDNtqdP1Xv1wPOoRIOEb3qWuJ6Yq+pgVvD1In7ib54LFB7wDCEIFnqrDZ9z3PYhjo21fQ==}
@@ -5724,6 +5739,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@vanilla-extract/babel-plugin-debug-ids@1.1.0':
+    dependencies:
+      '@babel/core': 7.25.2
+    transitivePeerDependencies:
+      - supports-color
+
   '@vanilla-extract/css@1.15.5':
     dependencies:
       '@emotion/hash': 0.9.2
@@ -5741,6 +5762,49 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
 
+  '@vanilla-extract/css@1.16.0':
+    dependencies:
+      '@emotion/hash': 0.9.2
+      '@vanilla-extract/private': 1.0.6
+      css-what: 6.1.0
+      cssesc: 3.0.0
+      csstype: 3.1.3
+      dedent: 1.5.3
+      deep-object-diff: 1.1.9
+      deepmerge: 4.3.1
+      lru-cache: 10.4.3
+      media-query-parser: 2.0.2
+      modern-ahocorasick: 1.0.1
+      picocolors: 1.0.1
+    transitivePeerDependencies:
+      - babel-plugin-macros
+
+  '@vanilla-extract/integration@7.1.10(@types/node@20.16.2)(terser@5.31.6)':
+    dependencies:
+      '@babel/core': 7.25.2
+      '@babel/plugin-syntax-typescript': 7.25.4(@babel/core@7.25.2)
+      '@vanilla-extract/babel-plugin-debug-ids': 1.1.0
+      '@vanilla-extract/css': 1.16.0
+      dedent: 1.5.3
+      esbuild: 0.23.1
+      eval: 0.1.8
+      find-up: 5.0.0
+      javascript-stringify: 2.1.0
+      mlly: 1.7.1
+      vite: 5.4.2(@types/node@20.16.2)(terser@5.31.6)
+      vite-node: 1.6.0(@types/node@20.16.2)(terser@5.31.6)
+    transitivePeerDependencies:
+      - '@types/node'
+      - babel-plugin-macros
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
   '@vanilla-extract/integration@7.1.9(@types/node@20.16.2)(terser@5.31.6)':
     dependencies:
       '@babel/core': 7.25.2
@@ -5755,6 +5819,22 @@ snapshots:
       mlly: 1.7.1
       vite: 5.4.2(@types/node@20.16.2)(terser@5.31.6)
       vite-node: 1.6.0(@types/node@20.16.2)(terser@5.31.6)
+    transitivePeerDependencies:
+      - '@types/node'
+      - babel-plugin-macros
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
+  '@vanilla-extract/jest-transform@1.1.10(@types/node@20.16.2)(terser@5.31.6)':
+    dependencies:
+      '@vanilla-extract/integration': 7.1.10(@types/node@20.16.2)(terser@5.31.6)
+      esbuild: 0.23.1
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -6609,7 +6689,7 @@ snapshots:
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.6.3(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0)
-      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
       eslint-plugin-jsx-a11y: 6.9.0(eslint@8.57.0)
       eslint-plugin-react: 7.35.0(eslint@8.57.0)
       eslint-plugin-react-hooks: 4.6.2(eslint@8.57.0)
@@ -6640,7 +6720,7 @@ snapshots:
       is-bun-module: 1.1.0
       is-glob: 4.0.3
     optionalDependencies:
-      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
     transitivePeerDependencies:
       - '@typescript-eslint/parser'
       - eslint-import-resolver-node
@@ -6658,7 +6738,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.0):
+  eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0):
     dependencies:
       array-includes: 3.1.8
       array.prototype.findlastindex: 1.2.5

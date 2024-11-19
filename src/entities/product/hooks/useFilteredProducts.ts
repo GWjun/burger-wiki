@@ -1,4 +1,4 @@
-import type { ProductFilterType } from '#server/routers/product/schema';
+import type { ProductFilterType } from '@server/routers/product/schema';
 import type { ProductOrderType } from '#entities/product';
 
 import { trpc } from '#shared/lib/utils/trpc';

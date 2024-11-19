@@ -1,7 +1,7 @@
 'use client';
 
 import { useBestBrands, BrandCard } from '#entities/brand';
-import { BestBrandsSkeleton } from './BestBrandsSkeleton';
+import { BestBrandsSkeleton } from './index.skeleton';
 import * as styles from './styles.css';
 
 export function BestBrands() {

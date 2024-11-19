@@ -11,6 +11,15 @@ const config: Config = {
   coverageProvider: 'v8',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  moduleDirectories: ['node_modules', '<rootDir>'],
+  moduleNameMapper: {
+    '^#(.*)$': '<rootDir>/src/$1',
+    '^@server/(.*)$': '<rootDir>/server/$1',
+    '^@error/(.*)$': '<rootDir>/error/$1',
+  },
+  transform: {
+    '\\.css\\.ts$': '@vanilla-extract/jest-transform',
+  },
   // Add more setup options before each test is run
 };
 

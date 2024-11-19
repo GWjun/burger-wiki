@@ -10,7 +10,7 @@ import { trpc } from '#shared/lib/utils/trpc';
 import Label from '#shared/ui/Label';
 import Button from '#shared/ui/Button';
 
-import { ProductFilterSkeleton } from './ProductFilterSkeleton';
+import { ProductFilterSkeleton } from './index.skeleton';
 import * as styles from './styles.css';
 
 export function ProductFilter() {

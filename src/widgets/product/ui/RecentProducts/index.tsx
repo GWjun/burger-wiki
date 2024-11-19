@@ -5,7 +5,7 @@ import Button from '#shared/ui/Button';
 import { useMediaQuery } from '#shared/hooks/useMediaQuery';
 import { theme } from '#shared/lib/styles/theme.css';
 
-import { RecentProductsSkeleton } from './RecentProductsSkeleton';
+import { RecentProductsSkeleton } from './index.skeleton';
 import * as styles from './styles.css';
 
 export function RecentProducts() {

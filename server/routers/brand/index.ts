@@ -1,12 +1,12 @@
-import { prisma } from '#server/prisma';
+import { prisma } from '@server/prisma';
 import {
   baseProcedure,
   commonProcedure,
   protectedProcedure,
   router,
-} from '#server/trpc';
+} from '@server/trpc';
 import { z } from 'zod';
-import { getErrorCode } from '#error/error';
+import { getErrorCode } from '@error/error';
 
 export const brandRouter = router({
   getBrandById: baseProcedure

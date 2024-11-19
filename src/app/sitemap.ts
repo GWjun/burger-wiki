@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { createAsyncCaller } from '#server/routers';
+import { createAsyncCaller } from '@server/routers';
 
 export async function getBrandSitemap(): Promise<MetadataRoute.Sitemap> {
   const trpc = await createAsyncCaller();

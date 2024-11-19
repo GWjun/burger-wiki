@@ -1,4 +1,4 @@
-import { ProductFilterType } from '#server/routers/product/schema';
+import { ProductFilterType } from '@server/routers/product/schema';
 
 export default function getWhereClause(filters?: ProductFilterType) {
   if (!filters) return {};

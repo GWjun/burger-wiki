@@ -1,4 +1,4 @@
-import type { ProductFilterType } from '#server/routers/product/schema';
+import type { ProductFilterType } from '@server/routers/product/schema';
 import { Patty } from '@prisma/client';
 import { useRecoilState } from 'recoil';
 import { productFilterState } from '#entities/product/recoil/atoms';

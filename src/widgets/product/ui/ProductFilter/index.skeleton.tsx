@@ -3,7 +3,7 @@ import { container } from './styles.css';
 
 export function ProductFilterSkeleton() {
   return (
-    <div className={container}>
+    <div className={container} role="status">
       {Array.from({ length: 4 }).map((_, index) => (
         <div key={index}>
           <Skeleton

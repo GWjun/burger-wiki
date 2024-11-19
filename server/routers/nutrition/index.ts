@@ -1,7 +1,7 @@
-import { prisma } from '#server/prisma';
-import { baseProcedure, router } from '#server/trpc';
+import { prisma } from '@server/prisma';
+import { baseProcedure, router } from '@server/trpc';
 import { z } from 'zod';
-import { getErrorCode } from '#error/error';
+import { getErrorCode } from '@error/error';
 
 export const nutritionRouter = router({
   getInfoByProductId: baseProcedure

@@ -20,8 +20,8 @@
     "baseUrl": ".",
     "paths": {
       "#*": ["./src/*"],
-      "#server/*": ["./server/*"],
-      "#error/*": ["./error/*"]
+      "@server/*": ["./server/*"],
+      "@error/*": ["./error/*"]
     },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

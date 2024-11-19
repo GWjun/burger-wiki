@@ -1,5 +1,5 @@
-import { createCallerFactory, router } from '#server/trpc';
-import { createContext } from '#server/context';
+import { createCallerFactory, router } from '@server/trpc';
+import { createContext } from '@server/context';
 
 import { userRouter } from '../routers/user';
 import { productRouter } from '../routers/product';

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AppError } from '#error/error';
+import { AppError } from '@error/error';
 import { ToastContext } from '#shared/lib/providers/ToastProvider/ToastContext';
 
 export function useToast() {

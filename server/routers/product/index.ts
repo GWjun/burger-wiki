@@ -1,9 +1,9 @@
-import { prisma } from '#server/prisma';
-import { baseProcedure, protectedProcedure, router } from '#server/trpc';
+import { prisma } from '@server/prisma';
+import { baseProcedure, protectedProcedure, router } from '@server/trpc';
 import { z } from 'zod';
-import { getErrorCode } from '#error/error';
+import { getErrorCode } from '@error/error';
 
-import { ProductFilterSchema } from '#server/routers/product/schema';
+import { ProductFilterSchema } from '@server/routers/product/schema';
 import { ProductOrderType } from '#entities/product';
 import getOrderClause from './getOrderClause';
 import getWhereClause from './getWhereClause';

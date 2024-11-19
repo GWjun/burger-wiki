@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { createAsyncCaller } from '#server/routers';
+import { createAsyncCaller } from '@server/routers';
 import { LikeButton } from '#entities/brand';
 import { BrandProducts } from '#widgets/product';
 import * as styles from './styles.css';

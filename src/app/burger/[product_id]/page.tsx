@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import React, { Suspense } from 'react';
-import { createAsyncCaller } from '#server/routers';
+import { createAsyncCaller } from '@server/routers';
 
 import { ProductReview } from '#widgets/review';
 import { ProductLikes } from '#widgets/product';

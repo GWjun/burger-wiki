@@ -1,6 +1,6 @@
-import { prisma } from '#server/prisma';
-import { baseProcedure, router } from '#server/trpc';
-// import { getErrorMessage } from '#error/error';
+import { prisma } from '@server/prisma';
+import { baseProcedure, router } from '@server/trpc';
+// import { getErrorMessage } from '@error/error';
 
 export const userRouter = router({
   getUsers: baseProcedure.query(async () => {
