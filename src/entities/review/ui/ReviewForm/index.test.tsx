@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { ReviewForm } from './';
 import type { FormDataValues } from '#entities/review/model/ReviewFormData';
+import ToastProvider from '#shared/lib/providers/ToastProvider';
+
+import { ReviewForm } from './';
 
 const user = userEvent.setup();
 
@@ -12,14 +14,17 @@ function setup(initialValues?: FormDataValues) {
   const onClose = jest.fn();
   const submitName = '수정하기';
   render(
-    <ReviewForm
-      onValid={onValid}
-      onInvalid={onInvalid}
-      initialValues={initialValues}
-      submitName={submitName}
-      onClose={onClose}
-      isCloseButton
-    />,
+    <ToastProvider>
+      <ReviewForm
+        onValid={onValid}
+        onInvalid={onInvalid}
+        initialValues={initialValues}
+        submitName={submitName}
+        onClose={onClose}
+        isCloseButton
+      />
+      ,
+    </ToastProvider>,
   );
 
   async function clickSubmit() {

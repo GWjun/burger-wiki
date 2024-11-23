@@ -46,6 +46,7 @@ export const ImageElement = memo(
                         type="button"
                         onClick={() => handleRemoveImage(index, field)}
                         className={styles.deleteButton}
+                        aria-label="이미지 삭제 버튼"
                       >
                         <X size={12} />
                       </button>
@@ -68,6 +69,7 @@ export const ImageElement = memo(
                   </label>
                   <input
                     id={`image-upload-input-${uniqueId}`}
+                    data-testid="file"
                     type="file"
                     multiple
                     accept="image/*"

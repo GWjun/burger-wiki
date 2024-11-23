@@ -2,6 +2,7 @@ import { ChangeEvent, useState, useEffect } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 
 import { uploadImage } from '#shared/lib/utils/image-upload';
+import { useToast } from '#shared/hooks/useToast';
 import { FormData } from '../model/ReviewFormData';
 
 interface ImageState {
@@ -10,6 +11,7 @@ interface ImageState {
 }
 
 export function useImageUpload(maxImages: number, initialImages?: string[]) {
+  const { addToast } = useToast();
   const [imageStates, setImageStates] = useState<ImageState[]>(
     initialImages?.map((url) => ({ url, loading: false })) ?? [],
   );
@@ -56,6 +58,11 @@ export function useImageUpload(maxImages: number, initialImages?: string[]) {
         const updatedStates = imageStates.filter((img) => !img.loading);
         setImageStates(updatedStates);
         field.onChange(updatedStates.map((state) => state.url));
+
+        addToast({
+          message: '이미지를 업로드 하는데 실패했습니다.',
+          variant: 'error',
+        });
       }
     }
   }

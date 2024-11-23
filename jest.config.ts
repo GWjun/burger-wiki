@@ -16,10 +16,12 @@ const config: Config = {
     '^#(.*)$': '<rootDir>/src/$1',
     '^@server/(.*)$': '<rootDir>/server/$1',
     '^@error/(.*)$': '<rootDir>/error/$1',
+    '^@tests/(.*)$': '<rootDir>/__tests__/$1',
   },
   transform: {
     '\\.css\\.ts$': '@vanilla-extract/jest-transform',
   },
+  testPathIgnorePatterns: ['<rootDir>/__tests__/jest.ts'],
   // Add more setup options before each test is run
 };
 
