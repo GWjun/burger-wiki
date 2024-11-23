@@ -1,20 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { trpc } from '#shared/lib/utils/trpc';
 import { useProductFilter } from '#entities/product';
 
+import { mockGetAllBrandsName } from '@server/routers/brand/__mock__/jest';
 import { ProductFilter } from './';
-
-jest.mock('#shared/lib/utils/trpc', () => ({
-  trpc: {
-    brand: {
-      getAllBrandsName: {
-        useQuery: jest.fn(),
-      },
-    },
-  },
-}));
 
 jest.mock('#entities/product', () => ({
   ...jest.requireActual('#entities/product'),
@@ -28,9 +17,9 @@ jest.mock('./styles.css', () => ({
 
 const user = userEvent.setup();
 const mockedUseProductFilter = useProductFilter as jest.Mock;
-const mockedUseQuery = trpc.brand.getAllBrandsName.useQuery as jest.Mock;
 
 beforeEach(() => {
+  mockGetAllBrandsName(200);
   mockedUseProductFilter.mockReturnValue({
     filters: {
       brands: [],
@@ -41,19 +30,11 @@ beforeEach(() => {
     resetFilter: jest.fn(),
     handleArrayChange: jest.fn(),
   });
-
-  mockedUseQuery.mockReturnValue({
-    data: ['롯데리아', '버거킹'],
-    status: 'success',
-  });
 });
 
 describe('ProductFilter Component', () => {
   it('로딩 중일 때 스켈레톤 UI를 표시해야 한다', () => {
-    mockedUseQuery.mockReturnValue({
-      data: null,
-      status: 'pending',
-    });
+    mockGetAllBrandsName(202);
 
     render(<ProductFilter />);
 
