@@ -78,7 +78,7 @@ export function UpdateForm({ product_id, review, onClose }: UpdateFormProps) {
       </div>
 
       <ReviewForm
-        onSubmit={onSubmit}
+        onValid={onSubmit}
         initialValues={{
           score,
           comment: comment ?? '',

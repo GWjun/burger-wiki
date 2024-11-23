@@ -10,11 +10,6 @@ jest.mock('#entities/product', () => ({
   useProductFilter: jest.fn(),
 }));
 
-// to avoid recipe error
-jest.mock('./styles.css', () => ({
-  buttonVariants: jest.fn(() => 'mocked-class-name'),
-}));
-
 const user = userEvent.setup();
 const mockedUseProductFilter = useProductFilter as jest.Mock;
 
@@ -33,7 +28,7 @@ beforeEach(() => {
 });
 
 describe('ProductFilter Component', () => {
-  it('로딩 중일 때 스켈레톤 UI를 표시해야 한다', () => {
+  test('로딩 중일 때 스켈레톤 UI를 표시한다', async () => {
     mockGetAllBrandsName(202);
 
     render(<ProductFilter />);
@@ -41,7 +36,7 @@ describe('ProductFilter Component', () => {
     expect(screen.getByRole('status')).toBeInTheDocument();
   });
 
-  it('전체 초기화 버튼 클릭 시 resetFilter가 호출된다', async () => {
+  test('전체 초기화 버튼 클릭 시 resetFilter가 호출된다', async () => {
     render(<ProductFilter />);
 
     const resetButton = screen.getByText('전체 초기화');
@@ -50,7 +45,7 @@ describe('ProductFilter Component', () => {
     expect(mockedUseProductFilter().resetFilter).toHaveBeenCalled();
   });
 
-  it('브랜드 체크박스를 클릭하면 handleArrayChange가 호출된다', async () => {
+  test('브랜드 체크박스를 클릭하면 handleArrayChange가 호출된다', async () => {
     render(<ProductFilter />);
 
     const brandCheckbox = screen.getByLabelText('롯데리아');
@@ -62,7 +57,7 @@ describe('ProductFilter Component', () => {
     );
   });
 
-  it('패티 체크박스를 클릭하면 handleArrayChange가 호출된다', async () => {
+  test('패티 체크박스를 클릭하면 handleArrayChange가 호출된다', async () => {
     render(<ProductFilter />);
 
     const pattyCheckbox = screen.getByLabelText('고기');
@@ -74,7 +69,7 @@ describe('ProductFilter Component', () => {
     );
   });
 
-  it('칼로리 라디오 버튼을 클릭하면 updateFilter가 호출된다', async () => {
+  test('칼로리 라디오 버튼을 클릭하면 updateFilter가 호출된다', async () => {
     render(<ProductFilter />);
 
     const calorieRadio = screen.getByLabelText('400 이하');

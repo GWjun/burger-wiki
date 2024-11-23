@@ -93,7 +93,7 @@ export function ProductReview({ product_id }: ProductReviewProps) {
 
       return (
         <Modal isOpen={isOpen} onClose={close}>
-          <ReviewForm onSubmit={onSubmit} />
+          <ReviewForm onValid={onSubmit} />
         </Modal>
       );
     });

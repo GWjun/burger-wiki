@@ -1,4 +1,9 @@
-import { useForm, FormProvider } from 'react-hook-form';
+import {
+  useForm,
+  FormProvider,
+  SubmitHandler,
+  SubmitErrorHandler,
+} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Button from '#shared/ui/Button';
@@ -14,7 +19,8 @@ import clsx from 'clsx';
 import * as styles from './styles.css';
 
 export interface ReviewFormProps {
-  onSubmit: (data: FormData) => void;
+  onValid: SubmitHandler<FormData>;
+  onInvalid?: SubmitErrorHandler<FormData>;
   initialValues?: FormDataValues;
   submitName?: string;
   onClose?: any;
@@ -23,7 +29,8 @@ export interface ReviewFormProps {
 }
 
 export function ReviewForm({
-  onSubmit,
+  onValid,
+  onInvalid,
   initialValues,
   submitName = '리뷰 작성',
   onClose,
@@ -55,7 +62,7 @@ export function ReviewForm({
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onValid, onInvalid)}
         className={clsx(styles.form, className)}
       >
         <Rating
@@ -79,6 +86,7 @@ export function ReviewForm({
           })}
           placeholder="리뷰를 작성해주세요"
           className={styles.textarea}
+          aria-label="리뷰 작성 본문"
         />
         {errors.comment && (
           <span className={styles.error}>{errors.comment.message}</span>
