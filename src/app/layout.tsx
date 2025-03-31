@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Noto_Sans_KR } from 'next/font/google';
+import localFont from 'next/font/local';
 import { ReactNode } from 'react';
 
 import { Header } from '#widgets/header';
@@ -11,8 +11,10 @@ import ThemeModeProvider from '#shared/lib/providers/ThemeProvider';
 
 import '#shared/lib/styles/global.css';
 
-const NotoSansKr = Noto_Sans_KR({
-  subsets: ['latin'],
+const pretendard = localFont({
+  src: '../shared/assets/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
 });
 
 export const metadata: Metadata = {
@@ -53,7 +55,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={NotoSansKr.className}>
+      <body className={pretendard.className}>
         <AuthProvider>
           <ToastProvider>
             <TrpcClientProvider>
