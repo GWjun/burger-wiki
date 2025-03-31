@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
 import { ReactNode } from 'react';
 
 import { Header } from '#widgets/header';
@@ -10,12 +9,7 @@ import TrpcClientProvider from '#shared/lib/providers/TrpcClient';
 import ThemeModeProvider from '#shared/lib/providers/ThemeProvider';
 
 import '#shared/lib/styles/global.css';
-
-const pretendard = localFont({
-  src: '../shared/assets/PretendardVariable.woff2',
-  display: 'swap',
-  weight: '45 920',
-});
+import '#shared/lib/styles/font.css';
 
 export const metadata: Metadata = {
   title: {
@@ -55,7 +49,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={pretendard.className}>
+      <body>
         <AuthProvider>
           <ToastProvider>
             <TrpcClientProvider>
