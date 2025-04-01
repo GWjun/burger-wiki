@@ -3,34 +3,34 @@ import { createAsyncCaller } from '@server/routers';
 
 import { BestBrands } from '#widgets/brand';
 import { BestProducts, RecentProducts } from '#widgets/product';
-import { serializer } from '#shared/lib/utils/serialization';
 
 import * as styles from './styles.css';
 
 export default async function Home() {
   const trpc = await createAsyncCaller();
 
-  const recentProducts = await trpc.product.getRecentProducts({ limit: 5 });
-  const recentProductsProps = serializer.serialize(recentProducts);
-
-  const bestProducts = await trpc.product.getBestProducts({ limit: 5 });
-  const bestProductsProps = serializer.serialize(bestProducts);
+  const bestBrandsPromise = trpc.brand.getBestBrands();
+  const recentProductsPromise = trpc.product.getRecentProducts({ limit: 5 });
+  const bestProductsPromise = trpc.product.getBestProducts({ limit: 5 });
 
   return (
     <div className={styles.container}>
-      <BestBrands />
+      <div className={styles.brandsContainer}>
+        <span className={styles.listTile}>인기 브랜드</span>
+        <BestBrands initialPromise={bestBrandsPromise} />
+      </div>
 
-      <div className={styles.listContainer}>
+      <div className={styles.productsContainer}>
         <span className={styles.listTile}>최근 출시 버거</span>
         <Suspense>
-          <RecentProducts initialData={recentProductsProps} />
+          <RecentProducts initialPromise={recentProductsPromise} />
         </Suspense>
       </div>
 
-      <div className={styles.listContainer}>
+      <div className={styles.productsContainer}>
         <span className={styles.listTile}>인기 버거</span>
         <Suspense>
-          <BestProducts initialData={bestProductsProps} />
+          <BestProducts initialPromise={bestProductsPromise} />
         </Suspense>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import type { Product } from '@prisma/client';
+import { Product, Brand } from '@prisma/client';
 
 export interface PaginatedResult<T> {
   data: T[];
@@ -6,3 +6,5 @@ export interface PaginatedResult<T> {
 }
 
 export type ProductPagination = PaginatedResult<Product>;
+
+export type BrandPagination = PaginatedResult<Brand>;
