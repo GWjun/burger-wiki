@@ -5,7 +5,7 @@ export const buttonSkeleton = style({
   flex: 1,
   position: 'relative',
   display: 'flex',
-  justifyContent: 'start',
+  justifyContent: 'flex-start',
   height: '51px',
 });
 
@@ -29,7 +29,7 @@ export const dislikesButton = style({
   flex: 1,
   position: 'relative',
   display: 'flex',
-  justifyContent: 'start',
+  justifyContent: 'flex-start',
   padding: '1rem 0',
   backgroundColor: '#EF6253',
   ':hover': {
@@ -41,7 +41,7 @@ export const likesButton = style({
   flex: 1,
   position: 'relative',
   display: 'flex',
-  justifyContent: 'start',
+  justifyContent: 'flex-start',
   padding: '1rem 0',
   backgroundColor: '#41B979',
   ':hover': {

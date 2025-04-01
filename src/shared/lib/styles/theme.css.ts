@@ -3,7 +3,6 @@ import {
   createTheme,
   createThemeContract,
 } from '@vanilla-extract/css';
-import colorScales from '#shared/lib/styles/colors';
 
 export const global = createGlobalTheme(':root', {
   space: {
@@ -111,6 +110,8 @@ let themeColor = createThemeContract({
 
   background: null,
   backgroundActive: null,
+
+  description: null,
 });
 
 export const lightTheme = createTheme(themeColor, {
@@ -132,6 +133,8 @@ export const lightTheme = createTheme(themeColor, {
 
   background: '#fff',
   backgroundActive: '#f3f4f6',
+
+  description: '#9ca3af',
 });
 
 export const darkTheme = createTheme(themeColor, {
@@ -153,11 +156,12 @@ export const darkTheme = createTheme(themeColor, {
 
   background: '#141517',
   backgroundActive: '#2a2a2a',
+
+  description: '#9ca3af',
 });
 
 const colors = {
   ...themeColor,
-  ...colorScales,
   brandColor: '#ff9d3b',
 };
 
