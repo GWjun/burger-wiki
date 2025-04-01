@@ -1,21 +1,26 @@
 'use client';
 
 import type { ProductPagination } from '#shared/lib/types/paginate';
-import { useEffect } from 'react';
+import { use, useEffect } from 'react';
 
 import { ProductList, useBestProducts } from '#entities/product';
 import Button from '#shared/ui/Button';
 import { useMediaQuery } from '#shared/hooks/useMediaQuery';
 import { theme } from '#shared/lib/styles/theme.css';
-import { serializer } from '#shared/lib/utils/serialization';
 
 import * as styles from './styles.css';
 
-export function BestProducts({ initialData }: { initialData: string }) {
+export function BestProducts({
+  initialPromise,
+}: {
+  initialPromise: Promise<ProductPagination>;
+}) {
+  const initialData = use(initialPromise);
+
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
   const { products, fetchNextPage, hasNextPage } = useBestProducts({
     limit: isMobile ? 15 : 5,
-    initialData: serializer.deserialize<ProductPagination>(initialData),
+    initialData,
   });
 
   useEffect(() => {
