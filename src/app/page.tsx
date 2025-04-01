@@ -17,19 +17,21 @@ export default async function Home() {
     <div className={styles.container}>
       <div className={styles.brandsContainer}>
         <span className={styles.listTile}>인기 브랜드</span>
-        <BestBrands initialPromise={bestBrandsPromise} />
+        <Suspense fallback={<div className={styles.brandsFallback} />}>
+          <BestBrands initialPromise={bestBrandsPromise} />
+        </Suspense>
       </div>
 
       <div className={styles.productsContainer}>
         <span className={styles.listTile}>최근 출시 버거</span>
-        <Suspense>
+        <Suspense fallback={<div className={styles.productsFallback} />}>
           <RecentProducts initialPromise={recentProductsPromise} />
         </Suspense>
       </div>
 
       <div className={styles.productsContainer}>
         <span className={styles.listTile}>인기 버거</span>
-        <Suspense>
+        <Suspense fallback={<div className={styles.productsFallback} />}>
           <BestProducts initialPromise={bestProductsPromise} />
         </Suspense>
       </div>

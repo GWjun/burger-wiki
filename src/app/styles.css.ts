@@ -46,3 +46,11 @@ export const productsContainer = style({
 export const listTile = style({
   fontWeight: theme.typography.fontWeight.semibold,
 });
+
+export const brandsFallback = style({
+  height: '100px',
+});
+
+export const productsFallback = style({
+  height: '363.8px',
+});
