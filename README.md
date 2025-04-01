@@ -46,7 +46,7 @@ pnpm install
 ### DB 연동
 
 ```sh
-npx primsa dp push # 최초 1회
+npx primsa db push # 최초 1회
 ```
 
 ### 실행
