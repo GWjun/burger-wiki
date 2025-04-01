@@ -22,7 +22,7 @@ export default function Error({}: {
       <h2 className={sprinkles({ marginBottom: 2 })}>
         서비스에 접속할 수 없습니다.
       </h2>
-      <p className={sprinkles({ color: 'gray_400', marginBottom: 8 })}>
+      <p className={sprinkles({ color: 'description', marginBottom: 8 })}>
         오류가 발생했습니다.
       </p>
       <Button onClick={() => router.back()}>뒤로가기</Button>

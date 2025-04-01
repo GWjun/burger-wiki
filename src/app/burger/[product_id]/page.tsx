@@ -10,11 +10,17 @@ import LoadingSpinner from '#shared/ui/LoadingSpinner';
 import RatingStar from '#shared/ui/RatingStar';
 import * as styles from './styles.css';
 
-export async function generateMetadata({
-  params: { product_id },
-}: {
-  params: { product_id: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ product_id: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    product_id
+  } = params;
+
   const trpc = await createAsyncCaller();
   const product = await trpc.product.getProductById({
     product_id: Number(product_id),
@@ -38,11 +44,17 @@ export async function generateMetadata({
   };
 }
 
-export default async function Burger({
-  params: { product_id },
-}: {
-  params: { product_id: string };
-}) {
+export default async function Burger(
+  props: {
+    params: Promise<{ product_id: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    product_id
+  } = params;
+
   const trpc = await createAsyncCaller();
   const product = await trpc.product.getProductById({
     product_id: Number(product_id),

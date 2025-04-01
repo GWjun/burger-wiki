@@ -7,11 +7,17 @@ import { LikeButton } from '#entities/brand';
 import { BrandProducts } from '#widgets/product';
 import * as styles from './styles.css';
 
-export async function generateMetadata({
-  params: { name },
-}: {
-  params: { name: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ name: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    name
+  } = params;
+
   const trpc = await createAsyncCaller();
   const brand = await trpc.brand.getBrandByName({
     name_eng: name,
@@ -35,11 +41,17 @@ export async function generateMetadata({
   };
 }
 
-export default async function Brand({
-  params: { name },
-}: {
-  params: { name: string };
-}) {
+export default async function Brand(
+  props: {
+    params: Promise<{ name: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    name
+  } = params;
+
   const trpc = await createAsyncCaller();
   const brand = await trpc.brand.getBrandByName({
     name_eng: name,

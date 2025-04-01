@@ -4,11 +4,12 @@ import { auth } from '#shared/lib/utils/auth';
 import LogoText from '#shared/ui/LogoText';
 import * as styles from './styles.css';
 
-export default async function Login({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default async function Login(
+  props: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const session = await auth();
   const callbackUrl = searchParams.callbackUrl as string | undefined;
 

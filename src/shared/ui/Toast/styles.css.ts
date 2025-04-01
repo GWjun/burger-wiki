@@ -66,7 +66,7 @@ export const toastLineVariants = recipe({
         backgroundColor: theme.colors.primary,
       },
       success: {
-        backgroundColor: theme.colors.green_400,
+        backgroundColor: '#4ade80',
       },
       error: {
         backgroundColor: theme.colors.destructive,

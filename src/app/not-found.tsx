@@ -15,7 +15,7 @@ export default function NotFound({}: {}) {
       <h2 className={sprinkles({ marginBottom: 2 })}>
         요청하신 페이지를 찾을 수 없습니다.
       </h2>
-      <p className={sprinkles({ color: 'gray_400', marginBottom: 8 })}>
+      <p className={sprinkles({ color: 'description', marginBottom: 8 })}>
         주소를 올바르게 입력하였는지 확인해 주세요.
       </p>
       <Link href="/">
