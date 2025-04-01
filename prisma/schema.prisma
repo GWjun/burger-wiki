@@ -106,11 +106,11 @@ model Product {
   name             String        @db.VarChar
   description      String?
   image_url        String?       @db.VarChar
-  price            Decimal       @db.Decimal
+  price            Int
   available        Boolean?      @default(true)
   category         String?       @db.VarChar
   shop_url         String?       @db.VarChar
-  set_price        Decimal?      @db.Decimal
+  set_price        Int?
   description_full String?
   released_at      DateTime?     @db.Timestamptz(6)
   brand_name       String        @db.VarChar

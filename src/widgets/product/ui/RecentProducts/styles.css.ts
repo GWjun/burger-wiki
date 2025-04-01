@@ -1,32 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { theme } from '#shared/lib/styles/theme.css';
 
-export const container = style({
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.75rem',
-  padding: '0 0 0 1rem',
-
-  '::before': {
-    content: '',
-    inset: 0,
-    margin: '3rem 0 2rem 0',
-    height: '1px',
-    backgroundColor: theme.colors.border,
-  },
-
-  '@media': {
-    [`screen and (min-width: ${theme.breakpoints.md})`]: {
-      padding: '0 2.5rem 0 2.5rem',
-    },
-  },
-});
-
-export const title = style({
-  fontWeight: theme.typography.fontWeight.semibold,
-});
-
 export const productsContainer = style({
   display: 'flex',
   flexDirection: 'row',

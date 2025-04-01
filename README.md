@@ -43,10 +43,10 @@ NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET=your-bucket
 pnpm install
 ```
 
-### prisma client 생성
+### DB 연동
 
 ```sh
-pnpx prisma generate
+npx primsa db push # 최초 1회
 ```
 
 ### 실행

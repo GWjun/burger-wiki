@@ -38,7 +38,7 @@ export const productRouter = router({
         nextCursor = Number(nextItem!.product_id);
       }
       return {
-        products,
+        data: products,
         nextCursor,
       };
     }),
@@ -76,7 +76,7 @@ export const productRouter = router({
         nextCursor = Number(nextItem!.product_id);
       }
       return {
-        products,
+        data: products,
         nextCursor,
       };
     }),
@@ -137,7 +137,7 @@ export const productRouter = router({
         nextCursor = Number(nextItem!.product_id);
       }
       return {
-        products,
+        data: products,
         nextCursor,
       };
     }),

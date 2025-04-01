@@ -27,10 +27,7 @@ export function useFilteredProducts({
 
   const { data, ...rest } = result;
   const { hasNextPage, isFetchingNextPage, fetchNextPage } = rest;
-  const products = flatMap(
-    data?.pages || [],
-    (page) => page.products,
-  ) as Product[];
+  const products = flatMap(data?.pages || [], (page) => page.data) as Product[];
 
   const { ref } = useInView({
     onChange: useCallback(

@@ -3,12 +3,22 @@
 import { useRouter } from 'next/navigation';
 import { sprinkles } from '#shared/lib/styles/sprinkles.css';
 import Button from '#shared/ui/Button';
+import { useEffect } from 'react';
+import { captureException } from '@sentry/nextjs';
 
-export default function Error({}: {
+export default function Error({
+  error,
+}: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
   const router = useRouter();
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      captureException(error);
+    }
+  }, [error]);
 
   return (
     <div
