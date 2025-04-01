@@ -61,6 +61,7 @@ export default function TrpcClientProvider({
         defaultOptions: {
           queries: {
             retry: 0,
+            staleTime: 60 * 1000, // for ssr
             structuralSharing: false,
           },
           mutations: {
