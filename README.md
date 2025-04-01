@@ -4,7 +4,6 @@
     <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js badge">
     <img src="https://img.shields.io/badge/-tRPC-2596BE?style=flat&logo=trpc&logoColor=white" alt="tRPC badge">
     <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white" alt="Prisma badge">
-    <img src="https://img.shields.io/badge/Recoil-3563F2?style=flat-square&logo=recoil&logoColor=white" alt="Recoil badge">
     <img src="https://img.shields.io/badge/Vanilla%20Extract-1EC5C4?style=flat-square&logo=vanilla&logoColor=white" alt="Vanilla Extract badge">
     <img src="https://img.shields.io/badge/FSD%20Architecture-007ACC?style=flat-square&logo=architecture&logoColor=white" alt="FSD Architecture badge">
   </p>

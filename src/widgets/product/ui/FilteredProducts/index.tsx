@@ -10,7 +10,7 @@ import {
   ProductList,
   ProductCardSkeleton,
   useFilteredProducts,
-  useProductFilter,
+  useProductFilterStore,
 } from '#entities/product';
 import { FilterMenuButton } from '#features/filter';
 
@@ -32,7 +32,7 @@ export function FilteredProducts() {
     'desc',
   );
 
-  const { filters } = useProductFilter();
+  const { filters } = useProductFilterStore();
   const { products, status, ref, isFetchingNextPage } = useFilteredProducts({
     filters,
     order,

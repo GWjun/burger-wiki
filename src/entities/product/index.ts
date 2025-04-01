@@ -2,7 +2,8 @@ export { useProduct } from './hooks/useProduct';
 export { useBestProducts } from './hooks/useBestProducts';
 export { useRecentProducts } from './hooks/useRecentProducts';
 export { useFilteredProducts } from './hooks/useFilteredProducts';
-export { useProductFilter } from './hooks/useProductFilter';
+
+export { useProductFilterStore } from './store/useProductFilterStore';
 
 export {
   ProductOrderOptions,

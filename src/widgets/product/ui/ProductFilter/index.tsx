@@ -2,9 +2,9 @@
 
 import { ListRestart } from 'lucide-react';
 import {
-  useProductFilter,
   pattyNameMap,
   pattyTypesList,
+  useProductFilterStore,
 } from '#entities/product';
 import { trpc } from '#shared/lib/utils/trpc';
 import Label from '#shared/ui/Label';
@@ -16,7 +16,7 @@ import * as styles from './styles.css';
 export function ProductFilter() {
   const { data: brandsList, status } = trpc.brand.getAllBrandsName.useQuery();
   const { filters, updateFilter, handleArrayChange, resetFilter } =
-    useProductFilter();
+    useProductFilterStore();
 
   if (status === 'pending') return <ProductFilterSkeleton />;
   if (!brandsList) return null;
