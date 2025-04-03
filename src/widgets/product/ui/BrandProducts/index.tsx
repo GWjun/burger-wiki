@@ -16,8 +16,18 @@ import { theme } from '#shared/lib/styles/theme.css';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
 
 import * as styles from './styles.css';
+import type { ProductPagination } from '#shared/lib/types/paginate';
+import { use } from 'react';
 
-export function BrandProducts({ brand_name_kor }: { brand_name_kor: string }) {
+export function BrandProducts({
+  brand_name_kor,
+  initialPromise,
+}: {
+  brand_name_kor: string;
+  initialPromise: Promise<ProductPagination>;
+}) {
+  const initialData = use(initialPromise);
+
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
   const [order, setOrder] = useQueryState<ProductOrderType>('order', 'release');
   const [sortOrder, setSortOrder] = useQueryState<'asc' | 'desc'>(
@@ -32,6 +42,7 @@ export function BrandProducts({ brand_name_kor }: { brand_name_kor: string }) {
     order,
     sortOrder,
     limit: isMobile ? 10 : 20,
+    initialData,
   });
 
   return (

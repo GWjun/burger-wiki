@@ -1,5 +1,6 @@
 'use client';
 
+import { use } from 'react';
 import { ArrowDownNarrowWide, ArrowUpWideNarrow } from 'lucide-react';
 import { useOverlay } from '@toss/use-overlay';
 
@@ -8,36 +9,59 @@ import {
   type ProductOrderType,
   ProductOrderOptions,
   ProductList,
-  ProductCardSkeleton,
   useFilteredProducts,
   useProductFilterStore,
 } from '#entities/product';
 import { FilterMenuButton } from '#features/filter';
 
+import type { ProductPagination } from '#shared/lib/types/paginate';
 import { useMediaQuery } from '#shared/hooks/useMediaQuery';
 import { useQueryState } from '#shared/hooks/useQueryState';
-import { theme } from '#shared/lib/styles/theme.css';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
 import Button from '#shared/ui/Button';
 import Modal from '#shared/ui/Modal';
+import { theme } from '#shared/lib/styles/theme.css';
+
+import {
+  isValidOrderType,
+  isValidSortOrder,
+} from '#shared/lib/utils/searchParamsUtils';
 
 import * as styles from './styles.css';
 
-export function FilteredProducts() {
+export function FilteredProducts({
+  initialPromise,
+}: {
+  initialPromise: Promise<ProductPagination>;
+}) {
+  const initialData = use(initialPromise);
+
   const overlay = useOverlay();
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
-  const [order, setOrder] = useQueryState<ProductOrderType>('order', 'release');
-  const [sortOrder, setSortOrder] = useQueryState<'asc' | 'desc'>(
+
+  const [rawOrder, setOrder] = useQueryState<ProductOrderType>(
+    'order',
+    'release',
+  );
+  const [rawSortOrder, setSortOrder] = useQueryState<'asc' | 'desc'>(
     'sortOrder',
     'desc',
   );
 
+  const order: ProductOrderType = isValidOrderType(rawOrder)
+    ? rawOrder
+    : 'release';
+  const sortOrder: 'asc' | 'desc' = isValidSortOrder(rawSortOrder)
+    ? rawSortOrder
+    : 'desc';
+
   const { filters } = useProductFilterStore();
-  const { products, status, ref, isFetchingNextPage } = useFilteredProducts({
+  const { products, ref, isFetchingNextPage } = useFilteredProducts({
     filters,
     order,
     sortOrder,
     limit: isMobile ? 10 : 20,
+    initialData,
   });
 
   function openModal() {
@@ -78,11 +102,7 @@ export function FilteredProducts() {
 
       <div className={styles.productsContainer}>
         <div className={styles.products}>
-          {status === 'pending' ? (
-            <ProductCardSkeleton count={20} />
-          ) : (
-            <ProductList products={products} />
-          )}
+          <ProductList products={products} />
         </div>
 
         <div ref={ref} />

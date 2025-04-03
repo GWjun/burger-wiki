@@ -1,22 +1,25 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { createAsyncCaller } from '@server/routers';
-import { LikeButton } from '#entities/brand';
 import { BrandProducts } from '#widgets/product';
+import { LikeButton } from '#entities/brand';
+import {
+  getSearchParam,
+  isValidOrderType,
+  isValidSortOrder,
+} from '#shared/lib/utils/searchParamsUtils';
+
 import * as styles from './styles.css';
 
-export async function generateMetadata(
-  props: {
-    params: Promise<{ name: string }>;
-  }
-): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Promise<{ name: string }>;
+}): Promise<Metadata> {
   const params = await props.params;
 
-  const {
-    name
-  } = params;
+  const { name } = params;
 
   const trpc = await createAsyncCaller();
   const brand = await trpc.brand.getBrandByName({
@@ -41,18 +44,21 @@ export async function generateMetadata(
   };
 }
 
-export default async function Brand(
-  props: {
-    params: Promise<{ name: string }>;
-  }
-) {
+export default async function Brand(props: {
+  params: Promise<{ name: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const params = await props.params;
+  const { name } = params;
 
-  const {
-    name
-  } = params;
+  const orderParam = await getSearchParam(props.searchParams, 'order');
+  const sortOrderParam = await getSearchParam(props.searchParams, 'sortOrder');
+
+  const order = isValidOrderType(orderParam) ? orderParam : 'release';
+  const sortOrder = isValidSortOrder(sortOrderParam) ? sortOrderParam : 'desc';
 
   const trpc = await createAsyncCaller();
+
   const brand = await trpc.brand.getBrandByName({
     name_eng: name,
   });
@@ -60,12 +66,19 @@ export default async function Brand(
   const {
     id,
     name: name_kor,
-    description,
     logo_url,
     website_url,
     likes_count,
     background_image_url,
   } = brand;
+
+  const filteredProductsPromise = trpc.product.getFilteredProducts({
+    filters: {
+      brands: [name_kor],
+    },
+    order,
+    sortOrder,
+  });
 
   return (
     <div>
@@ -110,7 +123,12 @@ export default async function Brand(
           </div>
         </div>
 
-        <BrandProducts brand_name_kor={name_kor} />
+        <Suspense>
+          <BrandProducts
+            initialPromise={filteredProductsPromise}
+            brand_name_kor={name_kor}
+          />
+        </Suspense>
       </div>
     </div>
   );
