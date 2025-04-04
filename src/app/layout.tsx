@@ -16,7 +16,8 @@ export const metadata: Metadata = {
     template: '%s - 버거위키',
     default: '버거위키',
   },
-  description: '햄버거 정보 제공 플랫폼',
+  description:
+    '버거위키에서 다양한 프랜차이즈 브랜드의 메뉴, 가격, 칼로리, 영양성분 정보를 확인하고 사용자들의 솔직한 리뷰를 공유하세요.',
   icons: {
     icon: '/logo/burger-wiki-icon.svg',
   },
@@ -25,6 +26,7 @@ export const metadata: Metadata = {
     title: '버거위키 - 버거 정보 공유',
     description: '햄버거에 대해 알아보세요!',
     url: 'https://burger-wiki.vercel.app/',
+    siteName: '버거위키',
     images: [
       {
         url: '/logo/burger-wiki-both.svg',
@@ -40,6 +42,7 @@ export const metadata: Metadata = {
       'naver-site-verification': 'a555c1bd87bc2faccbbc732e03a76b930196fe1b',
     },
   },
+  applicationName: '버거위키',
 };
 
 export default function RootLayout({
