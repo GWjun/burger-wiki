@@ -1,4 +1,4 @@
-import { createAsyncCaller } from '@server/routers';
+import { getHydrationHelpers } from '@server/getHydrationHelpers';
 
 import { Suspense } from 'react';
 import { FilteredProducts, ProductFilter } from '#widgets/product';
@@ -15,7 +15,7 @@ export default async function Burgers({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const trpc = await createAsyncCaller();
+  const { trpc, HydrateClient } = await getHydrationHelpers();
 
   const orderParam = await getSearchParam(searchParams, 'order');
   const sortOrderParam = await getSearchParam(searchParams, 'sortOrder');
@@ -23,24 +23,26 @@ export default async function Burgers({
   const order = isValidOrderType(orderParam) ? orderParam : 'release';
   const sortOrder = isValidSortOrder(sortOrderParam) ? sortOrderParam : 'desc';
 
-  const allBrandsNamePromise = trpc.brand.getAllBrandsName();
-  const filteredProductsPromise = trpc.product.getFilteredProducts({
+  void trpc.brand.getAllBrandsName.prefetch();
+  void trpc.product.getFilteredProducts.prefetch({
     filters: undefined,
     order,
     sortOrder,
   });
 
   return (
-    <div className={styles.container}>
-      <div className={styles.hidden}>
+    <HydrateClient>
+      <div className={styles.container}>
+        <div className={styles.hidden}>
+          <Suspense>
+            <ProductFilter />
+          </Suspense>
+        </div>
+
         <Suspense>
-          <ProductFilter initialPromise={allBrandsNamePromise} />
+          <FilteredProducts />
         </Suspense>
       </div>
-
-      <Suspense>
-        <FilteredProducts initialPromise={filteredProductsPromise} />
-      </Suspense>
-    </div>
+    </HydrateClient>
   );
 }

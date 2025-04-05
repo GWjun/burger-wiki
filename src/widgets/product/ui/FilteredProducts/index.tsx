@@ -1,6 +1,5 @@
 'use client';
 
-import { use } from 'react';
 import { ArrowDownNarrowWide, ArrowUpWideNarrow } from 'lucide-react';
 import { useOverlay } from '@toss/use-overlay';
 
@@ -14,13 +13,10 @@ import {
 } from '#entities/product';
 import { FilterMenuButton } from '#features/filter';
 
-import type { ProductPagination } from '#shared/lib/types/paginate';
-import { useMediaQuery } from '#shared/hooks/useMediaQuery';
 import { useQueryState } from '#shared/hooks/useQueryState';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
 import Button from '#shared/ui/Button';
 import Modal from '#shared/ui/Modal';
-import { theme } from '#shared/lib/styles/theme.css';
 
 import {
   isValidOrderType,
@@ -29,15 +25,8 @@ import {
 
 import * as styles from './styles.css';
 
-export function FilteredProducts({
-  initialPromise,
-}: {
-  initialPromise: Promise<ProductPagination>;
-}) {
-  const initialData = use(initialPromise);
-
+export function FilteredProducts() {
   const overlay = useOverlay();
-  const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
 
   const [rawOrder, setOrder] = useQueryState<ProductOrderType>(
     'order',
@@ -60,8 +49,7 @@ export function FilteredProducts({
     filters,
     order,
     sortOrder,
-    limit: isMobile ? 10 : 20,
-    initialData,
+    limit: 20,
   });
 
   function openModal() {

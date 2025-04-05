@@ -11,5 +11,4 @@ export {
 } from './model/ReviewOrderOptions';
 export { pattyTypesList, pattyNameMap } from './model/PattyNameMap';
 
-export { ProductCardSkeleton } from './ui/ProductCardSkeleton';
 export { ProductList } from './ui/ProductList';

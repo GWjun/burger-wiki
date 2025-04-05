@@ -1,6 +1,5 @@
 'use client';
 
-import { use } from 'react';
 import { ListRestart } from 'lucide-react';
 import {
   pattyNameMap,
@@ -13,19 +12,8 @@ import Button from '#shared/ui/Button';
 
 import * as styles from './styles.css';
 
-export function ProductFilter({
-  initialPromise,
-}: {
-  initialPromise?: Promise<string[]>;
-}) {
-  let initialData: string[] | undefined;
-  if (initialPromise) {
-    initialData = use(initialPromise);
-  }
-
-  const { data: brandsList } = trpc.brand.getAllBrandsName.useQuery(undefined, {
-    initialData,
-  });
+export function ProductFilter() {
+  const [brandsList] = trpc.brand.getAllBrandsName.useSuspenseQuery();
   const { filters, updateFilter, handleArrayChange, resetFilter } =
     useProductFilterStore();
 

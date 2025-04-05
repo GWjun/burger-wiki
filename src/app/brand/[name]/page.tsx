@@ -13,6 +13,7 @@ import {
 } from '#shared/lib/utils/searchParamsUtils';
 
 import * as styles from './styles.css';
+import { getHydrationHelpers } from '@server/getHydrationHelpers';
 
 export async function generateMetadata(props: {
   params: Promise<{ name: string }>;
@@ -57,7 +58,7 @@ export default async function Brand(props: {
   const order = isValidOrderType(orderParam) ? orderParam : 'release';
   const sortOrder = isValidSortOrder(sortOrderParam) ? sortOrderParam : 'desc';
 
-  const trpc = await createAsyncCaller();
+  const { trpc, HydrateClient } = await getHydrationHelpers();
 
   const brand = await trpc.brand.getBrandByName({
     name_eng: name,
@@ -72,7 +73,7 @@ export default async function Brand(props: {
     background_image_url,
   } = brand;
 
-  const filteredProductsPromise = trpc.product.getFilteredProducts({
+  void trpc.product.getFilteredProducts.prefetch({
     filters: {
       brands: [name_kor],
     },
@@ -81,55 +82,54 @@ export default async function Brand(props: {
   });
 
   return (
-    <div>
-      <div className={styles.background}>
-        <Image
-          src={background_image_url ?? ''}
-          fill
-          sizes="100vw"
-          placeholder="blur"
-          blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-          alt="매장 이미지"
-          className={styles.backgroundImage}
-        />
-      </div>
-
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.avatarContainer}>
-            <Image
-              src={logo_url ?? ''}
-              width={0}
-              height={0}
-              alt="브랜드 로고 이미지"
-              className={styles.avatar}
-            />
-          </div>
-
-          <div className={styles.info}>
-            <div className={styles.name}>{name_kor}</div>
-            <div className={styles.likes}>
-              <span className={styles.like}>관심</span>
-              <span>{likes_count}</span>
-            </div>
-
-            <LikeButton brand_id={Number(id)} />
-          </div>
-
-          <div className={styles.action}>
-            <Link href={website_url ?? ''} className={styles.link}>
-              방문하기
-            </Link>
-          </div>
+    <HydrateClient>
+      <div>
+        <div className={styles.background}>
+          <Image
+            src={background_image_url ?? ''}
+            fill
+            sizes="100vw"
+            placeholder="blur"
+            blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+            alt="매장 이미지"
+            className={styles.backgroundImage}
+          />
         </div>
 
-        <Suspense>
-          <BrandProducts
-            initialPromise={filteredProductsPromise}
-            brand_name_kor={name_kor}
-          />
-        </Suspense>
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <div className={styles.avatarContainer}>
+              <Image
+                src={logo_url ?? ''}
+                width={0}
+                height={0}
+                alt="브랜드 로고 이미지"
+                className={styles.avatar}
+              />
+            </div>
+
+            <div className={styles.info}>
+              <div className={styles.name}>{name_kor}</div>
+              <div className={styles.likes}>
+                <span className={styles.like}>관심</span>
+                <span>{likes_count}</span>
+              </div>
+
+              <LikeButton brand_id={Number(id)} />
+            </div>
+
+            <div className={styles.action}>
+              <Link href={website_url ?? ''} className={styles.link}>
+                방문하기
+              </Link>
+            </div>
+          </div>
+
+          <Suspense>
+            <BrandProducts brand_name_kor={name_kor} />
+          </Suspense>
+        </div>
       </div>
-    </div>
+    </HydrateClient>
   );
 }

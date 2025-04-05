@@ -1,7 +1,6 @@
 'use client';
 
-import type { ProductPagination } from '#shared/lib/types/paginate';
-import { use, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { ProductList, useBestProducts } from '#entities/product';
 import Button from '#shared/ui/Button';
@@ -10,22 +9,20 @@ import { theme } from '#shared/lib/styles/theme.css';
 
 import * as styles from './styles.css';
 
-export function BestProducts({
-  initialPromise,
-}: {
-  initialPromise: Promise<ProductPagination>;
-}) {
-  const initialData = use(initialPromise);
-
+export function BestProducts() {
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
   const { products, fetchNextPage, hasNextPage } = useBestProducts({
-    limit: isMobile ? 15 : 5,
-    initialData,
+    limit: 5,
   });
 
+  // 모바일에서는 15개의 데이터가 한번에 보이도록 함
   useEffect(() => {
     if (isMobile && hasNextPage) {
-      fetchNextPage();
+      fetchNextPage().then(() => {
+        if (hasNextPage) {
+          fetchNextPage();
+        }
+      });
     }
   }, [isMobile, hasNextPage]);
 

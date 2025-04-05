@@ -1,18 +1,11 @@
 'use client';
 
-import type { Brand } from '@prisma/client';
-import { use } from 'react';
-import { useBestBrands, BrandCard } from '#entities/brand';
+import { BrandCard } from '#entities/brand';
+import { trpc } from '#shared/lib/utils/trpc';
 import * as styles from './styles.css';
 
-export function BestBrands({
-  initialPromise,
-}: {
-  initialPromise: Promise<Brand[]>;
-}) {
-  const initialData = use(initialPromise);
-
-  const { data: brands } = useBestBrands({ initialData });
+export function BestBrands() {
+  const [brands] = trpc.brand.getBestBrands.useSuspenseQuery();
 
   if (!brands) {
     return <div className={styles.nothing}>표시할 브랜드가 없습니다</div>;
