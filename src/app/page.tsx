@@ -10,8 +10,8 @@ export default async function Home() {
   const { trpc, HydrateClient } = await getHydrationHelpers();
 
   void trpc.brand.getBestBrands.prefetch();
-  void trpc.product.getRecentProducts.prefetch({ limit: 5 });
-  void trpc.product.getBestProducts.prefetch({ limit: 5 });
+  void trpc.product.getRecentProducts.prefetchInfinite({ limit: 5 });
+  void trpc.product.getBestProducts.prefetchInfinite({ limit: 5 });
 
   return (
     <HydrateClient>

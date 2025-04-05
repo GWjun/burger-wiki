@@ -73,12 +73,13 @@ export default async function Brand(props: {
     background_image_url,
   } = brand;
 
-  void trpc.product.getFilteredProducts.prefetch({
+  void trpc.product.getFilteredProducts.prefetchInfinite({
     filters: {
       brands: [name_kor],
     },
     order,
     sortOrder,
+    limit: 20,
   });
 
   return (

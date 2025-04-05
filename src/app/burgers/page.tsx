@@ -24,10 +24,11 @@ export default async function Burgers({
   const sortOrder = isValidSortOrder(sortOrderParam) ? sortOrderParam : 'desc';
 
   void trpc.brand.getAllBrandsName.prefetch();
-  void trpc.product.getFilteredProducts.prefetch({
+  void trpc.product.getFilteredProducts.prefetchInfinite({
     filters: undefined,
     order,
     sortOrder,
+    limit: 20,
   });
 
   return (
