@@ -1,7 +1,7 @@
 import { prisma } from '@server/prisma';
 import { baseProcedure, protectedProcedure, router } from '@server/trpc';
 import { z } from 'zod';
-import { getErrorCode } from '@error/error';
+import { throwTRPCError } from '@error/throwTRPCError';
 import { ReviewOrderType } from '#entities/review';
 
 export const reviewRouter = router({
@@ -96,7 +96,7 @@ export const reviewRouter = router({
         });
 
         if (!product) {
-          throw new Error(getErrorCode('NOT_FOUND'));
+          throwTRPCError({ code: 'NOT_FOUND' });
         }
 
         const newReviewCount = product.review_count + 1;
@@ -134,11 +134,11 @@ export const reviewRouter = router({
         });
 
         if (!existingReview) {
-          throw new Error(getErrorCode('NOT_FOUND'));
+          throwTRPCError({ code: 'NOT_FOUND' });
         }
 
         if (existingReview.userId !== userId) {
-          throw new Error(getErrorCode('FORBIDDEN'));
+          throwTRPCError({ code: 'FORBIDDEN' });
         }
 
         await tx.review.update({
@@ -193,11 +193,11 @@ export const reviewRouter = router({
         });
 
         if (!existingReview) {
-          throw new Error(getErrorCode('NOT_FOUND'));
+          throwTRPCError({ code: 'NOT_FOUND' });
         }
 
         if (existingReview.userId !== userId) {
-          throw new Error(getErrorCode('FORBIDDEN'));
+          throwTRPCError({ code: 'FORBIDDEN' });
         }
 
         await tx.review.delete({
@@ -250,8 +250,15 @@ export const reviewRouter = router({
         if (existingLike) {
           if (existingLike.is_like === is_like) {
             if (is_like === true)
-              throw new Error(getErrorCode('ALREADY_LIKED'));
-            else throw new Error(getErrorCode('ALREADY_DISLIKED'));
+              throwTRPCError({
+                code: 'FORBIDDEN',
+                customCode: 'ALREADY_LIKED',
+              });
+            else
+              throwTRPCError({
+                code: 'FORBIDDEN',
+                customCode: 'ALREADY_DISLIKED',
+              });
           } else {
             await tx.review.update({
               where: { id: review_id },

@@ -1,7 +1,8 @@
 import { initTRPC } from '@trpc/server';
-import { Context } from '@server/context';
+import { type Context } from '@server/context';
 import superjson from 'superjson';
-import { getErrorCode } from '@error/error';
+
+import { throwTRPCError } from '@error/throwTRPCError';
 
 const t = initTRPC.context<Context>().create({
   transformer: superjson,
@@ -20,7 +21,7 @@ export const protectedProcedure = t.procedure.use(
     const { session } = ctx;
 
     if (!session || !session.user || !session.user.id) {
-      throw new Error(getErrorCode('UNAUTHORIZED'));
+      throwTRPCError({ code: 'UNAUTHORIZED' });
     }
 
     return opts.next({

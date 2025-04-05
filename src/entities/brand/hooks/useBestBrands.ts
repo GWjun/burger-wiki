@@ -1,6 +1,7 @@
 import type { Brand } from '@prisma/client';
 import { trpc } from '#shared/lib/utils/trpc';
-import { AppError } from '@error/error';
+
+import { AppError } from '@error/AppError';
 
 export function useBestBrands({ initialData }: { initialData: Brand[] }) {
   const result = trpc.brand.getBestBrands.useQuery(undefined, { initialData });

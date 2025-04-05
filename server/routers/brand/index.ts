@@ -6,7 +6,7 @@ import {
   router,
 } from '@server/trpc';
 import { z } from 'zod';
-import { getErrorCode } from '@error/error';
+import { throwTRPCError } from '@error/throwTRPCError';
 
 export const brandRouter = router({
   getBrandById: baseProcedure
@@ -20,7 +20,7 @@ export const brandRouter = router({
         },
       });
 
-      if (!brand) throw new Error(getErrorCode('NOT_FOUND'));
+      if (!brand) throwTRPCError({ code: 'NOT_FOUND' });
 
       return brand;
     }),
@@ -36,7 +36,7 @@ export const brandRouter = router({
         },
       });
 
-      if (!brand) throw new Error(getErrorCode('NOT_FOUND'));
+      if (!brand) throwTRPCError({ code: 'NOT_FOUND' });
 
       return brand;
     }),
@@ -49,7 +49,7 @@ export const brandRouter = router({
       take: 5,
     });
 
-    if (!brands) throw new Error(getErrorCode('NOT_FOUND'));
+    if (!brands) throwTRPCError({ code: 'NOT_FOUND' });
 
     return brands;
   }),
@@ -57,7 +57,7 @@ export const brandRouter = router({
   getAllBrands: baseProcedure.query(async () => {
     const brands = await prisma.brand.findMany();
 
-    if (!brands) throw new Error(getErrorCode('NOT_FOUND'));
+    if (!brands) throwTRPCError({ code: 'NOT_FOUND' });
 
     return brands;
   }),
@@ -65,7 +65,7 @@ export const brandRouter = router({
   getAllBrandsName: baseProcedure.query(async () => {
     const brands = await prisma.brand.findMany();
 
-    if (!brands) throw new Error(getErrorCode('NOT_FOUND'));
+    if (!brands) throwTRPCError({ code: 'NOT_FOUND' });
 
     return brands.map((brand) => brand.name);
   }),

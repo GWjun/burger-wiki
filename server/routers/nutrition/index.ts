@@ -1,7 +1,7 @@
 import { prisma } from '@server/prisma';
 import { baseProcedure, router } from '@server/trpc';
 import { z } from 'zod';
-import { getErrorCode } from '@error/error';
+import { throwTRPCError } from '@error/throwTRPCError';
 
 export const nutritionRouter = router({
   getInfoByProductId: baseProcedure
@@ -16,7 +16,7 @@ export const nutritionRouter = router({
         where: { product_id },
       });
 
-      if (!nutrition_info) throw new Error(getErrorCode('NOT_FOUND'));
+      if (!nutrition_info) throwTRPCError({ code: 'NOT_FOUND' });
 
       return nutrition_info;
     }),

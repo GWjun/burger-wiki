@@ -1,7 +1,7 @@
 import { prisma } from '@server/prisma';
 import { baseProcedure, protectedProcedure, router } from '@server/trpc';
 import { z } from 'zod';
-import { getErrorCode } from '@error/error';
+import { throwTRPCError } from '@error/throwTRPCError';
 
 import { ProductFilterSchema } from '@server/routers/product/schema';
 import { ProductOrderType } from '#entities/product';
@@ -93,7 +93,7 @@ export const productRouter = router({
         where: { product_id },
       });
 
-      if (!product) throw new Error(getErrorCode('NOT_FOUND'));
+      if (!product) throwTRPCError({ code: 'NOT_FOUND' });
 
       return product;
     }),
@@ -101,7 +101,7 @@ export const productRouter = router({
   getAllProducts: baseProcedure.query(async () => {
     const products = await prisma.product.findMany();
 
-    if (!products) throw new Error(getErrorCode('NOT_FOUND'));
+    if (!products) throwTRPCError({ code: 'NOT_FOUND' });
 
     return products;
   }),
@@ -163,8 +163,15 @@ export const productRouter = router({
         if (existingLike) {
           if (existingLike.is_like === is_like) {
             if (is_like === true)
-              throw new Error(getErrorCode('ALREADY_LIKED'));
-            else throw new Error(getErrorCode('ALREADY_DISLIKED'));
+              throwTRPCError({
+                code: 'FORBIDDEN',
+                customCode: 'ALREADY_LIKED',
+              });
+            else
+              throwTRPCError({
+                code: 'FORBIDDEN',
+                customCode: 'ALREADY_DISLIKED',
+              });
           } else {
             await tx.product.update({
               where: { product_id },

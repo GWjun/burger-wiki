@@ -1,7 +1,7 @@
 'use client';
 
 import { captureException } from '@sentry/nextjs';
-import { ReactNode, useState, useCallback } from 'react';
+import { type ReactNode, useState, useCallback } from 'react';
 import {
   MutationCache,
   QueryCache,
@@ -9,7 +9,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { httpBatchLink } from '@trpc/client';
+import { httpBatchLink, TRPCClientError } from '@trpc/client';
 import superjson from 'superjson';
 
 import { useAuthRedirect } from '#shared/hooks/useAuthRedirect';
@@ -32,16 +32,22 @@ export default function TrpcClientProvider({
 
   const handleError = useCallback(
     (error: Error) => {
-      // redirect to login page if not logged in
-      if (error.message === 'UNAUTHORIZED' && isRedirect) {
-        redirectToLogin(window.location.pathname);
-        return;
-      }
+      if (error instanceof TRPCClientError) {
+        if (error.data.httpStatus == 401 && isRedirect) {
+          redirectToLogin(window.location.pathname);
+          return;
+        }
 
-      addToast({
-        message: getErrorMessage(error.message),
-        variant: 'error',
-      });
+        addToast({
+          message: getErrorMessage(error.message || error.data.code),
+          variant: 'error',
+        });
+      } else {
+        addToast({
+          message: getErrorMessage(error.message),
+          variant: 'error',
+        });
+      }
 
       if (process.env.NODE_ENV === 'development') {
         console.log(error);
