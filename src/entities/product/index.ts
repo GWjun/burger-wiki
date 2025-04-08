@@ -12,3 +12,4 @@ export {
 export { pattyTypesList, pattyNameMap } from './model/PattyNameMap';
 
 export { ProductList } from './ui/ProductList';
+export { ProductCardSkeleton } from './ui/ProductCardSkeleton';

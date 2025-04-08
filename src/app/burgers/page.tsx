@@ -1,7 +1,7 @@
 import { getHydrationHelpers } from '@server/getHydrationHelpers';
 
 import { Suspense } from 'react';
-import { FilteredProducts, ProductFilter } from '#widgets/product';
+import { FilteredSection, ProductFilter } from '#widgets/product';
 import {
   getSearchParam,
   isValidOrderType,
@@ -35,14 +35,12 @@ export default async function Burgers({
     <HydrateClient>
       <div className={styles.container}>
         <div className={styles.hidden}>
-          <Suspense>
+          <Suspense fallback={<div className={styles.productFilterFallback} />}>
             <ProductFilter />
           </Suspense>
         </div>
 
-        <Suspense>
-          <FilteredProducts />
-        </Suspense>
+        <FilteredSection />
       </div>
     </HydrateClient>
   );
