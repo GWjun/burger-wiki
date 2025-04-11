@@ -25,6 +25,7 @@ DIRECT_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=publi
 AUTH_SECRET="your_auth_secret"
 AUTH_GOOGLE_ID="your_oauth_id"
 AUTH_GOOGLE_SECRET="your_oauth_secret"
+AUTH_TRUST_HOST=http://localhost:3000
 
 # sentry
 SENTRY_AUTH_TOKEN=your_sentry_token

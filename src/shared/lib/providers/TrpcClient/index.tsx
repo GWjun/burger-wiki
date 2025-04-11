@@ -2,20 +2,17 @@
 
 import { captureException } from '@sentry/nextjs';
 import { type ReactNode, useState, useCallback } from 'react';
-import {
-  MutationCache,
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { httpBatchLink, TRPCClientError } from '@trpc/client';
 import superjson from 'superjson';
 
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { httpBatchLink, TRPCClientError } from '@trpc/client';
+import { getQueryClient } from '@server/queryClient';
+
+import { getErrorMessage } from '@error/error';
 import { useAuthRedirect } from '#shared/hooks/useAuthRedirect';
 import { useToast } from '#shared/hooks/useToast';
 import { trpc } from '#shared/lib/utils/trpc';
-import { getErrorMessage } from '@error/error';
 
 function getBaseUrl() {
   if (typeof window !== 'undefined') return '';
@@ -60,27 +57,7 @@ export default function TrpcClientProvider({
     [isRedirect, redirectToLogin, addToast],
   );
 
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry: 0,
-            staleTime: 60 * 1000, // for ssr
-            structuralSharing: false,
-          },
-          mutations: {
-            retry: 0,
-          },
-        },
-        queryCache: new QueryCache({
-          onError: handleError,
-        }),
-        mutationCache: new MutationCache({
-          onError: handleError,
-        }),
-      }),
-  );
+  const queryClient = getQueryClient(handleError);
 
   const [trpcClient] = useState(() =>
     trpc.createClient({
@@ -88,9 +65,6 @@ export default function TrpcClientProvider({
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
           transformer: superjson,
-          async headers() {
-            return {};
-          },
         }),
       ],
     }),

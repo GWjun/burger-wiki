@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { selectImageFile } from '@tests/jest';
-import { mockUploadImage } from '#shared/lib/utils/__mock__/jest';
+import { mockUploadImage } from '../../../../../__mock__/jest';
 
 import { FormProvider, useForm } from 'react-hook-form';
 import ToastProvider from '#shared/lib/providers/ToastProvider';

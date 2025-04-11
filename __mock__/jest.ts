@@ -1,6 +1,6 @@
-import * as ImageUpload from '../image-upload';
+import * as ImageUpload from '#shared/lib/utils/image-upload';
 
-jest.mock('../image-upload');
+jest.mock('#shared/lib/utils/image-upload');
 
 export function mockUploadImage(status = 200) {
   if (status > 299) {
