@@ -121,11 +121,13 @@ export default async function Brand(props: {
               <LikeButton brand_id={Number(id)} />
             </div>
 
-            <div className={styles.action}>
-              <Link href={website_url ?? ''} className={styles.link}>
-                방문하기
-              </Link>
-            </div>
+            {website_url && (
+              <div className={styles.action}>
+                <Link href={website_url} className={styles.link}>
+                  방문하기
+                </Link>
+              </div>
+            )}
           </div>
 
           <Suspense>
