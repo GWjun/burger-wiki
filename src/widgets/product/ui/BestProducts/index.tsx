@@ -1,7 +1,6 @@
 'use client';
 
-import type { ProductPagination } from '#shared/lib/types/paginate';
-import { use, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { ProductList, useBestProducts } from '#entities/product';
 import Button from '#shared/ui/Button';
@@ -10,24 +9,28 @@ import { theme } from '#shared/lib/styles/theme.css';
 
 import * as styles from './styles.css';
 
-export function BestProducts({
-  initialPromise,
-}: {
-  initialPromise: Promise<ProductPagination>;
-}) {
-  const initialData = use(initialPromise);
-
+export function BestProducts() {
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
-  const { products, fetchNextPage, hasNextPage } = useBestProducts({
-    limit: isMobile ? 15 : 5,
-    initialData,
-  });
+  const { products, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useBestProducts({
+      limit: 5,
+    });
 
+  const TARGET_PRODUCT_COUNT = 15;
+
+  // 모바일 환경이고, 다음 페이지가 있고, 현재 로딩 중이 아니며,
+  // 아직 목표 개수(15개)에 도달하지 못했을 때만 다음 페이지 로드
   useEffect(() => {
-    if (isMobile && hasNextPage) {
+    const shouldFetch =
+      isMobile &&
+      hasNextPage &&
+      !isFetchingNextPage &&
+      products.length < TARGET_PRODUCT_COUNT;
+
+    if (shouldFetch) {
       fetchNextPage();
     }
-  }, [isMobile, hasNextPage]);
+  }, [isMobile, hasNextPage, isFetchingNextPage, products.length]);
 
   return (
     <div className={styles.productsContainer}>

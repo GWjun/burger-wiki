@@ -1,37 +1,33 @@
 'use client';
 
+import { Suspense } from 'react';
 import { ArrowDownNarrowWide, ArrowUpWideNarrow } from 'lucide-react';
 import {
   type ProductOrderType,
   ProductOrderOptions,
   ProductList,
-  ProductCardSkeleton,
   useFilteredProducts,
 } from '#entities/product';
 import { FilterMenuButton } from '#features/filter';
-
-import { useMediaQuery } from '#shared/hooks/useMediaQuery';
 import { useQueryState } from '#shared/hooks/useQueryState';
-import { theme } from '#shared/lib/styles/theme.css';
 import LoadingSpinner from '#shared/ui/LoadingSpinner';
 
 import * as styles from './styles.css';
 
 export function BrandProducts({ brand_name_kor }: { brand_name_kor: string }) {
-  const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
   const [order, setOrder] = useQueryState<ProductOrderType>('order', 'release');
   const [sortOrder, setSortOrder] = useQueryState<'asc' | 'desc'>(
     'sortOrder',
     'desc',
   );
 
-  const { products, status, ref, isFetchingNextPage } = useFilteredProducts({
+  const { products, ref, isFetchingNextPage } = useFilteredProducts({
     filters: {
       brands: [brand_name_kor],
     },
     order,
     sortOrder,
-    limit: isMobile ? 10 : 20,
+    limit: 20,
   });
 
   return (
@@ -57,11 +53,9 @@ export function BrandProducts({ brand_name_kor }: { brand_name_kor: string }) {
 
       <div className={styles.productsContainer}>
         <div className={styles.products}>
-          {status === 'pending' ? (
-            <ProductCardSkeleton count={20} />
-          ) : (
+          <Suspense>
             <ProductList products={products} />
-          )}
+          </Suspense>
         </div>
 
         <div ref={ref} />

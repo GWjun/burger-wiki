@@ -11,6 +11,7 @@ jest.mock('#shared/lib/utils/trpc', () => ({
     brand: {
       getAllBrandsName: {
         useQuery: jest.fn(),
+        useSuspenseQuery: jest.fn(),
       },
     },
   },
