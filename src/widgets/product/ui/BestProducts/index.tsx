@@ -11,20 +11,26 @@ import * as styles from './styles.css';
 
 export function BestProducts() {
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
-  const { products, fetchNextPage, hasNextPage } = useBestProducts({
-    limit: 5,
-  });
+  const { products, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useBestProducts({
+      limit: 5,
+    });
 
-  // 모바일에서는 15개의 데이터가 한번에 보이도록 함
+  const TARGET_PRODUCT_COUNT = 15;
+
+  // 모바일 환경이고, 다음 페이지가 있고, 현재 로딩 중이 아니며,
+  // 아직 목표 개수(15개)에 도달하지 못했을 때만 다음 페이지 로드
   useEffect(() => {
-    if (isMobile && hasNextPage) {
-      fetchNextPage().then(() => {
-        if (hasNextPage) {
-          fetchNextPage();
-        }
-      });
+    const shouldFetch =
+      isMobile &&
+      hasNextPage &&
+      !isFetchingNextPage &&
+      products.length < TARGET_PRODUCT_COUNT;
+
+    if (shouldFetch) {
+      fetchNextPage();
     }
-  }, [isMobile, hasNextPage]);
+  }, [isMobile, hasNextPage, isFetchingNextPage, products.length]);
 
   return (
     <div className={styles.productsContainer}>
