@@ -87,7 +87,9 @@ export default async function Brand(props: {
       <div>
         <div className={styles.background}>
           <Image
-            src={background_image_url ?? ''}
+            src={
+              background_image_url ?? '/images/default-brand-background.webp'
+            }
             fill
             sizes="100vw"
             placeholder="blur"
@@ -101,7 +103,7 @@ export default async function Brand(props: {
           <div className={styles.header}>
             <div className={styles.avatarContainer}>
               <Image
-                src={logo_url ?? ''}
+                src={logo_url ?? '/logo/burger-wiki-icon.svg'}
                 width={0}
                 height={0}
                 alt="브랜드 로고 이미지"

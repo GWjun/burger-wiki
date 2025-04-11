@@ -30,7 +30,7 @@ export function BrandCard({ brand }: { brand: Brand }) {
     >
       <div className={styles.imageContainer}>
         <Image
-          src={logo_url || ''}
+          src={logo_url || '/logo/burger-wiki-icon.svg'}
           alt="브랜드 로고 이미지"
           fill
           sizes="(max-width: 768px) 150px, 233.59px"
