@@ -1,9 +1,9 @@
 import type { ProductFilterType } from '@server/routers/product/schema';
 import type { ProductOrderType } from '#entities/product';
+import type { Product } from '@prisma/client';
 
 import { trpc } from '#shared/lib/utils/trpc';
 import { flatMap } from 'es-toolkit';
-import { Product } from '@prisma/client';
 import { useInView } from 'react-intersection-observer';
 import { useCallback } from 'react';
 
@@ -18,16 +18,16 @@ export function useFilteredProducts({
   sortOrder?: 'asc' | 'desc';
   limit?: number;
 }) {
-  const result = trpc.product.getFilteredProducts.useInfiniteQuery(
-    { filters, order, sortOrder, limit },
-    {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    },
-  );
+  const [data, helpers] =
+    trpc.product.getFilteredProducts.useSuspenseInfiniteQuery(
+      { filters, order, sortOrder, limit },
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+      },
+    );
 
-  const { data, ...rest } = result;
-  const { hasNextPage, isFetchingNextPage, fetchNextPage } = rest;
-  const products = flatMap(data?.pages || [], (page) => page.data) as Product[];
+  const { fetchNextPage, hasNextPage, isFetchingNextPage } = helpers;
+  const products = flatMap(data.pages, (page) => page.data) as Product[];
 
   const { ref } = useInView({
     onChange: useCallback(
@@ -38,5 +38,9 @@ export function useFilteredProducts({
     ),
   });
 
-  return { products, ref, ...rest };
+  return {
+    products,
+    ref,
+    ...helpers,
+  };
 }

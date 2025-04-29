@@ -1,22 +1,26 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { createAsyncCaller } from '@server/routers';
-import { LikeButton } from '#entities/brand';
 import { BrandProducts } from '#widgets/product';
-import * as styles from './styles.css';
+import { LikeButton } from '#entities/brand';
+import {
+  getSearchParam,
+  isValidOrderType,
+  isValidSortOrder,
+} from '#shared/lib/utils/searchParamsUtils';
 
-export async function generateMetadata(
-  props: {
-    params: Promise<{ name: string }>;
-  }
-): Promise<Metadata> {
+import * as styles from './styles.css';
+import { getHydrationHelpers } from '@server/getHydrationHelpers';
+
+export async function generateMetadata(props: {
+  params: Promise<{ name: string }>;
+}): Promise<Metadata> {
   const params = await props.params;
 
-  const {
-    name
-  } = params;
+  const { name } = params;
 
   const trpc = await createAsyncCaller();
   const brand = await trpc.brand.getBrandByName({
@@ -41,18 +45,21 @@ export async function generateMetadata(
   };
 }
 
-export default async function Brand(
-  props: {
-    params: Promise<{ name: string }>;
-  }
-) {
+export default async function Brand(props: {
+  params: Promise<{ name: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const params = await props.params;
+  const { name } = params;
 
-  const {
-    name
-  } = params;
+  const orderParam = await getSearchParam(props.searchParams, 'order');
+  const sortOrderParam = await getSearchParam(props.searchParams, 'sortOrder');
 
-  const trpc = await createAsyncCaller();
+  const order = isValidOrderType(orderParam) ? orderParam : 'release';
+  const sortOrder = isValidSortOrder(sortOrderParam) ? sortOrderParam : 'desc';
+
+  const { trpc, HydrateClient } = await getHydrationHelpers();
+
   const brand = await trpc.brand.getBrandByName({
     name_eng: name,
   });
@@ -60,58 +67,74 @@ export default async function Brand(
   const {
     id,
     name: name_kor,
-    description,
     logo_url,
     website_url,
     likes_count,
     background_image_url,
   } = brand;
 
+  void trpc.product.getFilteredProducts.prefetchInfinite({
+    filters: {
+      brands: [name_kor],
+    },
+    order,
+    sortOrder,
+    limit: 20,
+  });
+
   return (
-    <div>
-      <div className={styles.background}>
-        <Image
-          src={background_image_url ?? ''}
-          fill
-          sizes="100vw"
-          placeholder="blur"
-          blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-          alt="매장 이미지"
-          className={styles.backgroundImage}
-        />
-      </div>
-
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.avatarContainer}>
-            <Image
-              src={logo_url ?? ''}
-              width={0}
-              height={0}
-              alt="브랜드 로고 이미지"
-              className={styles.avatar}
-            />
-          </div>
-
-          <div className={styles.info}>
-            <div className={styles.name}>{name_kor}</div>
-            <div className={styles.likes}>
-              <span className={styles.like}>관심</span>
-              <span>{likes_count}</span>
-            </div>
-
-            <LikeButton brand_id={Number(id)} />
-          </div>
-
-          <div className={styles.action}>
-            <Link href={website_url ?? ''} className={styles.link}>
-              방문하기
-            </Link>
-          </div>
+    <HydrateClient>
+      <div>
+        <div className={styles.background}>
+          <Image
+            src={
+              background_image_url ?? '/images/default-brand-background.webp'
+            }
+            fill
+            sizes="100vw"
+            placeholder="blur"
+            blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+            alt="매장 이미지"
+            className={styles.backgroundImage}
+          />
         </div>
 
-        <BrandProducts brand_name_kor={name_kor} />
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <div className={styles.avatarContainer}>
+              <Image
+                src={logo_url ?? '/logo/burger-wiki-icon.svg'}
+                width={0}
+                height={0}
+                alt="브랜드 로고 이미지"
+                className={styles.avatar}
+              />
+            </div>
+
+            <div className={styles.info}>
+              <div className={styles.name}>{name_kor}</div>
+              <div className={styles.likes}>
+                <span className={styles.like}>관심</span>
+                <span>{likes_count}</span>
+              </div>
+
+              <LikeButton brand_id={Number(id)} />
+            </div>
+
+            {website_url && (
+              <div className={styles.action}>
+                <Link href={website_url} className={styles.link}>
+                  방문하기
+                </Link>
+              </div>
+            )}
+          </div>
+
+          <Suspense>
+            <BrandProducts brand_name_kor={name_kor} />
+          </Suspense>
+        </div>
       </div>
-    </div>
+    </HydrateClient>
   );
 }

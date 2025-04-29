@@ -24,3 +24,7 @@ export const hidden = style({
     },
   },
 });
+
+export const productFilterFallback = style({
+  width: '240px',
+});
