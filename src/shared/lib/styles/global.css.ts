@@ -5,6 +5,7 @@ globalStyle('body', {
   backgroundColor: theme.colors.background,
   transition: 'background-color 0.3s ease, color 0.3s ease',
   margin: 0,
+  fontFamily: 'Pretendard Variable, sans-serif',
 });
 
 globalStyle('main', {

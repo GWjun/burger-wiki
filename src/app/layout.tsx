@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { Header } from '#widgets/header';
 import { Footer } from '#widgets/footer';
@@ -9,7 +9,6 @@ import TrpcClientProvider from '#shared/lib/providers/TrpcClient';
 import ThemeModeProvider from '#shared/lib/providers/ThemeProvider';
 
 import '#shared/lib/styles/global.css';
-import '#shared/lib/styles/font.css';
 
 export const metadata: Metadata = {
   title: {
@@ -52,6 +51,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+          as="style"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <AuthProvider>
           <ToastProvider>
