@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import React, { Suspense } from 'react';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { createAsyncCaller } from '@server/routers';
 
 import { ProductReview } from '#widgets/review';
@@ -10,20 +11,20 @@ import LoadingSpinner from '#shared/ui/LoadingSpinner';
 import RatingStar from '#shared/ui/RatingStar';
 import * as styles from './styles.css';
 
-export async function generateMetadata(
-  props: {
-    params: Promise<{ product_id: string }>;
-  }
-): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Promise<{ product_id: string }>;
+}): Promise<Metadata> {
   const params = await props.params;
 
-  const {
-    product_id
-  } = params;
+  const { product_id } = params;
+  const numericProductId = Number(product_id);
+  if (isNaN(numericProductId)) {
+    notFound();
+  }
 
   const trpc = await createAsyncCaller();
   const product = await trpc.product.getProductById({
-    product_id: Number(product_id),
+    product_id: numericProductId,
   });
 
   return {
@@ -31,7 +32,7 @@ export async function generateMetadata(
     openGraph: {
       title: `${product.name} - 버거위키`,
       description: `${product.name}에 대해 자세히 알아보세요!`,
-      url: `https://burger-wiki.vercel.app/burger/${product_id}`,
+      url: `https://burger-wiki.vercel.app/burger/${numericProductId}`,
       images: [
         {
           url: product.image_url ?? '/logo/product-wiki-both.svg',
@@ -44,23 +45,23 @@ export async function generateMetadata(
   };
 }
 
-export default async function Burger(
-  props: {
-    params: Promise<{ product_id: string }>;
-  }
-) {
+export default async function Burger(props: {
+  params: Promise<{ product_id: string }>;
+}) {
   const params = await props.params;
 
-  const {
-    product_id
-  } = params;
+  const { product_id } = params;
+  const numericProductId = Number(product_id);
+  if (isNaN(numericProductId)) {
+    notFound();
+  }
 
   const trpc = await createAsyncCaller();
   const product = await trpc.product.getProductById({
-    product_id: Number(product_id),
+    product_id: numericProductId,
   });
   const nutrition_info = await trpc.nutrition.getInfoByProductId({
-    product_id: Number(product_id),
+    product_id: numericProductId,
   });
 
   const { image_url, name, score_avg, description_full, price, dev_comment } =

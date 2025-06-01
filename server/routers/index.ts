@@ -1,5 +1,6 @@
 import { createCallerFactory, router } from '@server/trpc';
 import { createContext } from '@server/context';
+import { notFound } from 'next/navigation';
 
 import { userRouter } from '../routers/user';
 import { productRouter } from '../routers/product';
@@ -19,7 +20,12 @@ export const createCaller = createCallerFactory(appRouter);
 
 export const createAsyncCaller = async () => {
   const context = await createContext();
-  return createCaller(context);
+  return createCaller(context, {
+    onError: ({ error }) => {
+      if (error.code === 'NOT_FOUND') notFound();
+      throw error;
+    },
+  });
 };
 
 export type AppRouter = typeof appRouter;
