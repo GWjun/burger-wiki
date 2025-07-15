@@ -13,6 +13,7 @@ const domains = [
   { protocol: 'https', hostname: 'img.lotteeatz.com' },
   // burgerking
   { protocol: 'https', hostname: 'd1cua0vf0mkpiy.cloudfront.net' },
+  { protocol: 'https', hostname: 'mob-prd.burgerking.co.kr' },
   // nobrand
   { protocol: 'https', hostname: 'www.shinsegaefood.com' },
   // kfc
